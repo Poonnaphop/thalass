@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Box, Grid, Typography, TextField, Button } from '@mui/material';
+import { Container, Box, Grid, Typography, TextField, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 
 function HBTypeComponent() {
     // Father's state
@@ -13,6 +13,11 @@ function HBTypeComponent() {
     const [hbCsFather, setHbCsFather] = useState('');
     const [hbBartsFather, setHbBartsFather] = useState('');
     const [dcipFather, setDcipFather] = useState('');
+    const [hbA2OptionFather, setHbA2OptionFather] = useState('separate');
+    const [hbA2InputFather, setHbA2InputFather] = useState('');
+    const [hbA2EInputFather, setHbA2EInputFather] = useState('');
+    const [eInputFather, setEInputFather] = useState('');
+    const [hbhFather, sethbhFather] = useState('');
 
     // Mother's state
     const [mcvMother, setMcvMother] = useState('');
@@ -25,6 +30,11 @@ function HBTypeComponent() {
     const [hbCsMother, setHbCsMother] = useState('');
     const [hbBartsMother, setHbBartsMother] = useState('');
     const [dcipMother, setDcipMother] = useState('');
+    const [hbA2OptionMother, setHbA2OptionMother] = useState('separate');
+    const [hbA2InputMother, setHbA2InputMother] = useState('');
+    const [hbA2EInputMother, setHbA2EInputMother] = useState('');
+    const [eInputMother, setEInputMother] = useState('');
+    const [hbhMother, sethbhMother] = useState('');
 
     return (
         <Container maxWidth="md" sx={{ mt: 4, pb: 5 }}>
@@ -73,31 +83,11 @@ function HBTypeComponent() {
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
-                            label="Hb A2"
-                            type="number"
-                            variant="outlined"
-                            value={hbA2Father}
-                            onChange={(e) => setHbA2Father(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
                             label="OF"
                             type="number"
                             variant="outlined"
                             value={ofFather}
                             onChange={(e) => setOfFather(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Hb E"
-                            type="number"
-                            variant="outlined"
-                            value={hbEFather}
-                            onChange={(e) => setHbEFather(e.target.value)}
                             fullWidth
                         />
                     </Grid>
@@ -140,6 +130,68 @@ function HBTypeComponent() {
                             onChange={(e) => setDcipFather(e.target.value)}
                             fullWidth
                         />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Hb H"
+                            type="number"
+                            variant="outlined"
+                            value={hbhFather}
+                            onChange={(e) => sethbhFather(e.target.value)}
+                            fullWidth
+                        />
+                    </Grid>
+
+                    {/* HbA2 and HbE Radio Group for Father */}
+                    <Grid item xs={12}>
+                        <RadioGroup
+                            value={hbA2OptionFather}
+                            onChange={(e) => setHbA2OptionFather(e.target.value)}
+                        >
+                            <FormControlLabel
+                                value="combined"
+                                control={<Radio />}
+                                label="HbA2 + E"
+                            />
+                            <Box sx={{ mt: 2 }}>
+                                <TextField
+                                    label="HbA2 + E Value"
+                                    type="number"
+                                    variant="outlined"
+                                    value={hbA2EInputFather}
+                                    onFocus={() => setHbA2OptionFather('combined')} // Set radio when focused
+                                    onChange={(e) => setHbA2EInputFather(e.target.value)}
+                                    fullWidth
+                                />
+                            </Box>
+
+                            <FormControlLabel
+                                value="separate"
+                                control={<Radio />}
+                                label="Separate HbA2 and E"
+                            />
+                            <Box sx={{ mt: 2 }}>
+                                <TextField
+                                    label="HbA2 Value"
+                                    type="number"
+                                    variant="outlined"
+                                    value={hbA2InputFather}
+                                    onFocus={() => setHbA2OptionFather('separate')} // Set radio when focused
+                                    onChange={(e) => setHbA2InputFather(e.target.value)}
+                                    fullWidth
+                                />
+                                <TextField
+                                    label="E Value"
+                                    type="number"
+                                    variant="outlined"
+                                    value={eInputFather}
+                                    onFocus={() => setHbA2OptionFather('separate')} // Set radio when focused
+                                    onChange={(e) => setEInputFather(e.target.value)}
+                                    fullWidth
+                                    sx={{ mt: 2 }}
+                                />
+                            </Box>
+                        </RadioGroup>
                     </Grid>
                 </Grid>
             </Box>
@@ -189,31 +241,11 @@ function HBTypeComponent() {
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
-                            label="Hb A2"
-                            type="number"
-                            variant="outlined"
-                            value={hbA2Mother}
-                            onChange={(e) => setHbA2Mother(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
                             label="OF"
                             type="number"
                             variant="outlined"
                             value={ofMother}
                             onChange={(e) => setOfMother(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Hb E"
-                            type="number"
-                            variant="outlined"
-                            value={hbEMother}
-                            onChange={(e) => setHbEMother(e.target.value)}
                             fullWidth
                         />
                     </Grid>
@@ -256,6 +288,68 @@ function HBTypeComponent() {
                             onChange={(e) => setDcipMother(e.target.value)}
                             fullWidth
                         />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Hb H"
+                            type="number"
+                            variant="outlined"
+                            value={hbhMother}
+                            onChange={(e) => sethbhMother(e.target.value)}
+                            fullWidth
+                        />
+                    </Grid>
+
+                    {/* HbA2 and HbE Radio Group for Mother */}
+                    <Grid item xs={12}>
+                        <RadioGroup
+                            value={hbA2OptionMother}
+                            onChange={(e) => setHbA2OptionMother(e.target.value)}
+                        >
+                            <FormControlLabel
+                                value="combined"
+                                control={<Radio />}
+                                label="HbA2 + E"
+                            />
+                            <Box sx={{ mt: 2 }}>
+                                <TextField
+                                    label="HbA2 + E Value"
+                                    type="number"
+                                    variant="outlined"
+                                    value={hbA2EInputMother}
+                                    onFocus={() => setHbA2OptionMother('combined')} // Set radio when focused
+                                    onChange={(e) => setHbA2EInputMother(e.target.value)}
+                                    fullWidth
+                                />
+                            </Box>
+
+                            <FormControlLabel
+                                value="separate"
+                                control={<Radio />}
+                                label="Separate HbA2 and E"
+                            />
+                            <Box sx={{ mt: 2 }}>
+                                <TextField
+                                    label="HbA2 Value"
+                                    type="number"
+                                    variant="outlined"
+                                    value={hbA2InputMother}
+                                    onFocus={() => setHbA2OptionMother('separate')} // Set radio when focused
+                                    onChange={(e) => setHbA2InputMother(e.target.value)}
+                                    fullWidth
+                                />
+                                <TextField
+                                    label="E Value"
+                                    type="number"
+                                    variant="outlined"
+                                    value={eInputMother}
+                                    onFocus={() => setHbA2OptionMother('separate')} // Set radio when focused
+                                    onChange={(e) => setEInputMother(e.target.value)}
+                                    fullWidth
+                                    sx={{ mt: 2 }}
+                                />
+                            </Box>
+                        </RadioGroup>
                     </Grid>
                 </Grid>
             </Box>
