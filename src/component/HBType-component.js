@@ -45,135 +45,135 @@ function HBTypeComponent() {
         var desc = ""
 
         //condition 1:
-        if(mcv >= 80 && mch >= 27 && A2 <= 3.5 && hb_a!==0){
+        if( A2 <= 3.5 && hb_a!==0){
             desc = "A2A ,Hb A2<=3.5"
             order =  1
-            return {order,desc}
+            //return {order,desc}
         }
         //considtion 2:
-        if(mcv < 80 && mch < 27 && A2 <= 3.5 && hb_a!==0){
+        if( A2 <= 3.5 && hb_a!==0){
             desc = "A2A ,Hb A2<=3.5"
             order =  2
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 3:
-        if(mcv < 80 && mch < 27 && 3.6 <= A2 <= 8  && hb_a!==0){
+        if(3.6 <= A2 <= 8  && hb_a!==0){
             desc = "A2A ,Hb A2 3.6-8"
             order =  3
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 4:
-        if(mcv < 80 && mch < 27 && hb_e+hba2 >= 25 && hba2_plus_e >= 25 && hb_e !== 0 && hb_a!==0){
+        if( hb_e+hba2 >= 25 && hba2_plus_e >= 25 && hb_e !== 0 && hb_a!==0){
             desc = "EA ,Hb E >=25"
             order = 4
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 5:
-        if(mcv < 80 && mch < 27 && hb_e+hba2 < 25 && hba2_plus_e < 25 && hb_e !== 0 && hb_a!==0){
+        if( hb_e+hba2 < 25 && hba2_plus_e < 25 && hb_e !== 0 && hb_a!==0){
             desc = "EA , Hb E < 25"
             order = 5
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 6:
-        if(mcv < 80 && mch < 27 && (hb_e+hba2 >= 80 || hba2_plus_e >= 80) && hb_e !== 0 && hb_f<=5){
+        if( (hb_e+hba2 >= 80 || hba2_plus_e >= 80) && hb_e !== 0 && hb_f<=5){
             desc = "EE, Hb E >=80% , HB F <=5"
             order = 6
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 7:
-        if(mcv < 80 && mch < 27 && (hb_e+hba2 > 75 || hba2_plus_e > 75) && hb_e !== 0 && hb_f>5){
+        if( (hb_e+hba2 > 75 || hba2_plus_e > 75) && hb_e !== 0 && hb_f>5){
             desc = "EE/EF, Hb E >75 , Hb F >5"
             order = 7
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 8:
-        if(mcv < 80 && mch < 27 && hb_cs !==0 && A2!==0 && hb_a!==0){
+        if( hb_cs !==0 && A2!==0 && hb_a!==0){
             desc = "CS A2A"
             order = 8
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 9:
-        if(mcv < 80 && mch < 27 && hb_cs !==0 && A2!==0 && hb_a!==0 && hb_bart!==0){
+        if( hb_cs !==0 && A2!==0 && hb_a!==0 && hb_bart!==0){
             desc = "CS A2A Bart's"
             order = 9
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 10:
-        if(mcv < 80 && mch < 27 && hb_h !==0 && A2!==0 && hb_a!==0 && hb_bart!==0){
+        if( hb_h !==0 && A2!==0 && hb_a!==0 && hb_bart!==0){
             desc = "A2A H / A2A Bart's H"
             order = 10
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 11:
-        if(mcv < 80 && mch < 27 && hb_h !==0 && A2!==0 && hb_a!==0 && hb_bart!==0 && hb_cs!==0){
+        if( hb_h !==0 && A2!==0 && hb_a!==0 && hb_bart!==0 && hb_cs!==0){
             desc = 'CS A2A / CS A2A Bart\'s H'
             order = 11
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 12:
-        if(mcv < 80 && mch < 27 && A2!==0 && hb_f!==0){
+        if( A2!==0 && hb_f!==0){
             desc = "A2F"
             order = 12
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 13:
-        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60) {
+        if((30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60) {
             desc= 'EF Hb E 40-80 , Hb F 20-60'
             order = 13
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 14:
-        if(mcv < 80 && mch < 27 && A2!==0 && hb_a!==0 && 10<=hb_f<=30){ 
+        if( A2!==0 && hb_a!==0 && 10<=hb_f<=30){ 
             desc= 'A2FA Hb F 10-30'
             order = 14
-            return {order,desc}
+           // return {order,desc}
         }
         //condition 15:
-        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0){ 
+        if( (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0){ 
             desc = "EFA"
             order = 15
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 16:
-        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && hb_bart!==0 && hb_a!==0){
+        if( (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && hb_bart!==0 && hb_a!==0){
             desc = "EA Bart's"
             order = 16
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 17:
-        if(mcv < 80 && mch < 27 && (hb_e+hba2 > 75 || hba2_plus_e > 75) && hb_e !== 0 && hb_f>5 && hb_bart!==0){
+        if( (hb_e+hba2 > 75 || hba2_plus_e > 75) && hb_e !== 0 && hb_f>5 && hb_bart!==0){
             desc = "EE/EF Bart's"
             order = 17
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 18:
-        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0 && hb_bart!==0){
+        if( (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0 && hb_bart!==0){
             desc = "EFA Bart's"
             order = 18
-            return {order,desc}
+            //return {order,desc}
         } 
         //condition 19:
-        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && hb_bart!==0 && hb_a!==0 && hb_cs!==0){
+        if( (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && hb_bart!==0 && hb_a!==0 && hb_cs!==0){
             desc = "CS EA Bart's"
             order = 19
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 20.1:
-        if(mcv < 80 && mch < 27 && (hb_e+hba2 >= 80 || hba2_plus_e >= 80) && hb_e !== 0 && hb_f<=5&&hb_cs!==0 && hb_bart!==0){
+        if( (hb_e+hba2 >= 80 || hba2_plus_e >= 80) && hb_e !== 0 && hb_f<=5&&hb_cs!==0 && hb_bart!==0){
             desc = "CS EE Bart's"
             order = 20.1
-            return {order,desc}
+            //return {order,desc}
         }//condition 20.2:
-        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60&&hb_cs!==0 && hb_bart!==0){ 
+        if( (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60&&hb_cs!==0 && hb_bart!==0){ 
             desc = "CS EF Bart's"
             order = 20.2
-            return {order,desc}
+            //return {order,desc}
         }
         //condition 21:
-        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0 && hb_bart!==0 && hb_cs!==0){
+        if( (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0 && hb_bart!==0 && hb_cs!==0){
             desc = "CS EFA Bart's"
             order = 21
-            return {order,desc}
+            //return {order,desc}
         }else{
             desc = "rare abnormal Hb"
             order = 22
