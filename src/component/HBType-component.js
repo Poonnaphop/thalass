@@ -9,13 +9,12 @@ function HBTypeComponent() {
     const [mcvFather, setMcvFather] = useState('');
     const [mchFather, setMchFather] = useState('');
     const [hbAFather, setHbAFather] = useState('');
-    const [hbA2Father, setHbA2Father] = useState('');
     const [ofFather, setOfFather] = useState('');
-    const [hbEFather, setHbEFather] = useState('');
     const [hbFFather, setHbFFather] = useState('');
     const [hbCsFather, setHbCsFather] = useState('');
     const [hbBartsFather, setHbBartsFather] = useState('');
     const [dcipFather, setDcipFather] = useState('');
+    const [hba2Father, sethba2Father] = useState('');
     const [hbA2OptionFather, setHbA2OptionFather] = useState('separate');
     const [hbA2InputFather, setHbA2InputFather] = useState('');
     const [hbA2EInputFather, setHbA2EInputFather] = useState('');
@@ -26,132 +25,135 @@ function HBTypeComponent() {
     const [mcvMother, setMcvMother] = useState('');
     const [mchMother, setMchMother] = useState('');
     const [hbAMother, setHbAMother] = useState('');
-    const [hbA2Mother, setHbA2Mother] = useState('');
     const [ofMother, setOfMother] = useState('');
-    const [hbEMother, setHbEMother] = useState('');
     const [hbFMother, setHbFMother] = useState('');
     const [hbCsMother, setHbCsMother] = useState('');
     const [hbBartsMother, setHbBartsMother] = useState('');
     const [dcipMother, setDcipMother] = useState('');
+    const [hba2Mother, sethba2Mother] = useState('');
     const [hbA2OptionMother, setHbA2OptionMother] = useState('separate');
     const [hbA2InputMother, setHbA2InputMother] = useState('');
     const [hbA2EInputMother, setHbA2EInputMother] = useState('');
     const [eInputMother, setEInputMother] = useState('');
     const [hbhMother, sethbhMother] = useState('');
 
-    function evaluateOrder(mcv, mch, a2_hb_a, of, hb_f, hb_cs, hb_bart, dcip, hba2_plus_e, hba2, hb_e, hb_h) {
-        // Condition 1: A2A, Hb A2 ≤ 3.5% with MCV ≥ 80, MCH ≥ 27 (Alpha thalassemia 2)
-        if (hba2 <= 3.5 && a2_hb_a !== 0 && hba2 !== 0 && mcv >= 80 && mch >= 27) {
-            return 1;
-        }
+    function evaluateOrder( mcv, mch, hb_a, of, hb_f, hb_cs, hb_bart, dcip,hb_h,A2, hba2_plus_e, hba2, hb_e) {
+        var order = 0
+        var desc = ""
 
-        // Condition 2: A2A, Hb A2 ≤ 3.5% with MCV < 80, MCH < 27 (Alpha thalassemia 1, 2)
-        else if (hba2 <= 3.5 && a2_hb_a !== 0 && hba2 !== 0 && mcv < 80 && mch < 27) {
-            return 2;
+        //condition 1:
+        if(mcv >= 80 && mch >= 27 && A2 <= 3.5 && hb_a!==0){
+            desc = "A2A ,Hb A2<=3.5"
+            order =  1
         }
-
-        // Condition 3: A2A, Hb A2 3.6-8% with MCV < 80, MCH < 27 (β-thalassemia trait)
-        else if (hba2 >= 3.6 && hba2 <= 8 && a2_hb_a !== 0 && hba2 !== 0 && mcv < 80 && mch < 27) {
-            return 3;
+        //considtion 2:
+        if(mcv < 80 && mch < 27 && A2 <= 3.5 && hb_a!==0){
+            desc = "A2A ,Hb A2<=3.5"
+            order =  2
         }
-
-        // Condition 4: EA, Hb E ≥ 25% with MCV < 80, MCH < 27 and A2+E ≥ 25 (HbE trait)
-        else if (hb_e >= 25 && a2_hb_a !== 0 && hb_e !== 0 && mcv < 80 && mch < 27 && hba2_plus_e >= 25) {
-            return 4;
+        //condition 3:
+        if(mcv < 80 && mch < 27 && 3.6 <= A2 <= 8  && hb_a!==0){
+            desc = "A2A ,Hb A2 3.6-8"
+            order =  3
         }
-
-        // Condition 5: EA, Hb E ≥ 25% with MCV < 80, MCH < 27 and A2+E < 25 (HbE trait with/without α-thalassemia)
-        else if (hb_e >= 25 && a2_hb_a !== 0 && hb_e !== 0 && mcv < 80 && mch < 27 && hba2_plus_e < 25) {
-            return 5;
+        //condition 4:
+        if(mcv < 80 && mch < 27 && hb_e+hba2 >= 25 && hba2_plus_e >= 25 && hb_e !== 0 && hb_a!==0){
+            console.log("EA ,Hb E >=25")
+            order = 4
         }
-
-        // Condition 6: EE, Hb E ≥ 80%, Hb F ≤ 5% with MCV < 80, MCH < 27 (Homozygous Hb E)
-        else if (hb_e >= 80 && hb_f <= 5 && hb_e !== 0 && mcv < 80 && mch < 27) {
-            return 6;
+        //condition 5:
+        if(mcv < 80 && mch < 27 && hb_e+hba2 < 25 && hba2_plus_e < 25 && hb_e !== 0 && hb_a!==0){
+            desc = "EA , Hb E < 25"
+            order = 5
         }
-
-        // Condition 7: EE/EF, Hb E > 75%, Hb F > 5% with MCV < 80, MCH < 27
-        else if (hb_e > 75 && hb_f > 5 && hb_e !== 0 && mcv < 80 && mch < 27) {
-            return 7;
+        //condition 6:
+        if(mcv < 80 && mch < 27 && (hb_e+hba2 >= 80 || hba2_plus_e >= 80) && hb_e !== 0 && hb_f<=5){
+            desc = "EE, Hb E >=80% , HB F <=5"
+            order = 6
         }
-
-        // Condition 8: CS A2A = Hb CS, Hb A2, Hb A with MCV < 80, MCH < 27
-        else if (hb_cs !== 0 && hba2 !== 0 && a2_hb_a !== 0 && mcv < 80 && mch < 27) {
-            return 8;
+        //condition 7:
+        if(mcv < 80 && mch < 27 && (hb_e+hba2 > 75 || hba2_plus_e > 75) && hb_e !== 0 && hb_f>5){
+            desc = "EE/EF, Hb E >75 , Hb F >5"
+            order = 7
         }
-
-        // Condition 9: CS A2A Bart's = Hb CS, Hb A2, Hb A, Hb Bart's with MCV < 80, MCH < 27
-        else if (hb_cs !== 0 && hba2 !== 0 && a2_hb_a !== 0 && hb_bart !== 0 && mcv < 80 && mch < 27) {
-            return 9;
+        //condition 8:
+        if(mcv < 80 && mch < 27 && hb_cs !==0 && A2!==0 && hb_a!==0){
+            desc = "CS A2A"
+            order = 8
         }
-
-        // Condition 10: A2A H or A2A Bart's H = Hb A, Hb A2, Hb H, with/without Hb Bart's with MCV < 80, MCH < 27
-        else if (a2_hb_a !== 0 && hba2 !== 0 && hb_h !== 0 && mcv < 80 && mch < 27) {
-            return 10;
+        //condition 9:
+        if(mcv < 80 && mch < 27 && hb_cs !==0 && A2!==0 && hb_a!==0 && hb_bart!==0){
+            desc = "CS A2A Bart's"
+            order = 9
         }
-
-        // Condition 11: CS A2A or CS A2A Bart’s H with MCV < 80, MCH < 27
-        else if (hb_cs !== 0 && hba2 !== 0 && hb_h !== 0 && mcv < 80 && mch < 27) {
-            return 11;
+        //condition 10:
+        if(mcv < 80 && mch < 27 && hb_h !==0 && A2!==0 && hb_a!==0 && hb_bart!==0){
+            desc = "A2A H / A2A Bart's H"
+            order = 10
         }
-
-        // Condition 12: A2F = Hb A2, Hb F with MCV < 80, MCH < 27
-        else if (hba2 !== 0 && hb_f !== 0 && mcv < 80 && mch < 27) {
-            return 12;
+        //condition 11:
+        if(mcv < 80 && mch < 27 && hb_h !==0 && A2!==0 && hb_a!==0 && hb_bart!==0 && hb_cs!==0){
+            desc = 'CS A2A / CS A2A Bart\'s H'
+            order = 11
         }
-
-        // Condition 13: EF = Hb E 40-80%, Hb F 20-60% with MCV < 80, MCH < 27
-        else if (hb_e >= 40 && hb_e <= 80 && hb_f >= 20 && hb_f <= 60 && mcv < 80 && mch < 27) {
-            return 13;
+        //condition 12:
+        if(mcv < 80 && mch < 27 && A2!==0 && hb_f!==0){
+            desc = "A2F"
+            order = 12
         }
-
-        // Condition 14: A2FA = Hb F 10-30%, Hb A2 > 3.5% with MCV < 80, MCH < 27
-        else if (hb_f >= 10 && hb_f <= 30 && hba2 > 3.5 && a2_hb_a !== 0 && mcv < 80 && mch < 27) {
-            return 14;
+        //condition 13:
+        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60) {
+            desc= 'EF Hb E 40-80 , Hb F 20-60'
+            order = 13
         }
-
-        // Condition 15: EFA = Have Hb E, Hb F, Hb A with MCV < 80, MCH < 27
-        else if (hb_e !== 0 && hb_f !== 0 && a2_hb_a !== 0 && mcv < 80 && mch < 27) {
-            return 15;
+        //condition 14:
+        if(mcv < 80 && mch < 27 && A2!==0 && hb_a!==0 && 10<=hb_f<=30){ 
+            desc= 'A2FA Hb F 10-30'
+            order = 14
         }
-
-        // Condition 16: EA Bart's = Have Hb E, Hb F, Hb A, Hb Bart's with MCV < 80, MCH < 27
-        else if (hb_e > 0 && hb_f > 0 && a2_hb_a > 0 && hb_bart > 0 && mcv < 80 && mch < 27) {
-            return 16;
+        //condition 15:
+        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0){ 
+            desc = "EFA"
+            order = 15
         }
-
-        // Condition 17: EE Bart’s or EF Bart’s = Hb E, Hb F, Hb Bart's with MCV < 80, MCH < 27
-        else if (hb_e > 0 && hb_f > 0 && hb_bart > 0 && mcv < 80 && mch < 27) {
-            return 17;
+        //condition 16:
+        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && hb_bart!==0 && hb_a!==0){
+            desc = "EA Bart's"
+            order = 16
         }
-
-        // Condition 18: EFA Bart's = Hb E, Hb F, Hb Bart's, Hb A with MCV < 80, MCH < 27
-        else if (hb_e > 0 && hb_f > 0 && hb_bart > 0 && a2_hb_a > 0 && mcv < 80 && mch < 27) {
-            return 18;
+        //condition 17:
+        if(mcv < 80 && mch < 27 && (hb_e+hba2 > 75 || hba2_plus_e > 75) && hb_e !== 0 && hb_f>5 && hb_bart!==0){
+            desc = "EE/EF Bart's"
+            order = 17
         }
-
-        // Condition 19: CS EA Bart’s = Hb CS, Hb E, Hb A, Hb Bart's with MCV < 80, MCH < 27
-        else if (hb_cs > 0 && hb_e > 0 && a2_hb_a > 0 && hb_bart > 0 && mcv < 80 && mch < 27) {
-            return 19;
+        //condition 18:
+        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0 && hb_bart!==0){
+            desc = "EFA Bart's"
+            order = 18
+        } 
+        //condition 19:
+        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && hb_bart!==0 && hb_a!==0 && hb_cs!==0){
+            desc = "CS EA Bart's"
+            order = 19
         }
-
-        // Condition 20.1: CS EE Bart’s = Hb CS, Hb E, Hb F, Hb Bart's (EE) with MCV < 80, MCH < 27
-        else if (hb_cs > 0 && hb_e > 0 && hb_f > 0 && hb_bart > 0 && mcv < 80 && mch < 27 && hb_e >= 80) {
-            return 20.1;
+        //condition 20.1:
+        if(mcv < 80 && mch < 27 && (hb_e+hba2 >= 80 || hba2_plus_e >= 80) && hb_e !== 0 && hb_f<=5&&hb_cs!==0 && hb_bart!==0){
+            desc = "CS EE Bart's"
+            order = 20.1
+        }//condition 20.2:
+        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60&&hb_cs!==0 && hb_bart!==0){ 
+            desc = "CS EF Bart's"
+            order = 20.2
         }
-
-        // Condition 20.2: CS EF Bart’s = Hb CS, Hb E, Hb F, Hb Bart's (EF) with MCV < 80, MCH < 27
-        else if (hb_cs > 0 && hb_e > 0 && hb_f > 0 && hb_bart > 0 && mcv < 80 && mch < 27 && hb_e < 80) {
-            return 20.2;
+        //condition 21:
+        if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0 && hb_bart!==0 && hb_cs!==0){
+            desc = "CS EFA Bart's"
+            order = 21
+        }else{
+            desc = "rare abnormal Hb"
+            order = 22
         }
-
-        // Condition 21: CS EFA Bart’s = Hb CS, Hb E, Hb F, Hb A, Hb Bart's with MCV < 80, MCH < 27
-        else if (hb_cs > 0 && hb_e > 0 && hb_f > 0 && a2_hb_a > 0 && hb_bart > 0 && mcv < 80 && mch < 27) {
-            return 21;
-        }
-
-        // Default case if none of the conditions match
-        return -1;
+        return { order, desc };
     }
 
 
@@ -185,22 +187,31 @@ function HBTypeComponent() {
 
     function evaluateRisk(momMCV, momMCH, momA2HbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbA2PlusE, momHbA2, momHbE, momHbH,
         dadMCV, dadMCH, dadA2HbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbA2PlusE, dadHbA2, dadHbE, dadHbH) {
-
-        const momOrder = evaluateOrder(momMCV, momMCH, momA2HbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbA2PlusE, momHbA2, momHbE, momHbH);
-        const dadOrder = evaluateOrder(dadMCV, dadMCH, dadA2HbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbA2PlusE, dadHbA2, dadHbE, dadHbH);
-        
-        console.log("momOrder:", momOrder);
-        console.log("dadOrder:", dadOrder);
-        // Condition 1
+    
+        const momOrderDesc = evaluateOrder(momMCV, momMCH, momA2HbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbA2PlusE, momHbA2, momHbE, momHbH);
+        const dadOrderDesc = evaluateOrder(dadMCV, dadMCH, dadA2HbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbA2PlusE, dadHbA2, dadHbE, dadHbH);
+    
+        console.log("momOrderDesc:", momOrderDesc);
+        console.log("dadOrderDesc:", dadOrderDesc);
+    
+        if (!momOrderDesc || !dadOrderDesc) {
+            console.warn("evaluateOrder returned undefined for mom or dad");
+            return "No specific risk condition met";
+        }
+    
+        const { order: momOrder, desc: momDesc } = momOrderDesc;
+        const { order: dadOrder, desc: dadDesc } = dadOrderDesc;
+    
+        console.log("momOrder:", momOrder, "momDesc:", momDesc);
+        console.log("dadOrder:", dadOrder, "dadDesc:", dadDesc);
+    
         if (momOrder === 1 && dadOrder >= 1 && dadOrder <= 22) {
             return "Not risk";
         }
-        // Condition 2
         else if ([2, 8, 9, 10, 11].includes(momOrder)) {
             if ([1, 4].includes(dadOrder)) return "Not risk";
             else return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
         }
-        // Condition 3
         else if (momOrder === 3) {
             if (dadOrder === 1) return "Not risk";
             else if ([2, 8, 9, 10, 11].includes(dadOrder)) return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
@@ -208,28 +219,26 @@ function HBTypeComponent() {
                 return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
             else return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
         }
-        // Condition 4
         else if (momOrder === 4) {
             if ([1, 2, 4, 5, 6, 10, 11, 16, 19, 20.1].includes(dadOrder)) return "Not risk";
             else return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
         }
-        // Condition 5
         else if ([5, 6, 16, 19, 20.1, 20.2].includes(momOrder)) {
             if ([1, 4].includes(dadOrder)) return "Not risk";
             else if ([3, 7, 12, 13, 14, 15, 17, 18, 20.1, 21, 22].includes(dadOrder))
                 return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
             else return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
         }
-        // Condition 6
         else if ([7, 12, 13, 14, 15, 17, 18, 21, 22].includes(momOrder)) {
             if (dadOrder === 1) return "Not risk";
             else if ([2, 8, 9, 10, 11].includes(dadOrder)) return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
             else if (dadOrder === 4) return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
             else return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
         }
-
-        return "No specific risk condition met";        
+    
+        return "No specific risk condition met";
     }
+    
     return (
         <Container maxWidth="md" sx={{ mt: 4, pb: 5 }}>
             {/* Father Section */}
@@ -332,6 +341,17 @@ function HBTypeComponent() {
                             variant="outlined"
                             value={hbhFather}
                             onChange={(e) => sethbhFather(e.target.value)}
+                            fullWidth
+                        />
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Hb A2"
+                            type="number"
+                            variant="outlined"
+                            value={hba2Father}
+                            onChange={(e) => sethba2Father(e.target.value)}
                             fullWidth
                         />
                     </Grid>
@@ -490,6 +510,16 @@ function HBTypeComponent() {
                             variant="outlined"
                             value={hbhMother}
                             onChange={(e) => sethbhMother(e.target.value)}
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Hb A2"
+                            type="number"
+                            variant="outlined"
+                            value={hba2Mother}
+                            onChange={(e) => sethba2Mother(e.target.value)}
                             fullWidth
                         />
                     </Grid>
