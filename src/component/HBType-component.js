@@ -405,12 +405,16 @@ function HBTypeComponent() {
                                     sx={{ mt: 2 }}
                                 />
                             </Box>
+                            <FormControlLabel
+                                value="none"
+                                control={<Radio />}
+                                label="Don't have Hb E"
+                            />
                         </RadioGroup>
                     </Grid>
                 </Grid>
             </Box>
 
-            {/* Mother Section */}
             <Box
                 sx={{
                     border: '2px solid #ccc',
@@ -574,6 +578,11 @@ function HBTypeComponent() {
                                 />
                             </Box>
                         </RadioGroup>
+                        <FormControlLabel
+                                value="none"
+                                control={<Radio />}
+                                label="Don't have Hb E"
+                            />
                     </Grid>
                 </Grid>
             </Box>
