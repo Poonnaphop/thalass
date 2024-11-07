@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Container, Box, Grid, Typography, TextField, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function HBTypeComponent() {
+    const navigate = useNavigate();
+
     // Father's state
     const [mcvFather, setMcvFather] = useState('');
     const [mchFather, setMchFather] = useState('');
@@ -160,12 +163,14 @@ function HBTypeComponent() {
             hbCs: hbCsMother, hbBart: hbBartsMother, dcip: dcipMother, hba2PlusE: hbA2EInputMother,
             hbA2: hbA2InputMother, hbE: eInputMother, hbH: hbhMother
         };
+        console.log("momData:", momData);
         
         const dadData = {
             mcv: mcvFather, mch: mchFather, a2HbA: hbAFather, of: ofFather, hbF: hbFFather,
             hbCs: hbCsFather, hbBart: hbBartsFather, dcip: dcipFather, hba2PlusE: hbA2EInputFather,
             hbA2: hbA2InputFather, hbE: eInputFather, hbH: hbhFather
         };
+        console.log("dadData:", dadData);
 
         const riskResult = evaluateRisk(
             momData.mcv, momData.mch, momData.a2HbA, momData.of, momData.hbF, momData.hbCs,
@@ -175,6 +180,7 @@ function HBTypeComponent() {
         );
     
         console.log("Risk Assessment Result:", riskResult);
+        //navigate('/main');
     };
 
     function evaluateRisk(momMCV, momMCH, momA2HbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbA2PlusE, momHbA2, momHbE, momHbH,
@@ -182,7 +188,9 @@ function HBTypeComponent() {
 
         const momOrder = evaluateOrder(momMCV, momMCH, momA2HbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbA2PlusE, momHbA2, momHbE, momHbH);
         const dadOrder = evaluateOrder(dadMCV, dadMCH, dadA2HbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbA2PlusE, dadHbA2, dadHbE, dadHbH);
-
+        
+        console.log("momOrder:", momOrder);
+        console.log("dadOrder:", dadOrder);
         // Condition 1
         if (momOrder === 1 && dadOrder >= 1 && dadOrder <= 22) {
             return "Not risk";
@@ -220,7 +228,7 @@ function HBTypeComponent() {
             else return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
         }
 
-        return "No specific risk condition met";
+        return "No specific risk condition met";        
     }
     return (
         <Container maxWidth="md" sx={{ mt: 4, pb: 5 }}>
