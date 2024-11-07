@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Box, Grid, Typography, TextField, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { parse } from 'date-fns/fp/parse';
 
 function HBTypeComponent() {
     const navigate = useNavigate();
@@ -14,12 +15,13 @@ function HBTypeComponent() {
     const [hbCsFather, setHbCsFather] = useState('');
     const [hbBartsFather, setHbBartsFather] = useState('');
     const [dcipFather, setDcipFather] = useState('');
-    const [hba2Father, sethba2Father] = useState('');
-    const [hbA2OptionFather, setHbA2OptionFather] = useState('separate');
-    const [hbA2InputFather, setHbA2InputFather] = useState('');
-    const [hbA2EInputFather, setHbA2EInputFather] = useState('');
-    const [eInputFather, setEInputFather] = useState('');
     const [hbhFather, sethbhFather] = useState('');
+    const [a2Father, seta2Father] = useState('');
+    const [hbA2OptionFather, setHbA2OptionFather] = useState('separate');
+    const [hbA2EFather, setHbA2EFather] = useState('');
+    const [hbA2Father, setHbA2Father] = useState('');
+    const [hbeFather, sethbEFather] = useState('');
+    
 
     // Mother's state
     const [mcvMother, setMcvMother] = useState('');
@@ -30,12 +32,13 @@ function HBTypeComponent() {
     const [hbCsMother, setHbCsMother] = useState('');
     const [hbBartsMother, setHbBartsMother] = useState('');
     const [dcipMother, setDcipMother] = useState('');
-    const [hba2Mother, sethba2Mother] = useState('');
-    const [hbA2OptionMother, setHbA2OptionMother] = useState('separate');
-    const [hbA2InputMother, setHbA2InputMother] = useState('');
-    const [hbA2EInputMother, setHbA2EInputMother] = useState('');
-    const [eInputMother, setEInputMother] = useState('');
     const [hbhMother, sethbhMother] = useState('');
+    const [a2Mother, seta2Mother] = useState('');
+    const [hbA2OptionMother, setHbA2OptionMother] = useState('separate');
+    const [hbA2EMother, setHbA2EMother] = useState('');
+    const [hbA2Mother, setHbA2Mother] = useState('');
+    const [hbeMother, sethbEMother] = useState('');
+   
 
     function evaluateOrder( mcv, mch, hb_a, of, hb_f, hb_cs, hb_bart, dcip,hb_h,A2, hba2_plus_e, hba2, hb_e) {
         var order = 0
@@ -45,110 +48,132 @@ function HBTypeComponent() {
         if(mcv >= 80 && mch >= 27 && A2 <= 3.5 && hb_a!==0){
             desc = "A2A ,Hb A2<=3.5"
             order =  1
+            return {order,desc}
         }
         //considtion 2:
         if(mcv < 80 && mch < 27 && A2 <= 3.5 && hb_a!==0){
             desc = "A2A ,Hb A2<=3.5"
             order =  2
+            return {order,desc}
         }
         //condition 3:
         if(mcv < 80 && mch < 27 && 3.6 <= A2 <= 8  && hb_a!==0){
             desc = "A2A ,Hb A2 3.6-8"
             order =  3
+            return {order,desc}
         }
         //condition 4:
         if(mcv < 80 && mch < 27 && hb_e+hba2 >= 25 && hba2_plus_e >= 25 && hb_e !== 0 && hb_a!==0){
-            console.log("EA ,Hb E >=25")
+            desc = "EA ,Hb E >=25"
             order = 4
+            return {order,desc}
         }
         //condition 5:
         if(mcv < 80 && mch < 27 && hb_e+hba2 < 25 && hba2_plus_e < 25 && hb_e !== 0 && hb_a!==0){
             desc = "EA , Hb E < 25"
             order = 5
+            return {order,desc}
         }
         //condition 6:
         if(mcv < 80 && mch < 27 && (hb_e+hba2 >= 80 || hba2_plus_e >= 80) && hb_e !== 0 && hb_f<=5){
             desc = "EE, Hb E >=80% , HB F <=5"
             order = 6
+            return {order,desc}
         }
         //condition 7:
         if(mcv < 80 && mch < 27 && (hb_e+hba2 > 75 || hba2_plus_e > 75) && hb_e !== 0 && hb_f>5){
             desc = "EE/EF, Hb E >75 , Hb F >5"
             order = 7
+            return {order,desc}
         }
         //condition 8:
         if(mcv < 80 && mch < 27 && hb_cs !==0 && A2!==0 && hb_a!==0){
             desc = "CS A2A"
             order = 8
+            return {order,desc}
         }
         //condition 9:
         if(mcv < 80 && mch < 27 && hb_cs !==0 && A2!==0 && hb_a!==0 && hb_bart!==0){
             desc = "CS A2A Bart's"
             order = 9
+            return {order,desc}
         }
         //condition 10:
         if(mcv < 80 && mch < 27 && hb_h !==0 && A2!==0 && hb_a!==0 && hb_bart!==0){
             desc = "A2A H / A2A Bart's H"
             order = 10
+            return {order,desc}
         }
         //condition 11:
         if(mcv < 80 && mch < 27 && hb_h !==0 && A2!==0 && hb_a!==0 && hb_bart!==0 && hb_cs!==0){
             desc = 'CS A2A / CS A2A Bart\'s H'
             order = 11
+            return {order,desc}
         }
         //condition 12:
         if(mcv < 80 && mch < 27 && A2!==0 && hb_f!==0){
             desc = "A2F"
             order = 12
+            return {order,desc}
         }
         //condition 13:
         if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60) {
             desc= 'EF Hb E 40-80 , Hb F 20-60'
             order = 13
+            return {order,desc}
         }
         //condition 14:
         if(mcv < 80 && mch < 27 && A2!==0 && hb_a!==0 && 10<=hb_f<=30){ 
             desc= 'A2FA Hb F 10-30'
             order = 14
+            return {order,desc}
         }
         //condition 15:
         if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0){ 
             desc = "EFA"
             order = 15
+            return {order,desc}
         }
         //condition 16:
         if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && hb_bart!==0 && hb_a!==0){
             desc = "EA Bart's"
             order = 16
+            return {order,desc}
         }
         //condition 17:
         if(mcv < 80 && mch < 27 && (hb_e+hba2 > 75 || hba2_plus_e > 75) && hb_e !== 0 && hb_f>5 && hb_bart!==0){
             desc = "EE/EF Bart's"
             order = 17
+            return {order,desc}
         }
         //condition 18:
         if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0 && hb_bart!==0){
             desc = "EFA Bart's"
             order = 18
+            return {order,desc}
         } 
         //condition 19:
         if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && hb_bart!==0 && hb_a!==0 && hb_cs!==0){
             desc = "CS EA Bart's"
             order = 19
+            return {order,desc}
         }
         //condition 20.1:
         if(mcv < 80 && mch < 27 && (hb_e+hba2 >= 80 || hba2_plus_e >= 80) && hb_e !== 0 && hb_f<=5&&hb_cs!==0 && hb_bart!==0){
             desc = "CS EE Bart's"
             order = 20.1
+            return {order,desc}
         }//condition 20.2:
         if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60&&hb_cs!==0 && hb_bart!==0){ 
             desc = "CS EF Bart's"
             order = 20.2
+            return {order,desc}
         }
         //condition 21:
         if(mcv < 80 && mch < 27 && (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0 && hb_bart!==0 && hb_cs!==0){
             desc = "CS EFA Bart's"
             order = 21
+            return {order,desc}
         }else{
             desc = "rare abnormal Hb"
             order = 22
@@ -161,38 +186,38 @@ function HBTypeComponent() {
     // Handle Next Button click
     const handleNext = () => {
         const momData = {
-            mcv: mcvMother, mch: mchMother, a2HbA: hbAMother, of: ofMother, hbF: hbFMother,
-            hbCs: hbCsMother, hbBart: hbBartsMother, dcip: dcipMother, hba2PlusE: hbA2EInputMother,
-            hbA2: hbA2InputMother, hbE: eInputMother, hbH: hbhMother
+            mcv: mcvMother, mch: mchMother, hba: hbAMother, of: ofMother, hbF: hbFMother,
+            hbCs: hbCsMother, hbBart: hbBartsMother, dcip: dcipMother,hbH: hbhMother,A2: a2Mother, hba2PlusE: hbA2EMother,hbA2:hbA2Mother, hbE: hbeMother
         };
         console.log("momData:", momData);
         
         const dadData = {
-            mcv: mcvFather, mch: mchFather, a2HbA: hbAFather, of: ofFather, hbF: hbFFather,
-            hbCs: hbCsFather, hbBart: hbBartsFather, dcip: dcipFather, hba2PlusE: hbA2EInputFather,
-            hbA2: hbA2InputFather, hbE: eInputFather, hbH: hbhFather
+            mcv: mcvFather, mch: mchFather, hba: hbAFather, of: ofFather, hbF: hbFFather,
+            hbCs: hbCsFather, hbBart: hbBartsFather, dcip: dcipFather,hbH: hbhFather,A2: a2Father, hba2PlusE: hbA2EFather,hbA2:hbA2Father, hbE: hbeFather
         };
         console.log("dadData:", dadData);
-
+        
         const riskResult = evaluateRisk(
-            momData.mcv, momData.mch, momData.a2HbA, momData.of, momData.hbF, momData.hbCs,
-            momData.hbBart, momData.dcip, momData.hba2PlusE, momData.hbA2, momData.hbE, momData.hbH,
-            dadData.mcv, dadData.mch, dadData.a2HbA, dadData.of, dadData.hbF, dadData.hbCs,
-            dadData.hbBart, dadData.dcip, dadData.hba2PlusE, dadData.hbA2, dadData.hbE, dadData.hbH
+            momData.mcv, momData.mch, momData.hba, momData.of, momData.hbF, momData.hbCs, momData.hbBart, momData.dcip, momData.hbH, momData.A2, momData.hba2PlusE, momData.hbA2, momData.hbE,
+            dadData.mcv, dadData.mch, dadData.hba, dadData.of, dadData.hbF, dadData.hbCs, dadData.hbBart, dadData.dcip, dadData.hba2PlusE, dadData.hbA2, dadData.hbE
         );
     
         console.log("Risk Assessment Result:", riskResult);
         //navigate('/main');
     };
 
-    function evaluateRisk(momMCV, momMCH, momA2HbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbA2PlusE, momHbA2, momHbE, momHbH,
-        dadMCV, dadMCH, dadA2HbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbA2PlusE, dadHbA2, dadHbE, dadHbH) {
+    function evaluateRisk(momMCV,momMCH,momHbA,momOF,momHbF,momHbCs,momHbBart,momDCIP,momHbH,momA2,momHbA2PlusE,momHbA2,momHbE,dadMCV,dadMCH,dadHbA,dadOF,dadHbF,dadHbCs,dadHbBart,dadDCIP,dadHbH,dadA2,dadHbA2PlusE,dadHbA2,dadHbE) {
     
-        const momOrderDesc = evaluateOrder(momMCV, momMCH, momA2HbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbA2PlusE, momHbA2, momHbE, momHbH);
-        const dadOrderDesc = evaluateOrder(dadMCV, dadMCH, dadA2HbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbA2PlusE, dadHbA2, dadHbE, dadHbH);
-    
-        console.log("momOrderDesc:", momOrderDesc);
-        console.log("dadOrderDesc:", dadOrderDesc);
+        const momOrderDesc = evaluateOrder(
+            parseFloat(momMCV) || 0, parseFloat(momMCH) || 0, parseFloat(momHbA) || 0, parseFloat(momOF) || 0,
+            parseFloat(momHbF) || 0, parseFloat(momHbCs) || 0, parseFloat(momHbBart) || 0, parseFloat(momDCIP) || 0,
+            parseFloat(momHbH) || 0,parseFloat(momA2) || 0, parseFloat(momHbA2PlusE) || 0, parseFloat(momHbA2) || 0, parseFloat(momHbE) || 0
+        );
+        const dadOrderDesc = evaluateOrder(
+            parseFloat(dadMCV) || 0, parseFloat(dadMCH) || 0, parseFloat(dadHbA) || 0, parseFloat(dadOF) || 0,
+            parseFloat(dadHbF) || 0, parseFloat(dadHbCs) || 0, parseFloat(dadHbBart) || 0, parseFloat(dadDCIP) || 0,
+            parseFloat(dadHbH) || 0,parseFloat(dadA2) || 0, parseFloat(dadHbA2PlusE) || 0, parseFloat(dadHbA2) || 0, parseFloat(dadHbE) || 0
+        );
     
         if (!momOrderDesc || !dadOrderDesc) {
             console.warn("evaluateOrder returned undefined for mom or dad");
@@ -350,8 +375,8 @@ function HBTypeComponent() {
                             label="Hb A2"
                             type="number"
                             variant="outlined"
-                            value={hba2Father}
-                            onChange={(e) => sethba2Father(e.target.value)}
+                            value={a2Father}
+                            onChange={(e) => seta2Father(e.target.value)}
                             fullWidth
                         />
                     </Grid>
@@ -372,9 +397,9 @@ function HBTypeComponent() {
                                     label="HbA2 + E Value"
                                     type="number"
                                     variant="outlined"
-                                    value={hbA2EInputFather}
+                                    value={hbA2EFather}
                                     onFocus={() => setHbA2OptionFather('combined')} // Set radio when focused
-                                    onChange={(e) => setHbA2EInputFather(e.target.value)}
+                                    onChange={(e) => setHbA2EFather(e.target.value)}
                                     fullWidth
                                 />
                             </Box>
@@ -389,18 +414,18 @@ function HBTypeComponent() {
                                     label="HbA2 Value"
                                     type="number"
                                     variant="outlined"
-                                    value={hbA2InputFather}
+                                    value={hbA2Father}
                                     onFocus={() => setHbA2OptionFather('separate')} // Set radio when focused
-                                    onChange={(e) => setHbA2InputFather(e.target.value)}
+                                    onChange={(e) => setHbA2Father(e.target.value)}
                                     fullWidth
                                 />
                                 <TextField
                                     label="E Value"
                                     type="number"
                                     variant="outlined"
-                                    value={eInputFather}
+                                    value={hbeFather}
                                     onFocus={() => setHbA2OptionFather('separate')} // Set radio when focused
-                                    onChange={(e) => setEInputFather(e.target.value)}
+                                    onChange={(e) => sethbEFather(e.target.value)}
                                     fullWidth
                                     sx={{ mt: 2 }}
                                 />
@@ -522,8 +547,8 @@ function HBTypeComponent() {
                             label="Hb A2"
                             type="number"
                             variant="outlined"
-                            value={hba2Mother}
-                            onChange={(e) => sethba2Mother(e.target.value)}
+                            value={a2Mother}
+                            onChange={(e) => seta2Mother(e.target.value)}
                             fullWidth
                         />
                     </Grid>
@@ -544,9 +569,9 @@ function HBTypeComponent() {
                                     label="HbA2 + E Value"
                                     type="number"
                                     variant="outlined"
-                                    value={hbA2EInputMother}
+                                    value={hbA2EMother}
                                     onFocus={() => setHbA2OptionMother('combined')} // Set radio when focused
-                                    onChange={(e) => setHbA2EInputMother(e.target.value)}
+                                    onChange={(e) => setHbA2EMother(e.target.value)}
                                     fullWidth
                                 />
                             </Box>
@@ -561,18 +586,18 @@ function HBTypeComponent() {
                                     label="HbA2 Value"
                                     type="number"
                                     variant="outlined"
-                                    value={hbA2InputMother}
+                                    value={hbA2Mother}
                                     onFocus={() => setHbA2OptionMother('separate')} // Set radio when focused
-                                    onChange={(e) => setHbA2InputMother(e.target.value)}
+                                    onChange={(e) => setHbA2Mother(e.target.value)}
                                     fullWidth
                                 />
                                 <TextField
                                     label="E Value"
                                     type="number"
                                     variant="outlined"
-                                    value={eInputMother}
+                                    value={hbeMother}
                                     onFocus={() => setHbA2OptionMother('separate')} // Set radio when focused
-                                    onChange={(e) => setEInputMother(e.target.value)}
+                                    onChange={(e) => sethbEMother(e.target.value)}
                                     fullWidth
                                     sx={{ mt: 2 }}
                                 />
