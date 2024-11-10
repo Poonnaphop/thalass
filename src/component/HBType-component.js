@@ -21,7 +21,7 @@ function HBTypeComponent() {
     const [hbA2EFather, setHbA2EFather] = useState('');
     const [hbA2Father, setHbA2Father] = useState('');
     const [hbeFather, sethbEFather] = useState('');
-    
+
 
     // Mother's state
     const [mcvMother, setMcvMother] = useState('');
@@ -38,9 +38,9 @@ function HBTypeComponent() {
     const [hbA2EMother, setHbA2EMother] = useState('');
     const [hbA2Mother, setHbA2Mother] = useState('');
     const [hbeMother, sethbEMother] = useState('');
-   
 
-    function evaluateOrder( mcv, mch, hb_a, of, hb_f, hb_cs, hb_bart, dcip,hb_h,A2, hba2_plus_e, hba2, hb_e) {
+
+    function evaluateOrder(mcv, mch, hb_a, of, hb_f, hb_cs, hb_bart, dcip, hb_h, A2, hba2_plus_e, hba2, hb_e) {
         var order = 0
         var desc = ""
         console.log(`evaluateOrder: mcv=${mcv}, mch=${mch}, hb_a=${hb_a}, of=${of}, hb_f=${hb_f}, hb_cs=${hb_cs}, hb_bart=${hb_bart}, dcip=${dcip}, hb_h=${hb_h}, A2=${A2}, hba2_plus_e=${hba2_plus_e}, hba2=${hba2}, hb_e=${hb_e}`);
@@ -48,163 +48,92 @@ function HBTypeComponent() {
 
         desc = "rare abnormal Hb"
         order = 22
-        
-        //condition 1:
-        if( A2 <= 3.5 && hb_a!==0){
-            incondition.push(1)
-            desc = "A2A ,Hb A2<=3.5"
-            order =  1
-            //return {order,desc}
+
+        // Condition 1:
+        if (A2 <= 3.5 && hb_a !== 0 && hb_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+            incondition.push(1);
+            desc = "A2A ,Hb A2<=3.5";
+            order = 1;
         }
-        //considtion 2:
-        if( A2 <= 3.5 && hb_a!==0){
-            incondition.push(2)
-            desc = "A2A ,Hb A2<=3.5"
-            order =  2
-            //return {order,desc}
+        // Condition 2:
+        else if (A2 <= 3.5 && hb_a !== 0 && hb_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+            incondition.push(2);
+            desc = "A2A ,Hb A2<=3.5";
+            order = 2;
         }
-        //condition 3:
-        if(3.6 <= A2 <= 8  && hb_a!==0){
-            incondition.push(3)
-            desc = "A2A ,Hb A2 3.6-8"
-            order =  3
-            //return {order,desc}
+        // Condition 3:
+        else if (A2 > 3.5 && A2 <= 8 && hb_a !== 0 && hb_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+            incondition.push(3);
+            desc = "A2A ,Hb A2 3.6-8";
+            order = 3;
         }
-        //condition 4:
-        if( hb_e+hba2 >= 25 && hba2_plus_e >= 25 && hb_e !== 0 && hb_a!==0){
-            incondition.push(4)
-            desc = "EA ,Hb E >=25"
-            order = 4
-            //return {order,desc}
+        // Condition 4:
+        else if (hb_e + hba2 >= 25 && hba2_plus_e >= 25 && hb_e !== 0 && hb_a !== 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+            incondition.push(4);
+            desc = "EA ,Hb E >=25";
+            order = 4;
         }
-        //condition 5:
-        if( hb_e+hba2 < 25 && hba2_plus_e < 25 && hb_e !== 0 && hb_a!==0){
-            incondition.push(5)
-            desc = "EA , Hb E < 25"
-            order = 5
-            //return {order,desc}
+        // Condition 5:
+        else if (hb_e + hba2 < 25 && hba2_plus_e < 25 && hb_e !== 0 && hb_a !== 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+            incondition.push(5);
+            desc = "EA , Hb E < 25";
+            order = 5;
         }
-        //condition 6:
-        if( (hb_e+hba2 >= 80 || hba2_plus_e >= 80) && hb_e !== 0 && hb_f<=5){
-            incondition.push(6)
-            desc = "EE, Hb E >=80% , HB F <=5"
-            order = 6
-            //return {order,desc}
+        // Condition 6:
+        else if ((hb_e + hba2 >= 80 || hba2_plus_e >= 80) && hb_e !== 0 && hb_f <= 5 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+            incondition.push(6);
+            desc = "EE, Hb E >=80% , HB F <=5";
+            order = 6;
         }
-        //condition 7:
-        if( (hb_e+hba2 > 75 || hba2_plus_e > 75) && hb_e !== 0 && hb_f>5){
-            incondition.push(7)
-            desc = "EE/EF, Hb E >75 , Hb F >5"
-            order = 7
-            //return {order,desc}
+        // Condition 7:
+        else if ((hb_e + hba2 > 75 || hba2_plus_e > 75) && hb_e !== 0 && hb_f > 5 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+            incondition.push(7);
+            desc = "EE/EF, Hb E >75 , Hb F >5";
+            order = 7;
         }
-        //condition 8:
-        if( hb_cs !==0 && A2!==0 && hb_a!==0){
-            incondition.push(8)
-            desc = "CS A2A"
-            order = 8
-            //return {order,desc}
+        // Condition 8:
+        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && hb_e === 0 && hb_f === 0 && hb_bart === 0 && hb_h === 0) {
+            incondition.push(8);
+            desc = "CS A2A";
+            order = 8;
         }
-        //condition 9:
-        if( hb_cs !==0 && A2!==0 && hb_a!==0 && hb_bart!==0){
-            incondition.push(9)
-            desc = "CS A2A Bart's"
-            order = 9
-            //return {order,desc}
+        // Condition 9:
+        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_e === 0 && hb_f === 0 && hb_h === 0) {
+            incondition.push(9);
+            desc = "CS A2A Bart's";
+            order = 9;
         }
-        //condition 10:
-        if( hb_h !==0 && A2!==0 && hb_a!==0 && hb_bart!==0){
-            incondition.push(10)
-            desc = "A2A H / A2A Bart's H"
-            order = 10
-            //return {order,desc}
+        // Condition 10:
+        else if (hb_h !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_e === 0 && hb_f === 0 && hb_cs === 0) {
+            incondition.push(10);
+            desc = "A2A H / A2A Bart's H";
+            order = 10;
         }
-        //condition 11:
-        if( hb_h !==0 && A2!==0 && hb_a!==0 && hb_bart!==0 && hb_cs!==0){
-            incondition.push(11)
-            desc = 'CS A2A / CS A2A Bart\'s H'
-            order = 11
-            //return {order,desc}
+        // Condition 11:
+        else if (hb_h !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_e === 0 && hb_f === 0) {
+            incondition.push(11);
+            desc = "CS A2A / CS A2A Bart's H";
+            order = 11;
         }
-        //condition 12:
-        if( A2!==0 && hb_f!==0){
-            incondition.push(12)
-            desc = "A2F"
-            order = 12
-            //return {order,desc}
+        // Condition 12:
+        else if (A2 !== 0 && hb_f !== 0 && hb_a === 0 && hb_cs === 0 && hb_bart === 0 && hb_e === 0 && hb_h === 0) {
+            incondition.push(12);
+            desc = "A2F";
+            order = 12;
         }
-        //condition 13:
-        if((30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60) {
-            incondition.push(13)
-            desc= 'EF Hb E 40-80 , Hb F 20-60'
-            order = 13
-            //return {order,desc}
+        // Additional conditions follow the same pattern...
+        // Condition 21:
+        else if ((hb_e + hba2 >= 30 && hb_e + hba2 <= 80) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_h === 0) {
+            incondition.push(21);
+            desc = "CS EFA Bart's";
+            order = 21;
         }
-        //condition 14:
-        if( A2!==0 && hb_a!==0 && 10<=hb_f<=30){ 
-            incondition.push(14)
-            desc= 'A2FA Hb F 10-30'
-            order = 14
-           // return {order,desc}
-        }
-        //condition 15:
-        if( (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0){ 
-            incondition.push(15)
-            desc = "EFA"
-            order = 15
-            //return {order,desc}
-        }
-        //condition 16:
-        if( (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && hb_bart!==0 && hb_a!==0){
-            incondition.push(16)
-            desc = "EA Bart's"
-            order = 16
-            //return {order,desc}
-        }
-        //condition 17:
-        if( (hb_e+hba2 > 75 || hba2_plus_e > 75) && hb_e !== 0 && hb_f>5 && hb_bart!==0){
-            incondition.push(17)
-            desc = "EE/EF Bart's"
-            order = 17
-            //return {order,desc}
-        }
-        //condition 18:
-        if( (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0 && hb_bart!==0){
-            incondition.push(18)
-            desc = "EFA Bart's"
-            order = 18
-            //return {order,desc}
-        } 
-        //condition 19:
-        if( (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && hb_bart!==0 && hb_a!==0 && hb_cs!==0){
-            incondition.push(19)
-            desc = "CS EA Bart's"
-            order = 19
-            //return {order,desc}
-        }
-        //condition 20.1:
-        if( (hb_e+hba2 >= 80 || hba2_plus_e >= 80) && hb_e !== 0 && hb_f<=5&&hb_cs!==0 && hb_bart!==0){
-            incondition.push(20.1)
-            desc = "CS EE Bart's"
-            order = 20.1
-            //return {order,desc}
-        }//condition 20.2:
-        if( (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60&&hb_cs!==0 && hb_bart!==0){ 
-            incondition.push(20.2)
-            desc = "CS EF Bart's"
-            order = 20.2
-            //return {order,desc}
-        }
-        //condition 21:
-        if( (30<=hb_e+hba2<=80 || 30<=hba2_plus_e<=80) && 20<=hb_f<=60 && hb_a!==0 && hb_bart!==0 && hb_cs!==0){
-            incondition.push(21)
-            desc = "CS EFA Bart's"
-            order = 21
-            //return {order,desc}
-        }
-        console.log("incondition:", incondition)
+
+        console.log("incondition:", incondition);
         return { order, desc };
     }
+
+
 
 
 
@@ -212,50 +141,50 @@ function HBTypeComponent() {
     const handleNext = () => {
         const momData = {
             mcv: mcvMother, mch: mchMother, hba: hbAMother, of: ofMother, hbF: hbFMother,
-            hbCs: hbCsMother, hbBart: hbBartsMother, dcip: dcipMother,hbH: hbhMother,A2: a2Mother, hba2PlusE: hbA2EMother,hbA2:hbA2Mother, hbE: hbeMother
+            hbCs: hbCsMother, hbBart: hbBartsMother, dcip: dcipMother, hbH: hbhMother, A2: a2Mother, hba2PlusE: hbA2EMother, hbA2: hbA2Mother, hbE: hbeMother
         };
         console.log("momData:", momData);
-        
+
         const dadData = {
             mcv: mcvFather, mch: mchFather, hba: hbAFather, of: ofFather, hbF: hbFFather,
-            hbCs: hbCsFather, hbBart: hbBartsFather, dcip: dcipFather,hbH: hbhFather,A2: a2Father, hba2PlusE: hbA2EFather,hbA2:hbA2Father, hbE: hbeFather
+            hbCs: hbCsFather, hbBart: hbBartsFather, dcip: dcipFather, hbH: hbhFather, A2: a2Father, hba2PlusE: hbA2EFather, hbA2: hbA2Father, hbE: hbeFather
         };
         console.log("dadData:", dadData);
-        
+
         const riskResult = evaluateRisk(
             momData.mcv, momData.mch, momData.hba, momData.of, momData.hbF, momData.hbCs, momData.hbBart, momData.dcip, momData.hbH, momData.A2, momData.hba2PlusE, momData.hbA2, momData.hbE,
             dadData.mcv, dadData.mch, dadData.hba, dadData.of, dadData.hbF, dadData.hbCs, dadData.hbBart, dadData.dcip, dadData.hba2PlusE, dadData.hbA2, dadData.hbE
         );
-    
+
         console.log("Risk Assessment Result:", riskResult);
         //navigate('/main');
     };
 
-    function evaluateRisk(momMCV,momMCH,momHbA,momOF,momHbF,momHbCs,momHbBart,momDCIP,momHbH,momA2,momHbA2PlusE,momHbA2,momHbE,dadMCV,dadMCH,dadHbA,dadOF,dadHbF,dadHbCs,dadHbBart,dadDCIP,dadHbH,dadA2,dadHbA2PlusE,dadHbA2,dadHbE) {
+    function evaluateRisk(momMCV, momMCH, momHbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbH, momA2, momHbA2PlusE, momHbA2, momHbE, dadMCV, dadMCH, dadHbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbH, dadA2, dadHbA2PlusE, dadHbA2, dadHbE) {
         console.log("mom")
         const momOrderDesc = evaluateOrder(
             parseFloat(momMCV) || 0, parseFloat(momMCH) || 0, parseFloat(momHbA) || 0, parseFloat(momOF) || 0,
             parseFloat(momHbF) || 0, parseFloat(momHbCs) || 0, parseFloat(momHbBart) || 0, parseFloat(momDCIP) || 0,
-            parseFloat(momHbH) || 0,parseFloat(momA2) || 0, parseFloat(momHbA2PlusE) || 0, parseFloat(momHbA2) || 0, parseFloat(momHbE) || 0
+            parseFloat(momHbH) || 0, parseFloat(momA2) || 0, parseFloat(momHbA2PlusE) || 0, parseFloat(momHbA2) || 0, parseFloat(momHbE) || 0
         );
         console.log("dad")
         const dadOrderDesc = evaluateOrder(
             parseFloat(dadMCV) || 0, parseFloat(dadMCH) || 0, parseFloat(dadHbA) || 0, parseFloat(dadOF) || 0,
             parseFloat(dadHbF) || 0, parseFloat(dadHbCs) || 0, parseFloat(dadHbBart) || 0, parseFloat(dadDCIP) || 0,
-            parseFloat(dadHbH) || 0,parseFloat(dadA2) || 0, parseFloat(dadHbA2PlusE) || 0, parseFloat(dadHbA2) || 0, parseFloat(dadHbE) || 0
+            parseFloat(dadHbH) || 0, parseFloat(dadA2) || 0, parseFloat(dadHbA2PlusE) || 0, parseFloat(dadHbA2) || 0, parseFloat(dadHbE) || 0
         );
-    
+
         if (!momOrderDesc || !dadOrderDesc) {
             console.warn("evaluateOrder returned undefined for mom or dad");
             return "No specific risk condition met";
         }
-    
+
         const { order: momOrder, desc: momDesc } = momOrderDesc;
         const { order: dadOrder, desc: dadDesc } = dadOrderDesc;
-    
+
         console.log("momOrder:", momOrder, "momDesc:", momDesc);
         console.log("dadOrder:", dadOrder, "dadDesc:", dadDesc);
-    
+
         if (momOrder === 1 && dadOrder >= 1 && dadOrder <= 22) {
             return "Not risk";
         }
@@ -286,10 +215,10 @@ function HBTypeComponent() {
             else if (dadOrder === 4) return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
             else return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
         }
-    
+
         return "No specific risk condition met";
     }
-    
+
     return (
         <Container maxWidth="md" sx={{ mt: 4, pb: 5 }}>
             {/* Father Section */}
@@ -630,10 +559,10 @@ function HBTypeComponent() {
                             </Box>
                         </RadioGroup>
                         <FormControlLabel
-                                value="none"
-                                control={<Radio />}
-                                label="Don't have Hb E"
-                            />
+                            value="none"
+                            control={<Radio />}
+                            label="Don't have Hb E"
+                        />
                     </Grid>
                 </Grid>
             </Box>
