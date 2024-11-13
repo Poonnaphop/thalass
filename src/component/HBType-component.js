@@ -68,7 +68,7 @@ function HBTypeComponent() {
             order = 3;
         }
         // Condition 4:
-        else if (hb_e + hba2 >= 25 && hba2_plus_e >= 25 && hb_e !== 0 && hb_a !== 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && hb_e !== 0 && hb_a !== 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
             incondition.push(4);
             desc = "EA ,Hb E >=25";
             order = 4;
@@ -206,7 +206,7 @@ function HBTypeComponent() {
 
         const riskResult = evaluateRisk(
             momData.mcv, momData.mch, momData.hba, momData.of, momData.hbF, momData.hbCs, momData.hbBart, momData.dcip, momData.hbH, momData.A2, momData.hba2PlusE, momData.hbA2, momData.hbE,
-            dadData.mcv, dadData.mch, dadData.hba, dadData.of, dadData.hbF, dadData.hbCs, dadData.hbBart, dadData.dcip, dadData.hba2PlusE, dadData.hbA2, dadData.hbE
+            dadData.mcv, dadData.mch, dadData.hba, dadData.of, dadData.hbF, dadData.hbCs, dadData.hbBart, dadData.dcip, dadData.hbH, dadData.A2, dadData.hba2PlusE, dadData.hbA2, dadData.hbE
         );
 
         console.log("Risk Assessment Result:", riskResult);
@@ -610,12 +610,12 @@ function HBTypeComponent() {
                                     sx={{ mt: 2 }}
                                 />
                             </Box>
-                        </RadioGroup>
-                        <FormControlLabel
+                            <FormControlLabel
                             value="none"
                             control={<Radio />}
                             label="Don't have Hb E"
                         />
+                        </RadioGroup>
                     </Grid>
                 </Grid>
             </Box>
