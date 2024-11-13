@@ -121,7 +121,60 @@ function HBTypeComponent() {
             desc = "A2F";
             order = 12;
         }
-        // Additional conditions follow the same pattern...
+        // Condition 13:
+        else if ((hb_e + hba2 >= 30 && hb_e + hba2 <= 80) && (hb_f >= 20 && hb_f <= 60) && hb_a === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+            incondition.push(13);
+            desc = 'EF Hb E 40-80, Hb F 20-60';
+            order = 13;
+        }
+        // Condition 14:
+        else if (A2 !== 0 && hb_a !== 0 && hb_f >= 10 && hb_f <= 30 && hb_cs === 0 && hb_bart === 0 && hb_e === 0 && hb_h === 0) {
+            incondition.push(14);
+            desc = 'A2FA, Hb F 10-30';
+            order = 14;
+        }
+        // Condition 15:
+        else if ((hb_e + hba2 >= 30 && hb_e + hba2 <= 80) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+            incondition.push(15);
+            desc = "EFA";
+            order = 15;
+        }
+        // Condition 16:
+        else if ((hb_e + hba2 >= 30 && hb_e + hba2 <= 80) && hb_bart !== 0 && hb_a !== 0 && hb_cs === 0 && hb_f === 0 && hb_h === 0) {
+            incondition.push(16);
+            desc = "EA Bart's";
+            order = 16;
+        }
+        // Condition 17:
+        else if ((hb_e + hba2 > 75 || hba2_plus_e > 75) && hb_e !== 0 && hb_f > 5 && hb_bart !== 0 && hb_cs === 0 && hb_h === 0) {
+            incondition.push(17);
+            desc = "EE/EF Bart's";
+            order = 17;
+        }
+        // Condition 18:
+        else if ((hb_e + hba2 >= 30 && hb_e + hba2 <= 80) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_bart !== 0 && hb_cs === 0 && hb_h === 0) {
+            incondition.push(18);
+            desc = "EFA Bart's";
+            order = 18;
+        }
+        // Condition 19:
+        else if ((hb_e + hba2 >= 30 && hb_e + hba2 <= 80) && hb_bart !== 0 && hb_a !== 0 && hb_cs !== 0 && hb_f === 0 && hb_h === 0) {
+            incondition.push(19);
+            desc = "CS EA Bart's";
+            order = 19;
+        }
+        // Condition 20.1:
+        else if ((hb_e + hba2 >= 80 || hba2_plus_e >= 80) && hb_e !== 0 && hb_f <= 5 && hb_cs !== 0 && hb_bart !== 0 && hb_h === 0) {
+            incondition.push(20.1);
+            desc = "CS EE Bart's";
+            order = 20.1;
+        }
+        // Condition 20.2:
+        else if ((hb_e + hba2 >= 30 && hb_e + hba2 <= 80) && (hb_f >= 20 && hb_f <= 60) && hb_cs !== 0 && hb_bart !== 0 && hb_h === 0) {
+            incondition.push(20.2);
+            desc = "CS EF Bart's";
+            order = 20.2;
+        }
         // Condition 21:
         else if ((hb_e + hba2 >= 30 && hb_e + hba2 <= 80) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_h === 0) {
             incondition.push(21);
