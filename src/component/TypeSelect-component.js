@@ -37,7 +37,7 @@ function TypeSelectComponent() {
                         textAlign: 'center',
                         textDecoration: 'none', // Remove underline from Typography links
                     }}
-                    href="/main"
+                    href="/alpha-beta-thalassemia-test"
                 >
                     <Typography variant="h4" gutterBottom>
                         Alpha & Beta Thalassemia Test

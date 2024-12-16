@@ -92,7 +92,7 @@ function HBTypeComponent() {
             order = 7;
         }
         // Condition 8:
-        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && (hb_e !== 0 || hba2_plus_e!==0) && hb_f === 0 && hb_bart === 0 && hb_h === 0) {
+        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && (hb_e === 0 || hba2_plus_e===0) && hb_f === 0 && hb_bart === 0 && hb_h === 0) {
             incondition.push(8);
             desc = "CS A2A";
             order = 8;
