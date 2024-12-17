@@ -15,6 +15,26 @@ function AlphaBetaThalassemiaTest() {
         console.log("Dad's Beta:", dadBeta);
         console.log("Mom's Alpha:", momAlpha);
         console.log("Mom's Beta:", momBeta);
+
+        if (dadAlpha === null || dadBeta === null || momAlpha === null || momBeta === null) {
+            alert("Please select values for all dropdowns.");
+            return
+        }
+
+        const alphaRisk = momAlpha && dadAlpha
+        const betaRisk = momBeta && dadBeta
+
+        const totalRisk = alphaRisk || betaRisk
+
+        console.log("Alpha Risk:", alphaRisk);
+        console.log("Beta Risk:", betaRisk);
+
+        if (totalRisk) {
+            console.log("ส่งตรวจก่อนคลอด")
+        } else {
+            console.log("ไม่ต้องตรวจ")
+        }
+
     };
 
     const calculateRisk = (momAlpha, momBeta, dadAlpha, dadBeta) => {
