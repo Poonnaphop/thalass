@@ -23,7 +23,7 @@ function AlphaBetaThalassemiaResultComponent() {
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3 }}>
                 <Typography variant="h6">ผลตรวจคัดกรองมารดา</Typography>
                 <Typography>ชื่อมารดา: {wifeNameSurname || '-'}</Typography>
-                <Typography># Hb typing ภรรยา: {momOrder.order || '-'}</Typography>
+                <Typography># Hb typing ภรรยา: {momOrder.order || '-'}: {momOrder.desc || '-'}</Typography>
 
                 <Grid container spacing={2} sx={{ mt: 1 }}>
                     <Grid item xs={6}><TextField label="MCV" value={momData.mcv || '-'} readOnly fullWidth /></Grid>
@@ -46,7 +46,7 @@ function AlphaBetaThalassemiaResultComponent() {
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3 }}>
                 <Typography variant="h6">ผลตรวจคัดกรองสามี</Typography>
                 <Typography>ชื่อสามี: {husbandNameSurname || '-'}</Typography>
-                <Typography># Hb typing สามี: {dadOrder.order || '-'}</Typography>
+                <Typography># Hb typing สามี: {dadOrder.order || '-'}: {dadOrder.desc || '-'}</Typography>
 
                 <Grid container spacing={2} sx={{ mt: 1 }}>
                 <Grid item xs={6}><TextField label="MCV" value={dadData.mcv || '-'} readOnly fullWidth /></Grid>
