@@ -100,19 +100,19 @@ function HBTypeComponent() {
         order = 22
 
         // Condition 1:
-        if (A2 <= 3.5 && hb_a !== 0 && hb_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        if (A2 <= 3.5 && hb_a !== 0 && hb_e === 0 && hba2_plus_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
             incondition.push(1);
             desc = "A2A ,Hb A2<=3.5";
             order = 1;
         }
         // Condition 2:
-        else if (A2 <= 3.5 && hb_a !== 0 && hb_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if (A2 <= 3.5 && hb_a !== 0 && hb_e === 0 && hba2_plus_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
             incondition.push(2);
             desc = "A2A ,Hb A2<=3.5";
             order = 2;
         }
         // Condition 3:
-        else if (A2 > 3.5 && A2 <= 8 && hb_a !== 0 && hb_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if (A2 > 3.5 && A2 <= 8 && hb_a !== 0 && hb_e === 0 && hba2_plus_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
             incondition.push(3);
             desc = "A2A ,Hb A2 3.6-8";
             order = 3;
