@@ -231,6 +231,9 @@ function HBTypeComponent() {
             desc = "CS EFA Bart's";
             order = 21;
         }
+
+        console.log("incondition:", incondition);
+        return { order, desc };
     }
 
     function evaluateRisk(momMCV, momMCH, momHbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbH, momA2, momHbA2PlusE, momHbA2, momHbE, dadMCV, dadMCH, dadHbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbH, dadA2, dadHbA2PlusE, dadHbA2, dadHbE) {
