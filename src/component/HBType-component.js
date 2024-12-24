@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Box, Grid, Typography, TextField, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { parse } from 'date-fns/fp/parse';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function HBTypeComponent() {
+    const location = useLocation();
     const navigate = useNavigate();
+    const formData = location.state;
+
 
     // Father's state
     const [mcvFather, setMcvFather] = useState('');
@@ -186,10 +188,6 @@ function HBTypeComponent() {
         return { order, desc };
     }
 
-
-
-
-
     // Handle Next Button click
     const handleNext = () => {
         const momData = {
@@ -210,7 +208,15 @@ function HBTypeComponent() {
         );
 
         console.log("Risk Assessment Result:", riskResult);
-        //navigate('/main');
+        const newFormData = {
+            ...formData,
+            dadData,
+            momData,
+            riskResult
+        };
+
+        navigate('/alpha-beta-thalassemia-result', { state: newFormData });
+        
     };
 
     function evaluateRisk(momMCV, momMCH, momHbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbH, momA2, momHbA2PlusE, momHbA2, momHbE, dadMCV, dadMCH, dadHbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbH, dadA2, dadHbA2PlusE, dadHbA2, dadHbE) {

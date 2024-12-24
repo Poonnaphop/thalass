@@ -6,6 +6,7 @@ import TypeSelect from './page/TypeSelect';
 import HBType from './page/HBType';
 import HBTypeResult from './page/HBTypeResult';
 import AlphaBetaThalassemiaTest from './page/AlphaBetaThalassemiaTest';
+import AlphaBetaThalassemiaResult from './page/AlphaBetaThalassemiaResult';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/hbtype' element={<HBType/>} />
         <Route path='/hbtyperesult' element={<HBTypeResult/>} />
         <Route path='/alpha-beta-thalassemia-test' element={<AlphaBetaThalassemiaTest/>} />
+        <Route path='/alpha-beta-thalassemia-result' element={<AlphaBetaThalassemiaResult/>} />
       </Routes>
     </Router>
   );
