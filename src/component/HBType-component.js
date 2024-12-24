@@ -6,6 +6,54 @@ function HBTypeComponent() {
     const location = useLocation();
     const navigate = useNavigate();
     const formData = location.state;
+    // Handle Next Button click
+    const handleNext = () => {
+        // Construct momData and dadData objects
+        const momData = {
+            mcv: mcvMother, mch: mchMother, hba: hbAMother, of: ofMother, hbF: hbFMother,
+            hbCs: hbCsMother, hbBart: hbBartsMother, dcip: dcipMother, hbH: hbhMother, A2: a2Mother, hba2PlusE: hbA2EMother, hbA2: hbA2Mother, hbE: hbeMother
+        };
+
+        const dadData = {
+            mcv: mcvFather, mch: mchFather, hba: hbAFather, of: ofFather, hbF: hbFFather,
+            hbCs: hbCsFather, hbBart: hbBartsFather, dcip: dcipFather, hbH: hbhFather, A2: a2Father, hba2PlusE: hbA2EFather, hbA2: hbA2Father, hbE: hbeFather
+        };
+
+        // Log for debugging
+        console.log("momData:", momData);
+        console.log("dadData:", dadData);
+
+        // Calculate risk assessment
+        const riskResult = evaluateRisk(
+            momData.mcv, momData.mch, momData.hba, momData.of, momData.hbF, momData.hbCs, momData.hbBart, momData.dcip, momData.hbH, momData.A2, momData.hba2PlusE, momData.hbA2, momData.hbE,
+            dadData.mcv, dadData.mch, dadData.hba, dadData.of, dadData.hbF, dadData.hbCs, dadData.hbBart, dadData.dcip, dadData.hbH, dadData.A2, dadData.hba2PlusE, dadData.hbA2, dadData.hbE
+        );
+
+        const momOrder = evaluateOrder(
+            momData.mcv, momData.mch, momData.hba, momData.of, momData.hbF, momData.hbCs, momData.hbBart, momData.dcip, momData.hbH, momData.A2, momData.hba2PlusE, momData.hbA2, momData.hbE
+        )
+
+        const dadOrder = evaluateOrder(
+            dadData.mcv, dadData.mch, dadData.hba, dadData.of, dadData.hbF, dadData.hbCs, dadData.hbBart, dadData.dcip, dadData.hbH, dadData.A2, dadData.hba2PlusE, dadData.hbA2, dadData.hbE
+        )
+
+        console.log("Risk Assessment Result:", riskResult);
+
+        // Prepare the new formData
+        const newFormData = {
+            ...formData, // Preserve existing data
+            momData,
+            dadData,
+            riskResult,
+            momOrder,
+            dadOrder
+        };
+
+        console.log("New Form Data:", newFormData);
+
+        // Navigate to the result page and pass the data
+        navigate('/alpha-beta-thalassemia-result', { state: newFormData });
+    };
 
 
     // Father's state
@@ -70,31 +118,31 @@ function HBTypeComponent() {
             order = 3;
         }
         // Condition 4:
-        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e!==0) && hb_a !== 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_a !== 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
             incondition.push(4);
             desc = "EA ,Hb E >=25";
             order = 4;
         }
         // Condition 5:
-        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e!==0) && hb_a !== 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_a !== 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
             incondition.push(5);
             desc = "EA , Hb E < 25";
             order = 5;
         }
         // Condition 6:
-        else if ((hb_e + hba2 >= 80 || hba2_plus_e >= 80) &&(hb_e !== 0 || hba2_plus_e!==0) && hb_f <= 5 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if ((hb_e + hba2 >= 80 || hba2_plus_e >= 80) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_f <= 5 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
             incondition.push(6);
             desc = "EE, Hb E >=80% , HB F <=5";
             order = 6;
         }
         // Condition 7:
-        else if ((hb_e + hba2 > 75 || hba2_plus_e > 75) && (hb_e !== 0 || hba2_plus_e!==0) && hb_f > 5 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if ((hb_e + hba2 > 75 || hba2_plus_e > 75) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_f > 5 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
             incondition.push(7);
             desc = "EE/EF, Hb E >75 , Hb F >5";
             order = 7;
         }
         // Condition 8:
-        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && (hb_e === 0 || hba2_plus_e===0) && hb_f === 0 && hb_bart === 0 && hb_h === 0) {
+        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && (hb_e === 0 || hba2_plus_e === 0) && hb_f === 0 && hb_bart === 0 && hb_h === 0) {
             incondition.push(8);
             desc = "CS A2A";
             order = 8;
@@ -124,7 +172,7 @@ function HBTypeComponent() {
             order = 12;
         }
         // Condition 13:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <=hba2_plus_e <=80)) && (hb_f >= 20 && hb_f <= 60) && hb_a === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && (hb_f >= 20 && hb_f <= 60) && hb_a === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
             incondition.push(13);
             desc = 'EF Hb E 40-80, Hb F 20-60';
             order = 13;
@@ -136,49 +184,49 @@ function HBTypeComponent() {
             order = 14;
         }
         // Condition 15:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <=hba2_plus_e <=80)) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
             incondition.push(15);
             desc = "EFA";
             order = 15;
         }
         // Condition 16:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <=hba2_plus_e <=80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs === 0 && hb_f === 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs === 0 && hb_f === 0 && hb_h === 0) {
             incondition.push(16);
             desc = "EA Bart's";
             order = 16;
         }
         // Condition 17:
-        else if ((hb_e + hba2 > 75 || hba2_plus_e > 75) && (hb_e !== 0 || hba2_plus_e!==0) && hb_f > 5 && hb_bart !== 0 && hb_cs === 0 && hb_h === 0) {
+        else if ((hb_e + hba2 > 75 || hba2_plus_e > 75) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_f > 5 && hb_bart !== 0 && hb_cs === 0 && hb_h === 0) {
             incondition.push(17);
             desc = "EE/EF Bart's";
             order = 17;
         }
         // Condition 18:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <=hba2_plus_e <=80)) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_bart !== 0 && hb_cs === 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_bart !== 0 && hb_cs === 0 && hb_h === 0) {
             incondition.push(18);
             desc = "EFA Bart's";
             order = 18;
         }
         // Condition 19:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <=hba2_plus_e <=80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs !== 0 && hb_f === 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs !== 0 && hb_f === 0 && hb_h === 0) {
             incondition.push(19);
             desc = "CS EA Bart's";
             order = 19;
         }
         // Condition 20.1:
-        else if ((hb_e + hba2 >= 80 || hba2_plus_e >= 80) && (hb_e !== 0 || hba2_plus_e!==0) && hb_f <= 5 && hb_cs !== 0 && hb_bart !== 0 && hb_h === 0) {
+        else if ((hb_e + hba2 >= 80 || hba2_plus_e >= 80) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_f <= 5 && hb_cs !== 0 && hb_bart !== 0 && hb_h === 0) {
             incondition.push(20.1);
             desc = "CS EE Bart's";
             order = 20.1;
         }
         // Condition 20.2:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <=hba2_plus_e <=80)) && (hb_f >= 20 && hb_f <= 60) && hb_cs !== 0 && hb_bart !== 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && (hb_f >= 20 && hb_f <= 60) && hb_cs !== 0 && hb_bart !== 0 && hb_h === 0) {
             incondition.push(20.2);
             desc = "CS EF Bart's";
             order = 20.2;
         }
         // Condition 21:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <=hba2_plus_e <=80)) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_h === 0) {
             incondition.push(21);
             desc = "CS EFA Bart's";
             order = 21;
@@ -187,37 +235,6 @@ function HBTypeComponent() {
         console.log("incondition:", incondition);
         return { order, desc };
     }
-
-    // Handle Next Button click
-    const handleNext = () => {
-        const momData = {
-            mcv: mcvMother, mch: mchMother, hba: hbAMother, of: ofMother, hbF: hbFMother,
-            hbCs: hbCsMother, hbBart: hbBartsMother, dcip: dcipMother, hbH: hbhMother, A2: a2Mother, hba2PlusE: hbA2EMother, hbA2: hbA2Mother, hbE: hbeMother
-        };
-        console.log("momData:", momData);
-
-        const dadData = {
-            mcv: mcvFather, mch: mchFather, hba: hbAFather, of: ofFather, hbF: hbFFather,
-            hbCs: hbCsFather, hbBart: hbBartsFather, dcip: dcipFather, hbH: hbhFather, A2: a2Father, hba2PlusE: hbA2EFather, hbA2: hbA2Father, hbE: hbeFather
-        };
-        console.log("dadData:", dadData);
-
-        const riskResult = evaluateRisk(
-            momData.mcv, momData.mch, momData.hba, momData.of, momData.hbF, momData.hbCs, momData.hbBart, momData.dcip, momData.hbH, momData.A2, momData.hba2PlusE, momData.hbA2, momData.hbE,
-            dadData.mcv, dadData.mch, dadData.hba, dadData.of, dadData.hbF, dadData.hbCs, dadData.hbBart, dadData.dcip, dadData.hbH, dadData.A2, dadData.hba2PlusE, dadData.hbA2, dadData.hbE
-        );
-
-        console.log("Risk Assessment Result:", riskResult);
-        const newFormData = {
-            ...formData,
-            dadData,
-            momData,
-            riskResult
-        };
-
-        navigate('/alpha-beta-thalassemia-result', { state: newFormData });
-        
-    };
 
     function evaluateRisk(momMCV, momMCH, momHbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbH, momA2, momHbA2PlusE, momHbA2, momHbE, dadMCV, dadMCH, dadHbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbH, dadA2, dadHbA2PlusE, dadHbA2, dadHbE) {
         console.log("mom")
@@ -617,10 +634,10 @@ function HBTypeComponent() {
                                 />
                             </Box>
                             <FormControlLabel
-                            value="none"
-                            control={<Radio />}
-                            label="Don't have Hb E"
-                        />
+                                value="none"
+                                control={<Radio />}
+                                label="Don't have Hb E"
+                            />
                         </RadioGroup>
                     </Grid>
                 </Grid>
