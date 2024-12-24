@@ -27,7 +27,23 @@ function MainComponent() {
 
     const handleNext = () => {
         console.log("Next");
-        navigate('/type-select');
+        const formData = {
+            wifeNameSurname,
+            wifeAge,
+            wifeHn,
+            husbandNameSurname,
+            husbandAge,
+            husbandHn,
+            gravid,
+            para,
+            abortion,
+            living,
+            edc: edc ? edc.format('DD-MM-YYYY') : null, // Format EDC as string
+            ga,
+            hospitalChoice,
+            otherHospital,
+        };
+        navigate('/type-select', { state: formData });
     }
 
     return (
