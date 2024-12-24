@@ -184,13 +184,13 @@ function HBTypeComponent() {
             order = 14;
         }
         // Condition 15:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_f !== 0  && hb_a !== 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0 && A2 === 0) {
             incondition.push(15);
             desc = "EFA";
             order = 15;
         }
         // Condition 16:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs === 0 && hb_f === 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs === 0 && hb_f === 0 && hb_h === 0 && A2 === 0) {
             incondition.push(16);
             desc = "EA Bart's";
             order = 16;
@@ -202,7 +202,7 @@ function HBTypeComponent() {
             order = 17;
         }
         // Condition 18:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_bart !== 0 && hb_cs === 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_f !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_cs === 0 && hb_h === 0) {
             incondition.push(18);
             desc = "EFA Bart's";
             order = 18;
@@ -226,14 +226,11 @@ function HBTypeComponent() {
             order = 20.2;
         }
         // Condition 21:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && (hb_f >= 20 && hb_f <= 60) && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_f !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_h === 0) {
             incondition.push(21);
             desc = "CS EFA Bart's";
             order = 21;
         }
-
-        console.log("incondition:", incondition);
-        return { order, desc };
     }
 
     function evaluateRisk(momMCV, momMCH, momHbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbH, momA2, momHbA2PlusE, momHbA2, momHbE, dadMCV, dadMCH, dadHbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbH, dadA2, dadHbA2PlusE, dadHbA2, dadHbE) {
