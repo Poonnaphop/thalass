@@ -22,46 +22,46 @@ function AlphaBetaThalassemiaResultComponent() {
             {/* Mom Section */}
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3 }}>
                 <Typography variant="h6">ผลตรวจคัดกรองมารดา</Typography>
-                <Typography>ชื่อมารดา: {wifeNameSurname || '-'}</Typography>
-                <Typography># Hb typing ภรรยา: {momOrder.order || '-'}: {momOrder.desc || '-'}</Typography>
+                <Typography>ชื่อมารดา: {wifeNameSurname ?? '-'}</Typography>
+                <Typography># Hb typing ภรรยา: {momOrder.order??'-' }: {momOrder.desc??'-'}</Typography>
 
                 <Grid container spacing={2} sx={{ mt: 1 }}>
-                    <Grid item xs={6}><TextField label="MCV" value={momData.mcv || '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="MCH" value={momData.mch || '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb A" value={momData.hba || '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="OF" value={momData.of || '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb F" value={momData.hbF || '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb Cs" value={momData.hbCs || '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb Bart" value={momData.hbBart || '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="DCIP" value={momData.dcip || '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb H" value={momData.hbH || '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="A2" value={momData.A2 || '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb A2 + E" value={momData.hba2PlusE || '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb A2" value={momData.hbA2 || '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb E" value={momData.hbE || '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="MCV" value={momData.mcv ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="MCH" value={momData.mch ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb A" value={momData.hba ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="OF" value={momData.of ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb F" value={momData.hbF ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb Cs" value={momData.hbCs ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb Bart" value={momData.hbBart ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="DCIP" value={momData.dcip ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb H" value={momData.hbH ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="A2" value={momData.A2 ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb A2 + E" value={momData.hba2PlusE ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb A2" value={momData.hbA2 ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb E" value={momData.hbE ?? '-'} readOnly fullWidth /></Grid>
                 </Grid>
             </Box>
 
             {/* Dad Section */}
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3 }}>
                 <Typography variant="h6">ผลตรวจคัดกรองสามี</Typography>
-                <Typography>ชื่อสามี: {husbandNameSurname || '-'}</Typography>
-                <Typography># Hb typing สามี: {dadOrder.order || '-'}: {dadOrder.desc || '-'}</Typography>
+                <Typography>ชื่อสามี: {husbandNameSurname ?? '-'}</Typography>
+                <Typography># Hb typing สามี: {dadOrder.order ?? '-'}: {dadOrder.desc ?? '-'}</Typography>
 
                 <Grid container spacing={2} sx={{ mt: 1 }}>
-                <Grid item xs={6}><TextField label="MCV" value={dadData.mcv || '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="MCH" value={dadData.mch || '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb A" value={dadData.hba || '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="OF" value={dadData.of || '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb F" value={dadData.hbF || '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb Cs" value={dadData.hbCs || '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb Bart" value={dadData.hbBart || '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="DCIP" value={dadData.dcip || '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb H" value={dadData.hbH || '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="A2" value={dadData.A2 || '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb A2 + E" value={dadData.hba2PlusE || '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb A2" value={dadData.hbA2 || '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb E" value={dadData.hbE || '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="MCV" value={dadData.mcv ?? '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="MCH" value={dadData.mch ?? '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="Hb A" value={dadData.hba ?? '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="OF" value={dadData.of ?? '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="Hb F" value={dadData.hbF ?? '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="Hb Cs" value={dadData.hbCs ?? '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="Hb Bart" value={dadData.hbBart ?? '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="DCIP" value={dadData.dcip ?? '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="Hb H" value={dadData.hbH ?? '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="A2" value={dadData.A2 ?? '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="Hb A2 + E" value={dadData.hba2PlusE ?? '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="Hb A2" value={dadData.hbA2 ?? '-'} readOnly fullWidth /></Grid>
+                <Grid item xs={6}><TextField label="Hb E" value={dadData.hbE ?? '-'} readOnly fullWidth /></Grid>
                 </Grid>
             </Box>
 
