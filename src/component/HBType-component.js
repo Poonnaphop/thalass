@@ -24,20 +24,20 @@ function HBTypeComponent() {
         console.log("dadData:", dadData);
 
         // Calculate risk assessment
-        const riskResult = evaluateRisk(
+        const riskResult2 = evaluateRisk(
             momData.mcv, momData.mch, momData.hba, momData.of, momData.hbF, momData.hbCs, momData.hbBart, momData.dcip, momData.hbH, momData.A2, momData.hba2PlusE, momData.hbA2, momData.hbE,
             dadData.mcv, dadData.mch, dadData.hba, dadData.of, dadData.hbF, dadData.hbCs, dadData.hbBart, dadData.dcip, dadData.hbH, dadData.A2, dadData.hba2PlusE, dadData.hbA2, dadData.hbE
         );
+        const riskResult = riskResult2.risk;
+        console.log("Risk:", riskResult2.risk);
+        console.log("Mom Order:", riskResult2.momOrder);
+        console.log("Dad Order:", riskResult2.dadOrder);
 
-        const momOrder = evaluateOrder(
-            momData.mcv, momData.mch, momData.hba, momData.of, momData.hbF, momData.hbCs, momData.hbBart, momData.dcip, momData.hbH, momData.A2, momData.hba2PlusE, momData.hbA2, momData.hbE
-        )
+        const momOrder = riskResult2.momOrder;
 
-        const dadOrder = evaluateOrder(
-            dadData.mcv, dadData.mch, dadData.hba, dadData.of, dadData.hbF, dadData.hbCs, dadData.hbBart, dadData.dcip, dadData.hbH, dadData.A2, dadData.hba2PlusE, dadData.hbA2, dadData.hbE
-        )
+        const dadOrder =riskResult2.dadOrder;
 
-        console.log("Risk Assessment Result:", riskResult);
+        console.log("Risk Assessment Result:", riskResult.risk);
 
         // Prepare the new formData
         const newFormData = {
@@ -52,7 +52,7 @@ function HBTypeComponent() {
         console.log("New Form Data:", newFormData);
 
         // Navigate to the result page and pass the data
-        navigate('/alpha-beta-thalassemia-result', { state: newFormData });
+       navigate('/alpha-beta-thalassemia-result', { state: newFormData });
     };
 
 
@@ -236,64 +236,69 @@ function HBTypeComponent() {
         return { order, desc };
     }
 
-    function evaluateRisk(momMCV, momMCH, momHbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbH, momA2, momHbA2PlusE, momHbA2, momHbE, dadMCV, dadMCH, dadHbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbH, dadA2, dadHbA2PlusE, dadHbA2, dadHbE) {
-        console.log("mom")
+    function evaluateRisk(momMCV, momMCH, momHbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbH, momA2, momHbA2PlusE, momHbA2, momHbE,
+        dadMCV, dadMCH, dadHbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbH, dadA2, dadHbA2PlusE, dadHbA2, dadHbE) {
+    
         const momOrderDesc = evaluateOrder(
             parseFloat(momMCV) || 0, parseFloat(momMCH) || 0, parseFloat(momHbA) || 0, parseFloat(momOF) || 0,
             parseFloat(momHbF) || 0, parseFloat(momHbCs) || 0, parseFloat(momHbBart) || 0, parseFloat(momDCIP) || 0,
             parseFloat(momHbH) || 0, parseFloat(momA2) || 0, parseFloat(momHbA2PlusE) || 0, parseFloat(momHbA2) || 0, parseFloat(momHbE) || 0
         );
-        console.log("dad")
+    
         const dadOrderDesc = evaluateOrder(
             parseFloat(dadMCV) || 0, parseFloat(dadMCH) || 0, parseFloat(dadHbA) || 0, parseFloat(dadOF) || 0,
             parseFloat(dadHbF) || 0, parseFloat(dadHbCs) || 0, parseFloat(dadHbBart) || 0, parseFloat(dadDCIP) || 0,
             parseFloat(dadHbH) || 0, parseFloat(dadA2) || 0, parseFloat(dadHbA2PlusE) || 0, parseFloat(dadHbA2) || 0, parseFloat(dadHbE) || 0
         );
-
+    
         if (!momOrderDesc || !dadOrderDesc) {
             console.warn("evaluateOrder returned undefined for mom or dad");
-            return "No specific risk condition met";
+            return {
+                risk: "No specific risk condition met",
+                momOrder: null,
+                dadOrder: null
+            };
         }
-
+    
         const { order: momOrder, desc: momDesc } = momOrderDesc;
         const { order: dadOrder, desc: dadDesc } = dadOrderDesc;
-
+    
         console.log("momOrder:", momOrder, "momDesc:", momDesc);
         console.log("dadOrder:", dadOrder, "dadDesc:", dadDesc);
-
+    
+        let risk = "No specific risk condition met";
+    
         if (momOrder === 1 && dadOrder >= 1 && dadOrder <= 22) {
-            return "Not risk";
-        }
-        else if ([2, 8, 9, 10, 11].includes(momOrder)) {
-            if ([1, 4].includes(dadOrder)) return "Not risk";
-            else return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
-        }
-        else if (momOrder === 3) {
-            if (dadOrder === 1) return "Not risk";
-            else if ([2, 8, 9, 10, 11].includes(dadOrder)) return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
+            risk = "Not risk";
+        } else if ([2, 8, 9, 10, 11].includes(momOrder)) {
+            risk = ([1, 4].includes(dadOrder))
+                ? "Not risk"
+                : "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
+        } else if (momOrder === 3) {
+            if (dadOrder === 1) risk = "Not risk";
+            else if ([2, 8, 9, 10, 11].includes(dadOrder)) risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
             else if ([3, 5, 6, 7, 12, 13, 14, 15, 16, 17, 18, 19, 20.1, 20.2, 21, 22].includes(dadOrder))
-                return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
-            else return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
-        }
-        else if (momOrder === 4) {
-            if ([1, 2, 4, 5, 6, 10, 11, 16, 19, 20.1].includes(dadOrder)) return "Not risk";
-            else return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
-        }
-        else if ([5, 6, 16, 19, 20.1, 20.2].includes(momOrder)) {
-            if ([1, 4].includes(dadOrder)) return "Not risk";
+                risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
+            else risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
+        } else if (momOrder === 4) {
+            risk = ([1, 2, 4, 5, 6, 10, 11, 16, 19, 20.1].includes(dadOrder))
+                ? "Not risk"
+                : "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
+        } else if ([5, 6, 16, 19, 20.1, 20.2].includes(momOrder)) {
+            if ([1, 4].includes(dadOrder)) risk = "Not risk";
             else if ([3, 7, 12, 13, 14, 15, 17, 18, 20.1, 21, 22].includes(dadOrder))
-                return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
-            else return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
+                risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
+            else risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
+        } else if ([7, 12, 13, 14, 15, 17, 18, 21, 22].includes(momOrder)) {
+            if (dadOrder === 1) risk = "Not risk";
+            else if ([2, 8, 9, 10, 11].includes(dadOrder)) risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
+            else if (dadOrder === 4) risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
+            else risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
         }
-        else if ([7, 12, 13, 14, 15, 17, 18, 21, 22].includes(momOrder)) {
-            if (dadOrder === 1) return "Not risk";
-            else if ([2, 8, 9, 10, 11].includes(dadOrder)) return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
-            else if (dadOrder === 4) return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
-            else return "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
-        }
-
-        return "No specific risk condition met";
+    
+        return { risk, momOrder, dadOrder };
     }
+    
 
     return (
         <Container maxWidth="md" sx={{ mt: 4, pb: 5 }}>
