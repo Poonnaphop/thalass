@@ -20,8 +20,8 @@ function HBTypeComponent() {
         };
 
         // Log for debugging
-        console.log("momData:", momData);
-        console.log("dadData:", dadData);
+        // console.log("momData:", momData);
+        // console.log("dadData:", dadData);
 
         // Calculate risk assessment
         const riskResult2 = evaluateRisk(
@@ -29,15 +29,16 @@ function HBTypeComponent() {
             dadData.mcv, dadData.mch, dadData.hba, dadData.of, dadData.hbF, dadData.hbCs, dadData.hbBart, dadData.dcip, dadData.hbH, dadData.A2, dadData.hba2PlusE, dadData.hbA2, dadData.hbE
         );
         const riskResult = riskResult2.risk;
+        console.log("Risk Result:", riskResult2);
         console.log("Risk:", riskResult2.risk);
         console.log("Mom Order:", riskResult2.momOrder);
         console.log("Dad Order:", riskResult2.dadOrder);
 
         const momOrder = riskResult2.momOrder;
-
+        const momDesc = riskResult2.momDesc;
+        const dadDesc = riskResult2.dadDesc;
         const dadOrder =riskResult2.dadOrder;
 
-        console.log("Risk Assessment Result:", riskResult.risk);
 
         // Prepare the new formData
         const newFormData = {
@@ -46,7 +47,9 @@ function HBTypeComponent() {
             dadData,
             riskResult,
             momOrder,
-            dadOrder
+            dadOrder,
+            momDesc,
+            dadDesc
         };
 
         console.log("New Form Data:", newFormData);
@@ -296,7 +299,7 @@ function HBTypeComponent() {
             else risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
         }
     
-        return { risk, momOrder, dadOrder };
+        return { risk, momOrder, dadOrder, momDesc, dadDesc };
     }
     
 
