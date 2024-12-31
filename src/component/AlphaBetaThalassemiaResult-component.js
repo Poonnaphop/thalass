@@ -8,7 +8,8 @@ function AlphaBetaThalassemiaResultComponent() {
 
     const {
         momOrder, dadOrder, riskResult, momDesc, dadDesc,
-        dadData,momData,wifeNameSurname,husbandNameSurname,
+        dadData,momData, wifeName,wifeSurname,husbandName,husbandSurname,
+        momOrderInput,dadOrderInput,dadOrderFlag,momOrderFlag
     } = formData || {};
 
     console.log('formData', formData);
@@ -22,7 +23,7 @@ function AlphaBetaThalassemiaResultComponent() {
             {/* Mom Section */}
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3 }}>
                 <Typography variant="h6">ผลตรวจคัดกรองมารดา</Typography>
-                <Typography>ชื่อมารดา: {wifeNameSurname ?? '-'}</Typography>
+                <Typography>ชื่อมารดา: {wifeName ?? '-' + wifeSurname ?? '-'}</Typography>
                 <Typography># Hb typing ภรรยา: {momOrder??'-' }: {momDesc??'-'}</Typography>
 
                 <Grid container spacing={2} sx={{ mt: 1 }}>
@@ -45,7 +46,7 @@ function AlphaBetaThalassemiaResultComponent() {
             {/* Dad Section */}
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3 }}>
                 <Typography variant="h6">ผลตรวจคัดกรองสามี</Typography>
-                <Typography>ชื่อสามี: {husbandNameSurname ?? '-'}</Typography>
+                <Typography>ชื่อสามี: {husbandName ?? '-' + husbandSurname ?? '-'}</Typography>
                 <Typography># Hb typing สามี: {dadOrder ?? '-'}: {dadDesc ?? '-'}</Typography>
 
                 <Grid container spacing={2} sx={{ mt: 1 }}>
