@@ -222,14 +222,14 @@ function MainComponent() {
                                 onChange={(newValue) => setEdc(newValue)}
                                 renderInput={(params) => <TextField {...params} fullWidth />}
                                 format="DD-MM-YYYY"
-                                disablePast
+                                disableFuture
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} sx={{ display: 'flex', alignItems: 'center' }}>
                             <TextField
                                 label="GA"
                                 variant="outlined"
-                                value={edc ? Math.floor((new Date(edc).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 / 7) : ''}
+                                value={edc ? Math.floor(( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 / 7) : ''}
                                 sx={{ mr: 2 }}
                                 viewOnly
                             />
@@ -238,7 +238,7 @@ function MainComponent() {
                             <TextField
                                 label="GA"
                                 variant="outlined"
-                                value={edc ? Math.floor((new Date(edc).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 % 7) : ''}
+                                value={edc ? Math.floor(( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 % 7) : ''}
                                 sx={{ mr: 2 }}
                                 viewOnly
                             />

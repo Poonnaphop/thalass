@@ -1,9 +1,11 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Box, Typography, Grid, TextField, Button } from '@mui/material';
+import { useState } from 'react';
 
 function AlphaBetaThalassemiaResultComponent() {
     const location = useLocation();
+    const [doctorName, setDoctorName] = useState('');
     const formData = location.state;
 
     const {
@@ -22,6 +24,15 @@ function AlphaBetaThalassemiaResultComponent() {
 
             {/* Mom Section */}
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3 }}>
+            <Typography variant="h6">ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา</Typography>
+            <TextField
+                label="ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา"
+                value={doctorName}
+                onChange={(e) => setDoctorName(e.target.value)}
+                fullWidth
+                sx={{ mb: 2 }}
+            />
+
                 <Typography variant="h6">ผลตรวจคัดกรองมารดา</Typography>
                 <Typography>ชื่อมารดา: {wifeName ?? '-' + wifeSurname ?? '-'}</Typography>
                 <Typography># Hb typing ภรรยา: {momOrder??'-' }: {momDesc??'-'}</Typography>

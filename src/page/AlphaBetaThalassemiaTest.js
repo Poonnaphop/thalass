@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Grid, Typography, FormControl, InputLabel, Select, MenuItem, Box, Button, Checkbox, FormControlLabel } from '@mui/material';
-import descriptions from '../constant/descriptions';
+import betaOptions from '../constant/betaOptions';
 
 function AlphaBetaThalassemiaTest() {
     // States for dad's dropdowns
@@ -103,12 +103,12 @@ function AlphaBetaThalassemiaTest() {
                                             label="Order"
                                             fullWidth
                                         >
-                                            {descriptions && Object.keys(descriptions).length > 0 ? (
-                                                Object.entries(descriptions)
+                                            {betaOptions && Object.keys(betaOptions).length > 0 ? (
+                                                Object.entries(betaOptions)
                                                     .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                    .map(([key, description]) => (
+                                                    .map(([key, betaOptions]) => (
                                                         <MenuItem key={key} value={key}>
-                                                            {`${key}: ${description}`}
+                                                             {`${betaOptions}`}
                                                             <br />
                                                         </MenuItem>
                                                     ))
@@ -159,12 +159,12 @@ function AlphaBetaThalassemiaTest() {
                                             label="Order"
                                             fullWidth
                                         >
-                                            {descriptions && Object.keys(descriptions).length > 0 ? (
-                                                Object.entries(descriptions)
+                                            {betaOptions && Object.keys(betaOptions).length > 0 ? (
+                                                Object.entries(betaOptions)
                                                     .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                    .map(([key, description]) => (
+                                                    .map(([key, betaOptions]) => (
                                                         <MenuItem key={key} value={key}>
-                                                            {`${key}: ${description}`}
+                                                              {`${betaOptions}`}
                                                             <br />
                                                         </MenuItem>
                                                     ))
@@ -231,12 +231,12 @@ function AlphaBetaThalassemiaTest() {
                                             label="Order"
                                             fullWidth
                                         >
-                                            {descriptions && Object.keys(descriptions).length > 0 ? (
-                                                Object.entries(descriptions)
+                                            {betaOptions && Object.keys(betaOptions).length > 0 ? (
+                                                Object.entries(betaOptions)
                                                     .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                    .map(([key, description]) => (
+                                                    .map(([key, betaOptions]) => (
                                                         <MenuItem key={key} value={key}>
-                                                            {`${key}: ${description}`}
+                                                              {`${betaOptions}`}
                                                             <br />
                                                         </MenuItem>
                                                     ))
@@ -287,12 +287,12 @@ function AlphaBetaThalassemiaTest() {
                                             label="Order"
                                             fullWidth
                                         >
-                                            {descriptions && Object.keys(descriptions).length > 0 ? (
-                                                Object.entries(descriptions)
+                                            {betaOptions && Object.keys(betaOptions).length > 0 ? (
+                                                Object.entries(betaOptions)
                                                     .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                    .map(([key, description]) => (
+                                                    .map(([key, betaOptions]) => (
                                                         <MenuItem key={key} value={key}>
-                                                            {`${key}: ${description}`}
+                                                            {`${betaOptions}`}
                                                             <br />
                                                         </MenuItem>
                                                     ))

@@ -355,7 +355,7 @@ function HBTypeComponent() {
                                     .map(([key, description]) => (
                                         <MenuItem key={key} value={key}>
                                             {`${key}: ${description}`}
-                                            <br />
+                                            <br/>
                                         </MenuItem>
                                     ))
                             ) : (
