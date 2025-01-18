@@ -8,11 +8,13 @@ import { useNavigate } from "react-router-dom";
 
 function MainComponent() {
     const navigate = useNavigate();
-    const [wifeNameSurname, setWifeNameSurname] = useState('');
+    const [wifeName, setWifeName] = useState('');
+    const [wifeSurname, setWifeSurname] = useState('');
     const [wifeAge, setWifeAge] = useState('');
     const [wifeHn, setWifeHn] = useState('');
 
-    const [husbandNameSurname, setHusbandNameSurname] = useState('');
+    const [husbandName, setHusbandName] = useState('');
+    const [husbandSurname, setHusbandSurname] = useState('');
     const [husbandAge, setHusbandAge] = useState('');
     const [husbandHn, setHusbandHn] = useState('');
 
@@ -28,10 +30,12 @@ function MainComponent() {
     const handleNext = () => {
         console.log("Next");
         const formData = {
-            wifeNameSurname,
+            wifeName,
+            wifeSurname,
             wifeAge,
             wifeHn,
-            husbandNameSurname,
+            husbandName,
+            husbandSurname,
             husbandAge,
             husbandHn,
             gravid,
@@ -78,10 +82,17 @@ function MainComponent() {
                                     }}
                                 >
                                     <TextField
-                                        label="Name-Surname"
+                                        label="Name"
                                         variant="outlined"
-                                        value={wifeNameSurname}
-                                        onChange={(e) => setWifeNameSurname(e.target.value)}
+                                        value={wifeName}
+                                        onChange={(e) => setWifeName(e.target.value)}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label="Surname"
+                                        variant="outlined"
+                                        value={wifeSurname}
+                                        onChange={(e) => setWifeSurname(e.target.value)}
                                         fullWidth
                                     />
                                     <TextField
@@ -89,7 +100,7 @@ function MainComponent() {
                                         type="number"
                                         variant="outlined"
                                         value={wifeAge}
-                                        onChange={(e) => setWifeAge(e.target.value)}
+                                        onChange={(e) => e.target.value < 0 ? setWifeAge(0) : setWifeAge(e.target.value)}
                                         fullWidth
                                     />
                                     <TextField
@@ -122,10 +133,17 @@ function MainComponent() {
                                     }}
                                 >
                                     <TextField
-                                        label="Name-Surname"
+                                        label="Name"
                                         variant="outlined"
-                                        value={husbandNameSurname}
-                                        onChange={(e) => setHusbandNameSurname(e.target.value)}
+                                        value={husbandName}
+                                        onChange={(e) => setHusbandName(e.target.value)}
+                                        fullWidth
+                                    />
+                                      <TextField
+                                        label="Surname"
+                                        variant="outlined"
+                                        value={husbandSurname}
+                                        onChange={(e) => setHusbandSurname(e.target.value)}
                                         fullWidth
                                     />
                                     <TextField
@@ -133,7 +151,7 @@ function MainComponent() {
                                         type="number"
                                         variant="outlined"
                                         value={husbandAge}
-                                        onChange={(e) => setHusbandAge(e.target.value)}
+                                        onChange={(e) => e.target.value < 0 ? setHusbandAge(0) : setHusbandAge(e.target.value)}
                                         fullWidth
                                     />
                                     <TextField
@@ -204,18 +222,27 @@ function MainComponent() {
                                 onChange={(newValue) => setEdc(newValue)}
                                 renderInput={(params) => <TextField {...params} fullWidth />}
                                 format="DD-MM-YYYY"
+                                disableFuture
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} sx={{ display: 'flex', alignItems: 'center' }}>
                             <TextField
-                                type='number'
                                 label="GA"
                                 variant="outlined"
-                                value={ga}
-                                onChange={(e) => setGa(e.target.value)}
+                                value={edc ? Math.floor(( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 / 7) : ''}
                                 sx={{ mr: 2 }}
+                                viewOnly
                             />
                             <Typography>weeks</Typography>
+
+                            <TextField
+                                label="GA"
+                                variant="outlined"
+                                value={edc ? Math.floor(( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 % 7) : ''}
+                                sx={{ mr: 2 }}
+                                viewOnly
+                            />
+                            <Typography>days</Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <FormControl component="fieldset">
