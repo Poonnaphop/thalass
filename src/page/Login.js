@@ -5,7 +5,7 @@ import SignIn from "../component/Signin";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from '@mui/material/Alert';
 
-function Login() {
+export default function Login() {
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const handleClose = (event, reason) => {
@@ -53,4 +53,4 @@ function Login() {
     );
 }
 
-export default Login;
+ 

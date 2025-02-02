@@ -1,8 +1,11 @@
 import TypeSelectComponent from "../component/TypeSelect-component";
-function TypeSelect() {
+
+export default function TypeSelect() {
     return (
-        <TypeSelectComponent/>
+        <div>
+            <TypeSelectComponent />
+        </div>
     );
 }
 
-export default TypeSelect;
+

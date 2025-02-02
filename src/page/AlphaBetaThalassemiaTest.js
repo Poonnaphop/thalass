@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Container, Grid, Typography, FormControl, InputLabel, Select, MenuItem, Box, Button, Checkbox, FormControlLabel } from '@mui/material';
-import betaOptions from '../constant/betaOptions';
+import { Container, Typography, FormControl, InputLabel, Select, MenuItem, Box, Button, Checkbox, FormControlLabel } from '@mui/material';
+import Grid from '@mui/material/Grid';
+//import Grid from '@mui/material/Grid2';
+import descriptions from '../constant/descriptions';
 
 function AlphaBetaThalassemiaTest() {
-    // States for dad's dropdowns
+    // States for dad's dropdowns 
     const [dadAlpha, setDadAlpha] = useState(null);
     const [dadBeta, setDadBeta] = useState(null);
     const [dadPositiveAlpha, setDadPositiveAlpha] = useState(null);
@@ -50,10 +52,38 @@ function AlphaBetaThalassemiaTest() {
     };
 
     return (
-        <Container maxWidth="md" sx={{ mt: 4, pb: 5 }}>
+        <Container maxWidth="md"  sx={{ mt: 4, pb: 5 }}>
+        <Box 
+                sx={{
+                    order: '2px solid #ccc',
+                    borderRadius: 2,
+                    p: 6,
+                    gap: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+
+                     // white bg
+                    bgcolor: 'whitesmoke',
+                    backgroundBlendMode:'screen',
+                    padding: '20px 40px',
+
+                }}
+            >
             <Grid container spacing={4}>
                 {/* Alpha Section */}
-                <Grid item xs={12}>
+                <Grid item xs={12} >
+                    <Box
+                       sx={{
+                        //border: '2px solid #ccc',
+                        borderRadius: 2,
+                        p: 6,
+                        gap: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        padding: '10px 10px',
+     
+                        }}
+                    >
                     <FormControlLabel
                         control={
                             <Checkbox
@@ -63,17 +93,26 @@ function AlphaBetaThalassemiaTest() {
                         }
                         label="Enable Alpha Section"
                     />
+                  </Box> 
+                    
                     {isAlphaEnabled && (
                         <Grid container spacing={4}>
                             <Grid item xs={12} md={6}>
                                 <Box
                                     sx={{
-                                        border: '2px solid #ccc',
+                                        // border: '2px solid #ccc',
                                         borderRadius: 2,
                                         p: 6,
                                         gap: 2,
                                         display: 'flex',
-                                        flexDirection: 'column'
+                                        flexDirection: 'column',
+                                    
+                                        // white bg
+                                        bgcolor: 'whitesmoke',
+                                        backgroundBlendMode:'screen',
+                                        padding: '10px 10px',
+                                    
+                                          
                                     }}
                                 >
                                     <Typography variant="h5" gutterBottom>
@@ -103,12 +142,12 @@ function AlphaBetaThalassemiaTest() {
                                             label="Order"
                                             fullWidth
                                         >
-                                            {betaOptions && Object.keys(betaOptions).length > 0 ? (
-                                                Object.entries(betaOptions)
+                                            {descriptions && Object.keys(descriptions).length > 0 ? (
+                                                Object.entries(descriptions)
                                                     .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                    .map(([key, betaOptions]) => (
+                                                    .map(([key, description]) => (
                                                         <MenuItem key={key} value={key}>
-                                                             {`${betaOptions}`}
+                                                            {`${key}: ${description}`}
                                                             <br />
                                                         </MenuItem>
                                                     ))
@@ -124,12 +163,18 @@ function AlphaBetaThalassemiaTest() {
                             <Grid item xs={12} md={6}>
                                 <Box
                                     sx={{
-                                        border: '2px solid #ccc',
+                                       // border: '2px solid #ccc',
                                         borderRadius: 2,
                                         p: 6,
                                         gap: 2,
                                         display: 'flex',
-                                        flexDirection: 'column'
+                                        flexDirection: 'column',
+                                        
+                                        // white bg
+                                        bgcolor: 'whitesmoke',
+                                        backgroundBlendMode:'screen',
+                                        padding: '10px 10px',
+                                    
                                     }}
                                 >
                                     <Typography variant="h5" gutterBottom>
@@ -159,12 +204,12 @@ function AlphaBetaThalassemiaTest() {
                                             label="Order"
                                             fullWidth
                                         >
-                                            {betaOptions && Object.keys(betaOptions).length > 0 ? (
-                                                Object.entries(betaOptions)
+                                            {descriptions && Object.keys(descriptions).length > 0 ? (
+                                                Object.entries(descriptions)
                                                     .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                    .map(([key, betaOptions]) => (
+                                                    .map(([key, description]) => (
                                                         <MenuItem key={key} value={key}>
-                                                              {`${betaOptions}`}
+                                                            {`${key}: ${description}`}
                                                             <br />
                                                         </MenuItem>
                                                     ))
@@ -183,6 +228,24 @@ function AlphaBetaThalassemiaTest() {
 
                 {/* Beta Section */}
                 <Grid item xs={12}>
+                <Box
+                    sx={{
+                        //border: '2px solid #ccc',
+                        borderRadius: 2,
+                        p: 6,
+                        gap: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                    
+                        // white bg
+                        bgcolor: 'whitesmoke',
+                        backgroundBlendMode:'screen',
+                        padding: '10px 10px',
+                    
+     
+                    }}
+                >
+                    
                     <FormControlLabel
                         control={
                             <Checkbox
@@ -192,17 +255,26 @@ function AlphaBetaThalassemiaTest() {
                         }
                         label="Enable Beta Section"
                     />
+
+                    </Box>
+
                     {isBetaEnabled && (
                         <Grid container spacing={4}>
                             <Grid item xs={12} md={6}>
                                 <Box
                                     sx={{
-                                        border: '2px solid #ccc',
+                                        //border: '2px solid #ccc',
                                         borderRadius: 2,
                                         p: 6,
                                         gap: 2,
                                         display: 'flex',
-                                        flexDirection: 'column'
+                                        flexDirection: 'column',
+
+                                        // white bg
+                                        bgcolor: 'whitesmoke',
+                                        backgroundBlendMode:'screen',
+                                        padding: '10px 10px',
+                                           
                                     }}
                                 >
                                     <Typography variant="h5" gutterBottom>
@@ -231,12 +303,12 @@ function AlphaBetaThalassemiaTest() {
                                             label="Order"
                                             fullWidth
                                         >
-                                            {betaOptions && Object.keys(betaOptions).length > 0 ? (
-                                                Object.entries(betaOptions)
+                                            {descriptions && Object.keys(descriptions).length > 0 ? (
+                                                Object.entries(descriptions)
                                                     .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                    .map(([key, betaOptions]) => (
+                                                    .map(([key, description]) => (
                                                         <MenuItem key={key} value={key}>
-                                                              {`${betaOptions}`}
+                                                            {`${key}: ${description}`}
                                                             <br />
                                                         </MenuItem>
                                                     ))
@@ -252,12 +324,17 @@ function AlphaBetaThalassemiaTest() {
                             <Grid item xs={12} md={6}>
                                 <Box
                                     sx={{
-                                        border: '2px solid #ccc',
+                                        //border: '2px solid #ccc',
                                         borderRadius: 2,
                                         p: 6,
                                         gap: 2,
                                         display: 'flex',
-                                        flexDirection: 'column'
+                                        flexDirection: 'column',
+
+                                         // white bg
+                                        bgcolor: 'whitesmoke',
+                                        backgroundBlendMode:'screen',
+                                        padding: '10px 10px',
                                     }}
                                 >
                                     <Typography variant="h5" gutterBottom>
@@ -287,12 +364,12 @@ function AlphaBetaThalassemiaTest() {
                                             label="Order"
                                             fullWidth
                                         >
-                                            {betaOptions && Object.keys(betaOptions).length > 0 ? (
-                                                Object.entries(betaOptions)
+                                            {descriptions && Object.keys(descriptions).length > 0 ? (
+                                                Object.entries(descriptions)
                                                     .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                    .map(([key, betaOptions]) => (
+                                                    .map(([key, description]) => (
                                                         <MenuItem key={key} value={key}>
-                                                            {`${betaOptions}`}
+                                                            {`${key}: ${description}`}
                                                             <br />
                                                         </MenuItem>
                                                     ))
@@ -314,7 +391,10 @@ function AlphaBetaThalassemiaTest() {
                     Submit
                 </Button>
             </Box>
+
+        </Box>
         </Container>
+
     );
 }
 

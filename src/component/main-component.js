@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { TextField, Box, Container, Typography, Grid, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Button } from '@mui/material';
+import { TextField, Box, Container, Typography, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Button } from '@mui/material';
+import Grid from '@mui/material/Grid';
+//import Grid from '@mui/material/Grid2';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import 'dayjs/locale/th';
 import { useNavigate } from "react-router-dom";
+import 'dayjs/locale/th';
 
 function MainComponent() {
     const navigate = useNavigate();
@@ -50,6 +52,8 @@ function MainComponent() {
         navigate('/type-select', { state: formData });
     }
 
+    console.log(FormData);
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} locale="en-gb">
             <Container maxWidth="md" sx={{ mt: 4, pb: 5 }}>
@@ -60,6 +64,9 @@ function MainComponent() {
                         borderRadius: 2,
                         p: 4,
                         mb: 4,
+                        bgcolor: 'whitesmoke', 
+                        backgroundBlendMode:'screen',
+                        padding: '20px 40px'
                     }}
                 >
                     <Grid container spacing={4}>
@@ -173,6 +180,9 @@ function MainComponent() {
                         borderRadius: 2,
                         p: 4,
                         mb: 4,
+                        bgcolor: 'whitesmoke', 
+                        backgroundBlendMode:'screen',
+                        padding: '20px 40px'
                     }}
                 >
                     <Typography variant="h6" gutterBottom>
@@ -222,14 +232,14 @@ function MainComponent() {
                                 onChange={(newValue) => setEdc(newValue)}
                                 renderInput={(params) => <TextField {...params} fullWidth />}
                                 format="DD-MM-YYYY"
-                                disableFuture
+                                disablePast
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} sx={{ display: 'flex', alignItems: 'center' }}>
                             <TextField
                                 label="GA"
                                 variant="outlined"
-                                value={edc ? Math.floor(( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 / 7) : ''}
+                                value={edc ? Math.floor((new Date(edc).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 / 7) : ''}
                                 sx={{ mr: 2 }}
                                 viewOnly
                             />
@@ -238,7 +248,7 @@ function MainComponent() {
                             <TextField
                                 label="GA"
                                 variant="outlined"
-                                value={edc ? Math.floor(( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 % 7) : ''}
+                                value={edc ? Math.floor((new Date(edc).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 % 7) : ''}
                                 sx={{ mr: 2 }}
                                 viewOnly
                             />

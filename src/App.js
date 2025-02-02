@@ -8,7 +8,7 @@ import HBTypeResult from './page/HBTypeResult';
 import AlphaBetaThalassemiaTest from './page/AlphaBetaThalassemiaTest';
 import AlphaBetaThalassemiaResult from './page/AlphaBetaThalassemiaResult';
 
-function App() {
+export default function App() {
   return (
     <Router>
       <Routes>
@@ -25,4 +25,4 @@ function App() {
   );
 }
 
-export default App;
+

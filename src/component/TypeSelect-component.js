@@ -1,4 +1,7 @@
-import { Box, Typography, Grid, Button } from "@mui/material";
+import { ColorizeTwoTone } from "@mui/icons-material";
+import { Typography, Button } from "@mui/material";
+import Grid from '@mui/material/Grid';
+//import Grid from '@mui/material/Grid2';
 import { useLocation, useNavigate } from "react-router-dom";
 
 function TypeSelectComponent() {
@@ -11,9 +14,10 @@ function TypeSelectComponent() {
     };
 
     return (
-        <Grid container spacing={4} sx={{ mt: 4 }} justifyContent="center">
+
+        <Grid container spacing={10} sx={{ mt: 4 }} justifyContent="center">
             <Grid item xs={12} sm={6} md={4}>
-                <Button
+                <Button 
                     variant="outlined"
                     sx={{
                         borderRadius: 2,
@@ -23,10 +27,12 @@ function TypeSelectComponent() {
                         flexDirection: 'column',
                         justifyContent: 'center',
                         textAlign: 'center',
+                        bgcolor:'#87bc45',
+                        
                     }}
-                    onClick={() => handleNavigation("/hbtype")} // Pass state to /hbtype
+                    onClick={() => handleNavigation("/hbtype")} // Pass state to /hbtype                    
                 >
-                    <Typography variant="h4" gutterBottom>
+                    <Typography variant="h4" color="blue" gutterBottom>
                         HB Typing
                     </Typography>
                 </Button>
@@ -43,10 +49,11 @@ function TypeSelectComponent() {
                         flexDirection: 'column',
                         justifyContent: 'center',
                         textAlign: 'center',
+                        bgcolor:'#ffb55a',
                     }}
                     onClick={() => handleNavigation("/alpha-beta-thalassemia-test")} // Pass state to /alpha-beta-thalassemia-test
                 >
-                    <Typography variant="h4" gutterBottom>
+                    <Typography variant="h4" color="red" gutterBottom>
                         Alpha & Beta Thalassemia Test
                     </Typography>
                 </Button>

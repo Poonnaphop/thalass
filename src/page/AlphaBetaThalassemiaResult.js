@@ -1,8 +1,7 @@
 import AlphaBetaThalassemiaResultComponent from "../component/AlphaBetaThalassemiaResult-component";
 
-function AlphaBetaThalassemiaResult() {
+export default function AlphaBetaThalassemiaResult() {
     return (
         <AlphaBetaThalassemiaResultComponent />
     );
 }
-export default AlphaBetaThalassemiaResult

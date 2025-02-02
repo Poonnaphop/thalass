@@ -1,11 +1,11 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { Container, Box, Typography, Grid, TextField, Button } from '@mui/material';
-import { useState } from 'react';
+import { Container, Box, Typography,TextField, Button } from '@mui/material';
+import Grid from '@mui/material/Grid';
+//import Grid from '@mui/material/Grid2';
 
 function AlphaBetaThalassemiaResultComponent() {
     const location = useLocation();
-    const [doctorName, setDoctorName] = useState('');
     const formData = location.state;
 
     const {
@@ -23,19 +23,27 @@ function AlphaBetaThalassemiaResultComponent() {
             </Typography>
 
             {/* Mom Section */}
-            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3 }}>
-            <Typography variant="h6">ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา</Typography>
-            <TextField
-                label="ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา"
-                value={doctorName}
-                onChange={(e) => setDoctorName(e.target.value)}
-                fullWidth
-                sx={{ mb: 2 }}
-            />
+            <Box 
+                sx={{ 
+                    border: '1px solid #ccc', 
+                    borderRadius: 2, 
+                    p: 3, 
+                    mb: 3, 
+                    gap: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
 
+                    // white bg
+                    bgcolor: 'whitesmoke',
+                    backgroundBlendMode:'screen',
+                    padding: '20px 40px',
+    
+                }}         
+            
+            >
                 <Typography variant="h6">ผลตรวจคัดกรองมารดา</Typography>
-                <Typography>ชื่อมารดา: {wifeName ?? '-' + wifeSurname ?? '-'}</Typography>
-                <Typography># Hb typing ภรรยา: {momOrder??'-' }: {momDesc??'-'}</Typography>
+                <Typography color='darkblue'>ชื่อมารดา: {wifeName ?? '-' + wifeSurname ?? '-'}</Typography>
+                <Typography color='darkblue'># Hb typing ภรรยา: {momOrder??'-' }: {momDesc??'-'}</Typography>
 
                 <Grid container spacing={2} sx={{ mt: 1 }}>
                     <Grid item xs={6}><TextField label="MCV" value={momData.mcv ?? '-'} readOnly fullWidth /></Grid>
@@ -55,10 +63,27 @@ function AlphaBetaThalassemiaResultComponent() {
             </Box>
 
             {/* Dad Section */}
-            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3 }}>
+            <Box 
+                sx={{ 
+                    border: '1px solid #ccc', 
+                    borderRadius: 2, 
+                    p: 3, 
+                    mb: 3, 
+                    gap: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+
+                    // white bg
+                    bgcolor: 'whitesmoke',
+                    backgroundBlendMode:'screen',
+                    padding: '20px 40px',
+        
+            
+                }}
+            >
                 <Typography variant="h6">ผลตรวจคัดกรองสามี</Typography>
-                <Typography>ชื่อสามี: {husbandName ?? '-' + husbandSurname ?? '-'}</Typography>
-                <Typography># Hb typing สามี: {dadOrder ?? '-'}: {dadDesc ?? '-'}</Typography>
+                <Typography color='darkblue' >ชื่อสามี: {husbandName ?? '-' + husbandSurname ?? '-'}</Typography>
+                <Typography color='darkblue' ># Hb typing สามี: {dadOrder ?? '-'}: {dadDesc ?? '-'}</Typography>
 
                 <Grid container spacing={2} sx={{ mt: 1 }}>
                 <Grid item xs={6}><TextField label="MCV" value={dadData.mcv ?? '-'} readOnly fullWidth /></Grid>
@@ -78,7 +103,7 @@ function AlphaBetaThalassemiaResultComponent() {
             </Box>
 
             {/* Risk Assessment Section */}
-            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3 }}>
+            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
                 <Typography variant="h6">การประเมินความเสี่ยง</Typography>
                 <Typography>{riskResult}</Typography>
             </Box>

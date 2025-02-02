@@ -1,8 +1,9 @@
 import HBTypeComponent from "../component/HBType-component";
 
-function HBTypeResult() {
+export default function HBTypeResult() {
     return (
-        <HBTypeComponent />
+        <div>
+             <HBTypeComponent />
+        </div>
     );
 }
-export default HBTypeResult
