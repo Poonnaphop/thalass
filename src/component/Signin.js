@@ -52,7 +52,7 @@ export default function SignIn({ onSignIn }) {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="xs" >
                 <CssBaseline />
                 <Box
                     sx={{
@@ -123,5 +123,4 @@ export default function SignIn({ onSignIn }) {
             </Container>
         </ThemeProvider>
     );
-    console.log({onSignIn});
 }

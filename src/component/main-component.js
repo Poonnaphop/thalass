@@ -56,7 +56,7 @@ function MainComponent() {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} locale="en-gb">
-            <Container maxWidth="md" sx={{ mt: 4, pb: 5 }}>
+            <Container maxWidth="md" sx={{ my: 4, pb: 5 }}>
 
                 <Box
                     sx={{

@@ -320,7 +320,7 @@ function HBTypeComponent() {
 
 
     return (
-        <Container maxWidth="md" sx={{ mt: 4, pb: 5 }}>
+        <Container maxWidth="md" sx={{ my: 4, pb: 5 }}>
             {/* Mother Section */}
             <Box
                 sx={{

@@ -17,7 +17,7 @@ function AlphaBetaThalassemiaResultComponent() {
     console.log('formData', formData);
 
     return (
-        <Container maxWidth="md" sx={{ mt: 4, pb: 5 }}>
+        <Container maxWidth="md" sx={{ my: 4, pb: 5 }}>
             <Typography variant="h4" gutterBottom>
                 ผลการตรวจคัดกรอง HB Typing
             </Typography>

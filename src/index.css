@@ -6,7 +6,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: url("./img/blood3.jpg") ;
-  
+  background-size: cover;
+  min-height: 100vh;
 }
 
 

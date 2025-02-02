@@ -3,6 +3,8 @@ import { Container, Typography, FormControl, InputLabel, Select, MenuItem, Box, 
 import Grid from '@mui/material/Grid';
 //import Grid from '@mui/material/Grid2';
 import descriptions from '../constant/descriptions';
+import Footbar from '../Footbar';
+import Headbar from '../Headbar';
 
 function AlphaBetaThalassemiaTest() {
     // States for dad's dropdowns 
@@ -52,349 +54,352 @@ function AlphaBetaThalassemiaTest() {
     };
 
     return (
-        <Container maxWidth="md"  sx={{ mt: 4, pb: 5 }}>
-        <Box 
-                sx={{
-                    order: '2px solid #ccc',
-                    borderRadius: 2,
-                    p: 6,
-                    gap: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-
-                     // white bg
-                    bgcolor: 'whitesmoke',
-                    backgroundBlendMode:'screen',
-                    padding: '20px 40px',
-
-                }}
-            >
-            <Grid container spacing={4}>
-                {/* Alpha Section */}
-                <Grid item xs={12} >
-                    <Box
-                       sx={{
-                        //border: '2px solid #ccc',
-                        borderRadius: 2,
-                        p: 6,
-                        gap: 2,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        padding: '10px 10px',
-     
-                        }}
-                    >
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={isAlphaEnabled}
-                                onChange={(e) => setIsAlphaEnabled(e.target.checked)}
-                            />
-                        }
-                        label="Enable Alpha Section"
-                    />
-                  </Box> 
-                    
-                    {isAlphaEnabled && (
-                        <Grid container spacing={4}>
-                            <Grid item xs={12} md={6}>
-                                <Box
-                                    sx={{
-                                        // border: '2px solid #ccc',
-                                        borderRadius: 2,
-                                        p: 6,
-                                        gap: 2,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                    
-                                        // white bg
-                                        bgcolor: 'whitesmoke',
-                                        backgroundBlendMode:'screen',
-                                        padding: '10px 10px',
-                                    
-                                          
-                                    }}
-                                >
-                                    <Typography variant="h5" gutterBottom>
-                                        Dad - Alpha
-                                    </Typography>
-                                    <FormControl fullWidth>
-                                        <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Dad's Alpha</InputLabel>
-                                        <Select
-                                            value={dadAlpha}
-                                            onChange={(e) => setDadAlpha(e.target.value)}
-                                        >
-                                            <MenuItem value={false}>
-                                                Negative for common alpha-globin deletions based on GAP-PCR analysis
-                                            </MenuItem>
-                                            <MenuItem value={true}>
-                                                Positive for common alpha-globin deletions based on GAP-PCR analysis
-                                            </MenuItem>
-                                        </Select>
-                                    </FormControl>
-
-                                    <FormControl style={{ display: dadAlpha ? '' : 'none', minWidth: '50%',mt: 5 }}>
-                                        <InputLabel id="dad-order-select-label">Order</InputLabel>
-                                        <Select
-                                            labelId="dad-order-select-label"
-                                            value={dadPositiveAlpha}
-                                            onChange={(e) => setDadPositiveAlpha(e.target.value)}
-                                            label="Order"
-                                            fullWidth
-                                        >
-                                            {descriptions && Object.keys(descriptions).length > 0 ? (
-                                                Object.entries(descriptions)
-                                                    .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                    .map(([key, description]) => (
-                                                        <MenuItem key={key} value={key}>
-                                                            {`${key}: ${description}`}
-                                                            <br />
-                                                        </MenuItem>
-                                                    ))
-                                            ) : (
-                                                <MenuItem disabled value="">
-                                                    No descriptions
-                                                </MenuItem>
-                                            )}
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <Box
-                                    sx={{
-                                       // border: '2px solid #ccc',
-                                        borderRadius: 2,
-                                        p: 6,
-                                        gap: 2,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        
-                                        // white bg
-                                        bgcolor: 'whitesmoke',
-                                        backgroundBlendMode:'screen',
-                                        padding: '10px 10px',
-                                    
-                                    }}
-                                >
-                                    <Typography variant="h5" gutterBottom>
-                                        Mom - Alpha
-                                    </Typography>
-                                    <FormControl fullWidth>
-                                        <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Mom's Alpha</InputLabel>
-                                        <Select
-                                            value={momAlpha}
-                                            onChange={(e) => setMomAlpha(e.target.value)}
-                                        >
-                                            <MenuItem value={false}>
-                                                Negative for common alpha-globin deletions based on GAP-PCR analysis
-                                            </MenuItem>
-                                            <MenuItem value={true}>
-                                                Positive for common alpha-globin deletions based on GAP-PCR analysis
-                                            </MenuItem>
-                                        </Select>
-                                    </FormControl>
-
-                                    <FormControl style={{ display: momAlpha ? '' : 'none', minWidth: '50%',mt: 5 }}>
-                                        <InputLabel id="mom-order-select-label">Order</InputLabel>
-                                        <Select
-                                            labelId="mom-order-select-label"
-                                            value={momPositiveAlpha}
-                                            onChange={(e) => setMomPositiveAlpha(e.target.value)}
-                                            label="Order"
-                                            fullWidth
-                                        >
-                                            {descriptions && Object.keys(descriptions).length > 0 ? (
-                                                Object.entries(descriptions)
-                                                    .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                    .map(([key, description]) => (
-                                                        <MenuItem key={key} value={key}>
-                                                            {`${key}: ${description}`}
-                                                            <br />
-                                                        </MenuItem>
-                                                    ))
-                                            ) : (
-                                                <MenuItem disabled value="">
-                                                    No descriptions
-                                                </MenuItem>
-                                            )}
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                            </Grid>
-                        </Grid>
-                    )}
-                </Grid>
-
-                {/* Beta Section */}
-                <Grid item xs={12}>
+        <>
+        <Headbar/>
+            <Container maxWidth="md" sx={{ mt: 4, pb: 5 }}>
                 <Box
                     sx={{
-                        //border: '2px solid #ccc',
+                        order: '2px solid #ccc',
                         borderRadius: 2,
                         p: 6,
                         gap: 2,
                         display: 'flex',
                         flexDirection: 'column',
-                    
+
                         // white bg
                         bgcolor: 'whitesmoke',
-                        backgroundBlendMode:'screen',
-                        padding: '10px 10px',
-                    
-     
+                        backgroundBlendMode: 'screen',
+                        padding: '20px 40px',
+
                     }}
                 >
-                    
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={isBetaEnabled}
-                                onChange={(e) => setIsBetaEnabled(e.target.checked)}
-                            />
-                        }
-                        label="Enable Beta Section"
-                    />
+                    <Grid container spacing={4}>
+                        {/* Alpha Section */}
+                        <Grid item xs={12} >
+                            <Box
+                                sx={{
+                                    //border: '2px solid #ccc',
+                                    borderRadius: 2,
+                                    p: 6,
+                                    gap: 2,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    padding: '10px 10px',
 
+                                }}
+                            >
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={isAlphaEnabled}
+                                            onChange={(e) => setIsAlphaEnabled(e.target.checked)}
+                                        />
+                                    }
+                                    label="Enable Alpha Section"
+                                />
+                            </Box>
+
+                            {isAlphaEnabled && (
+                                <Grid container spacing={4}>
+                                    <Grid item xs={12} md={6}>
+                                        <Box
+                                            sx={{
+                                                // border: '2px solid #ccc',
+                                                borderRadius: 2,
+                                                p: 6,
+                                                gap: 2,
+                                                display: 'flex',
+                                                flexDirection: 'column',
+
+                                                // white bg
+                                                bgcolor: 'whitesmoke',
+                                                backgroundBlendMode: 'screen',
+                                                padding: '10px 10px',
+
+
+                                            }}
+                                        >
+                                            <Typography variant="h5" gutterBottom>
+                                                Dad - Alpha
+                                            </Typography>
+                                            <FormControl fullWidth>
+                                                <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Dad's Alpha</InputLabel>
+                                                <Select
+                                                    value={dadAlpha}
+                                                    onChange={(e) => setDadAlpha(e.target.value)}
+                                                >
+                                                    <MenuItem value={false}>
+                                                        Negative for common alpha-globin deletions based on GAP-PCR analysis
+                                                    </MenuItem>
+                                                    <MenuItem value={true}>
+                                                        Positive for common alpha-globin deletions based on GAP-PCR analysis
+                                                    </MenuItem>
+                                                </Select>
+                                            </FormControl>
+
+                                            <FormControl style={{ display: dadAlpha ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                                <InputLabel id="dad-order-select-label">Order</InputLabel>
+                                                <Select
+                                                    labelId="dad-order-select-label"
+                                                    value={dadPositiveAlpha}
+                                                    onChange={(e) => setDadPositiveAlpha(e.target.value)}
+                                                    label="Order"
+                                                    fullWidth
+                                                >
+                                                    {descriptions && Object.keys(descriptions).length > 0 ? (
+                                                        Object.entries(descriptions)
+                                                            .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
+                                                            .map(([key, description]) => (
+                                                                <MenuItem key={key} value={key}>
+                                                                    {`${key}: ${description}`}
+                                                                    <br />
+                                                                </MenuItem>
+                                                            ))
+                                                    ) : (
+                                                        <MenuItem disabled value="">
+                                                            No descriptions
+                                                        </MenuItem>
+                                                    )}
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <Box
+                                            sx={{
+                                                // border: '2px solid #ccc',
+                                                borderRadius: 2,
+                                                p: 6,
+                                                gap: 2,
+                                                display: 'flex',
+                                                flexDirection: 'column',
+
+                                                // white bg
+                                                bgcolor: 'whitesmoke',
+                                                backgroundBlendMode: 'screen',
+                                                padding: '10px 10px',
+
+                                            }}
+                                        >
+                                            <Typography variant="h5" gutterBottom>
+                                                Mom - Alpha
+                                            </Typography>
+                                            <FormControl fullWidth>
+                                                <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Mom's Alpha</InputLabel>
+                                                <Select
+                                                    value={momAlpha}
+                                                    onChange={(e) => setMomAlpha(e.target.value)}
+                                                >
+                                                    <MenuItem value={false}>
+                                                        Negative for common alpha-globin deletions based on GAP-PCR analysis
+                                                    </MenuItem>
+                                                    <MenuItem value={true}>
+                                                        Positive for common alpha-globin deletions based on GAP-PCR analysis
+                                                    </MenuItem>
+                                                </Select>
+                                            </FormControl>
+
+                                            <FormControl style={{ display: momAlpha ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                                <InputLabel id="mom-order-select-label">Order</InputLabel>
+                                                <Select
+                                                    labelId="mom-order-select-label"
+                                                    value={momPositiveAlpha}
+                                                    onChange={(e) => setMomPositiveAlpha(e.target.value)}
+                                                    label="Order"
+                                                    fullWidth
+                                                >
+                                                    {descriptions && Object.keys(descriptions).length > 0 ? (
+                                                        Object.entries(descriptions)
+                                                            .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
+                                                            .map(([key, description]) => (
+                                                                <MenuItem key={key} value={key}>
+                                                                    {`${key}: ${description}`}
+                                                                    <br />
+                                                                </MenuItem>
+                                                            ))
+                                                    ) : (
+                                                        <MenuItem disabled value="">
+                                                            No descriptions
+                                                        </MenuItem>
+                                                    )}
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                            )}
+                        </Grid>
+
+                        {/* Beta Section */}
+                        <Grid item xs={12}>
+                            <Box
+                                sx={{
+                                    //border: '2px solid #ccc',
+                                    borderRadius: 2,
+                                    p: 6,
+                                    gap: 2,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+
+                                    // white bg
+                                    bgcolor: 'whitesmoke',
+                                    backgroundBlendMode: 'screen',
+                                    padding: '10px 10px',
+
+
+                                }}
+                            >
+
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={isBetaEnabled}
+                                            onChange={(e) => setIsBetaEnabled(e.target.checked)}
+                                        />
+                                    }
+                                    label="Enable Beta Section"
+                                />
+
+                            </Box>
+
+                            {isBetaEnabled && (
+                                <Grid container spacing={4}>
+                                    <Grid item xs={12} md={6}>
+                                        <Box
+                                            sx={{
+                                                //border: '2px solid #ccc',
+                                                borderRadius: 2,
+                                                p: 6,
+                                                gap: 2,
+                                                display: 'flex',
+                                                flexDirection: 'column',
+
+                                                // white bg
+                                                bgcolor: 'whitesmoke',
+                                                backgroundBlendMode: 'screen',
+                                                padding: '10px 10px',
+
+                                            }}
+                                        >
+                                            <Typography variant="h5" gutterBottom>
+                                                Dad - Beta
+                                            </Typography>
+                                            <FormControl fullWidth>
+                                                <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Dad's Beta</InputLabel>
+                                                <Select
+                                                    value={dadBeta}
+                                                    onChange={(e) => setDadBeta(e.target.value)}
+                                                >
+                                                    <MenuItem value={false}>
+                                                        Negative for common beta-globin deletions based on GAP-PCR analysis
+                                                    </MenuItem>
+                                                    <MenuItem value={true}>
+                                                        Positive for common beta-globin deletions based on GAP-PCR analysis
+                                                    </MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            <FormControl style={{ display: dadBeta ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                                <InputLabel id="dad-order-select-label">Order</InputLabel>
+                                                <Select
+                                                    labelId="dad-order-select-label"
+                                                    value={dadPositiveAlpha}
+                                                    onChange={(e) => setDadPositiveAlpha(e.target.value)}
+                                                    label="Order"
+                                                    fullWidth
+                                                >
+                                                    {descriptions && Object.keys(descriptions).length > 0 ? (
+                                                        Object.entries(descriptions)
+                                                            .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
+                                                            .map(([key, description]) => (
+                                                                <MenuItem key={key} value={key}>
+                                                                    {`${key}: ${description}`}
+                                                                    <br />
+                                                                </MenuItem>
+                                                            ))
+                                                    ) : (
+                                                        <MenuItem disabled value="">
+                                                            No descriptions
+                                                        </MenuItem>
+                                                    )}
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <Box
+                                            sx={{
+                                                //border: '2px solid #ccc',
+                                                borderRadius: 2,
+                                                p: 6,
+                                                gap: 2,
+                                                display: 'flex',
+                                                flexDirection: 'column',
+
+                                                // white bg
+                                                bgcolor: 'whitesmoke',
+                                                backgroundBlendMode: 'screen',
+                                                padding: '10px 10px',
+                                            }}
+                                        >
+                                            <Typography variant="h5" gutterBottom>
+                                                Mom - Beta
+                                            </Typography>
+                                            <FormControl fullWidth>
+                                                <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Mom's Beta</InputLabel>
+                                                <Select
+                                                    value={momBeta}
+                                                    onChange={(e) => setMomBeta(e.target.value)}
+                                                >
+                                                    <MenuItem value={false}>
+                                                        Negative for common beta-globin deletions based on GAP-PCR analysis
+                                                    </MenuItem>
+                                                    <MenuItem value={true}>
+                                                        Positive for common beta-globin deletions based on GAP-PCR analysis
+                                                    </MenuItem>
+                                                </Select>
+                                            </FormControl>
+
+                                            <FormControl style={{ display: momBeta ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                                <InputLabel id="mom-order-select-label">Order</InputLabel>
+                                                <Select
+                                                    labelId="mom-order-select-label"
+                                                    value={momPositiveBeta}
+                                                    onChange={(e) => setMomPositiveBeta(e.target.value)}
+                                                    label="Order"
+                                                    fullWidth
+                                                >
+                                                    {descriptions && Object.keys(descriptions).length > 0 ? (
+                                                        Object.entries(descriptions)
+                                                            .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
+                                                            .map(([key, description]) => (
+                                                                <MenuItem key={key} value={key}>
+                                                                    {`${key}: ${description}`}
+                                                                    <br />
+                                                                </MenuItem>
+                                                            ))
+                                                    ) : (
+                                                        <MenuItem disabled value="">
+                                                            No descriptions
+                                                        </MenuItem>
+                                                    )}
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                            )}
+                        </Grid>
+                    </Grid>
+                    <Box sx={{ mt: 4 }}>
+                        <Button variant="contained" color="primary" onClick={handleSubmit} disabled={!(isAlphaEnabled || isBetaEnabled)}>
+                            Submit
+                        </Button>
                     </Box>
 
-                    {isBetaEnabled && (
-                        <Grid container spacing={4}>
-                            <Grid item xs={12} md={6}>
-                                <Box
-                                    sx={{
-                                        //border: '2px solid #ccc',
-                                        borderRadius: 2,
-                                        p: 6,
-                                        gap: 2,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-
-                                        // white bg
-                                        bgcolor: 'whitesmoke',
-                                        backgroundBlendMode:'screen',
-                                        padding: '10px 10px',
-                                           
-                                    }}
-                                >
-                                    <Typography variant="h5" gutterBottom>
-                                        Dad - Beta
-                                    </Typography>
-                                    <FormControl fullWidth>
-                                        <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Dad's Beta</InputLabel>
-                                        <Select
-                                            value={dadBeta}
-                                            onChange={(e) => setDadBeta(e.target.value)}
-                                        >
-                                            <MenuItem value={false}>
-                                                Negative for common beta-globin deletions based on GAP-PCR analysis
-                                            </MenuItem>
-                                            <MenuItem value={true}>
-                                                Positive for common beta-globin deletions based on GAP-PCR analysis
-                                            </MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    <FormControl style={{ display: dadBeta ? '' : 'none', minWidth: '50%',mt: 5 }}>
-                                        <InputLabel id="dad-order-select-label">Order</InputLabel>
-                                        <Select
-                                            labelId="dad-order-select-label"
-                                            value={dadPositiveAlpha}
-                                            onChange={(e) => setDadPositiveAlpha(e.target.value)}
-                                            label="Order"
-                                            fullWidth
-                                        >
-                                            {descriptions && Object.keys(descriptions).length > 0 ? (
-                                                Object.entries(descriptions)
-                                                    .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                    .map(([key, description]) => (
-                                                        <MenuItem key={key} value={key}>
-                                                            {`${key}: ${description}`}
-                                                            <br />
-                                                        </MenuItem>
-                                                    ))
-                                            ) : (
-                                                <MenuItem disabled value="">
-                                                    No descriptions
-                                                </MenuItem>
-                                            )}
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <Box
-                                    sx={{
-                                        //border: '2px solid #ccc',
-                                        borderRadius: 2,
-                                        p: 6,
-                                        gap: 2,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-
-                                         // white bg
-                                        bgcolor: 'whitesmoke',
-                                        backgroundBlendMode:'screen',
-                                        padding: '10px 10px',
-                                    }}
-                                >
-                                    <Typography variant="h5" gutterBottom>
-                                        Mom - Beta
-                                    </Typography>
-                                    <FormControl fullWidth>
-                                        <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Mom's Beta</InputLabel>
-                                        <Select
-                                            value={momBeta}
-                                            onChange={(e) => setMomBeta(e.target.value)}
-                                        >
-                                            <MenuItem value={false}>
-                                                Negative for common beta-globin deletions based on GAP-PCR analysis
-                                            </MenuItem>
-                                            <MenuItem value={true}>
-                                                Positive for common beta-globin deletions based on GAP-PCR analysis
-                                            </MenuItem>
-                                        </Select>
-                                    </FormControl>
-
-                                    <FormControl style={{ display: momBeta ? '' : 'none', minWidth: '50%',mt: 5 }}>
-                                        <InputLabel id="mom-order-select-label">Order</InputLabel>
-                                        <Select
-                                            labelId="mom-order-select-label"
-                                            value={momPositiveBeta}
-                                            onChange={(e) => setMomPositiveBeta(e.target.value)}
-                                            label="Order"
-                                            fullWidth
-                                        >
-                                            {descriptions && Object.keys(descriptions).length > 0 ? (
-                                                Object.entries(descriptions)
-                                                    .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                    .map(([key, description]) => (
-                                                        <MenuItem key={key} value={key}>
-                                                            {`${key}: ${description}`}
-                                                            <br />
-                                                        </MenuItem>
-                                                    ))
-                                            ) : (
-                                                <MenuItem disabled value="">
-                                                    No descriptions
-                                                </MenuItem>
-                                            )}
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                            </Grid>
-                        </Grid>
-                    )}
-                </Grid>
-            </Grid>
-            <Box sx={{ mt: 4 }}>
-                <Button variant="contained" color="primary" onClick={handleSubmit} disabled={!(isAlphaEnabled || isBetaEnabled)}>
-                    Submit
-                </Button>
-            </Box>
-
-        </Box>
-        </Container>
-
+                </Box>
+            </Container>
+            <Footbar />
+        </>
     );
 }
 
