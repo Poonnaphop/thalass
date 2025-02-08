@@ -26,8 +26,8 @@ function HBTypeComponent() {
         };
 
         // Log for debugging
-         console.log("momData:", momData);
-         console.log("dadData:", dadData);
+        console.log("momData:", momData);
+        console.log("dadData:", dadData);
 
         // Calculate risk assessment
         const riskResult2 = evaluateRisk(
@@ -105,7 +105,7 @@ function HBTypeComponent() {
     const [hbeMother, sethbEMother] = useState('');
     const [momOrderInput, setMomOrderInput] = useState(0);
     const [momOrderFlag, setMomOrderFlag] = useState(false);
-    
+
 
 
 
@@ -119,133 +119,142 @@ function HBTypeComponent() {
         order = 22
 
         // Condition 1:
-        if (A2 <= 3.5 && hb_a !== 0 && hb_e === 0 && hba2_plus_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        if (A2 <= 3.5 && hb_a !== 0 && hb_e === 0 && hba2_plus_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0 &&  mcv >= 80 && mch >=27
+        ) {
             incondition.push(1);
             desc = descriptions[1];
             order = 1;
         }
         // Condition 2:
-        else if (A2 <= 3.5 && hb_a !== 0 && hb_e === 0 && hba2_plus_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if (A2 <= 3.5 && hb_a !== 0 && hb_e === 0 && hba2_plus_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0 && mcv < 80 && mch <27
+        ) {
             incondition.push(2);
             desc = descriptions[2];
             order = 2;
         }
         // Condition 3:
-        else if (A2 > 3.5 && A2 <= 8 && hb_a !== 0 && hb_e === 0 && hba2_plus_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if (A2 > 3.5 && A2 <= 8 && hb_a !== 0 && hb_e === 0 && hba2_plus_e === 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0 && mcv <= 100 && mch <27
+        ) {
             incondition.push(3);
             desc = descriptions[3];
             order = 3;
         }
         // Condition 4:
-        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_a !== 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_a !== 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0 && mcv <= 100 && mch <27
+    ) {
             incondition.push(4);
             desc = descriptions[4];
             order = 4;
         }
         // Condition 5:
-        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_a !== 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_a !== 0 && hb_f === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0 && mcv < 80 && mch <27
+    ) {
             incondition.push(5);
             desc = descriptions[5];
             order = 5;
         }
         // Condition 6:
-        else if ((hb_e + hba2 >= 80 || hba2_plus_e >= 80) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_f <= 5 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if ((hb_e + hba2 >= 80 || hba2_plus_e >= 80) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_f <= 5 && hb_cs === 0 && hb_bart === 0 && hb_h === 0 && mcv < 80 && mch <27
+    ) {
             incondition.push(6);
             desc = descriptions[6];
             order = 6;
         }
         // Condition 7:
-        else if ((hb_e + hba2 > 75 || hba2_plus_e > 75) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_f > 5 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if ((hb_e + hba2 > 75 || hba2_plus_e > 75) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_f > 5 && hb_cs === 0 && hb_bart === 0 && hb_h === 0 &&  mcv < 80 && mch <27
+    ) {
             incondition.push(7);
             desc = descriptions[7];
             order = 7;
         }
         // Condition 8:
-        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && (hb_e === 0 || hba2_plus_e === 0) && hb_f === 0 && hb_bart === 0 && hb_h === 0) {
+        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && (hb_e === 0 || hba2_plus_e === 0) && hb_f === 0 && hb_bart === 0 && hb_h === 0 && mcv <= 100 && mch <27
+    ) {
             incondition.push(8);
             desc = descriptions[8];
             order = 8;
         }
         // Condition 9:
-        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_e === 0 && hb_f === 0 && hb_h === 0) {
+        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_e === 0 && hb_f === 0 && hb_h === 0 && mcv < 80 && mch <27
+        ) {
             incondition.push(9);
             desc = descriptions[9];
             order = 9;
         }
         // Condition 10:
-        else if (hb_h !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_e === 0 && hb_f === 0 && hb_cs === 0) {
+        else if (hb_h !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_e === 0 && hb_f === 0 && hb_cs === 0 && mcv < 80 && mch <27) {
             incondition.push(10);
             desc = descriptions[10];
             order = 10;
         }
         // Condition 11:
-        else if (hb_h !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_e === 0 && hb_f === 0) {
+        else if (hb_h !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_e === 0 && hb_f === 0 && mcv < 80 && mch <27) {
             incondition.push(11);
             desc = descriptions[11];
             order = 11;
         }
         // Condition 12:
-        else if (A2 !== 0 && hb_f !== 0 && hb_a === 0 && hb_cs === 0 && hb_bart === 0 && hb_e === 0 && hb_h === 0) {
+        else if (A2 !== 0 && hb_f !== 0 && hb_a === 0 && hb_cs === 0 && hb_bart === 0 && hb_e === 0 && hb_h === 0 && mcv < 80 && mch <27) {
             incondition.push(12);
             desc = descriptions[12];
             order = 12;
         }
         // Condition 13:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && (hb_f >= 20 && hb_f <= 60) && hb_a === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && (hb_f >= 20 && hb_f <= 60) && hb_a === 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0 && mcv < 80 && mch <27) {
             incondition.push(13);
             desc = descriptions[13];
             order = 13;
         }
         // Condition 14:
-        else if (A2 !== 0 && hb_a !== 0 && hb_f >= 10 && hb_f <= 30 && hb_cs === 0 && hb_bart === 0 && hb_e === 0 && hb_h === 0) {
+        else if (A2 !== 0 && hb_a !== 0 && hb_f >= 10 && hb_f <= 30 && hb_cs === 0 && hb_bart === 0 && hb_e === 0 && hb_h === 0 && mcv < 80 && mch <27) {
             incondition.push(14);
             desc = descriptions[14];
             order = 14;
         }
         // Condition 15:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_f !== 0 && hb_a !== 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0 && A2 === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_f !== 0 && hb_a !== 0 && hb_cs === 0 && hb_bart === 0 && hb_h === 0 && A2 === 0 && mcv < 80 && mch <27) {
             incondition.push(15);
             desc = descriptions[15];
             order = 15;
         }
         // Condition 16:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs === 0 && hb_f === 0 && hb_h === 0 && A2 === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs === 0 && hb_f === 0 && hb_h === 0 && A2 === 0 && mcv < 80 && mch <27) {
             incondition.push(16);
             desc = descriptions[16];
             order = 16;
         }
         // Condition 17:
-        else if ((hb_e + hba2 > 75 || hba2_plus_e > 75) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_f > 5 && hb_bart !== 0 && hb_cs === 0 && hb_h === 0) {
+        else if ((hb_e + hba2 > 75 || hba2_plus_e > 75) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_f > 5 && hb_bart !== 0 && hb_cs === 0 && hb_h === 0 && mcv < 80 && mch <27) {
             incondition.push(17);
             desc = descriptions[17];
             order = 17;
         }
         // Condition 18:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_f !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_cs === 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_f !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_cs === 0 && hb_h === 0 && mcv < 80 && mch <27) {
             incondition.push(18);
             desc = descriptions[18];
             order = 18;
         }
         // Condition 19:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs !== 0 && hb_f === 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs !== 0 && hb_f === 0 && hb_h === 0 && mcv < 80 && mch <27) {
             incondition.push(19);
             desc = descriptions[19];
             order = 19;
         }
         // Condition 20.1:
-        else if ((hb_e + hba2 >= 80 || hba2_plus_e >= 80) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_f <= 5 && hb_cs !== 0 && hb_bart !== 0 && hb_h === 0) {
+        else if ((hb_e + hba2 >= 80 || hba2_plus_e >= 80) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_f <= 5 && hb_cs !== 0 && hb_bart !== 0 && hb_h === 0 && mcv < 80 && mch <27) {
             incondition.push(20.1);
             desc = descriptions[20.1];
             order = 20.1;
         }
         // Condition 20.2:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && (hb_f >= 20 && hb_f <= 60) && hb_cs !== 0 && hb_bart !== 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && (hb_f >= 20 && hb_f <= 60) && hb_cs !== 0 && hb_bart !== 0 && hb_h === 0 && mcv < 80 && mch <27) {
             incondition.push(20.2);
             desc = descriptions[20.2];
             order = 20.2;
         }
         // Condition 21:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_f !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_h === 0) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_f !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_h === 0 && mcv < 80 && mch <27) {
             incondition.push(21);
             desc = descriptions[21];
             order = 21;
@@ -298,11 +307,11 @@ function HBTypeComponent() {
             else if ([2, 8, 9, 10, 11].includes(dadOrder)) risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
             else if ([3, 5, 6, 7, 12, 13, 14, 15, 16, 17, 18, 19, 20.1, 20.2, 21, 22].includes(dadOrder))
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
-            else risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
+            else risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: สามีควรส่งตรวจ beta";
         } else if (momOrder === 4) {
             risk = ([1, 2, 4, 5, 6, 10, 11, 16, 19, 20.1].includes(dadOrder))
                 ? "Not risk"
-                : "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
+                : "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: สามีควรส่งตรวจ beta";
         } else if ([5, 6, 16, 19, 20.1, 20.2].includes(momOrder)) {
             if ([1, 4].includes(dadOrder)) risk = "Not risk";
             else if ([3, 7, 12, 13, 14, 15, 17, 18, 20.1, 21, 22].includes(dadOrder))
@@ -311,7 +320,7 @@ function HBTypeComponent() {
         } else if ([7, 12, 13, 14, 15, 17, 18, 21, 22].includes(momOrder)) {
             if (dadOrder === 1) risk = "Not risk";
             else if ([2, 8, 9, 10, 11].includes(dadOrder)) risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
-            else if (dadOrder === 4) risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ beta";
+            else if (dadOrder === 4) risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: ภรรยาควรส่งตรวจ beta";
             else risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
         }
 
@@ -331,9 +340,9 @@ function HBTypeComponent() {
                     display: 'flex',
                     flexDirection: 'column',
 
-                     // white bg
+                    // white bg
                     bgcolor: 'whitesmoke',
-                    backgroundBlendMode:'screen',
+                    backgroundBlendMode: 'screen',
                     padding: '20px 40px',
 
                 }}
@@ -364,8 +373,11 @@ function HBTypeComponent() {
                                 Object.entries(descriptions)
                                     .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
                                     .map(([key, description]) => (
-                                        <MenuItem key={key} value={key}>
-                                            {`${key}: ${description}`}
+                                        <MenuItem key={key} value={key} style={{ display: 'block' }}>
+                                            <span>
+                                                {`${key}: ${description}`}
+                                            </span>
+
                                             <br />
                                         </MenuItem>
                                     ))
@@ -491,11 +503,11 @@ function HBTypeComponent() {
                         />
                     </Grid>
 
-                    <Typography variant="h7" gutterBottom sx={{mt:2,ml:2}}>
-                    HbE
+                    <Typography variant="h7" gutterBottom sx={{ mt: 2, ml: 2 }}>
+                        HbE
                     </Typography>
                     {/* HbA2 and HbE Radio Group for Mother */}
-                    <Box 
+                    <Box
                         sx={{
                             border: '2px solid #ccc',
                             borderRadius: 2,
@@ -568,7 +580,7 @@ function HBTypeComponent() {
                     </Box>
                 </Grid>
             </Box>
-            
+
             {/* Father Section */}
             <Box
                 sx={{
@@ -579,9 +591,9 @@ function HBTypeComponent() {
                     display: 'flex',
                     flexDirection: 'column',
 
-                     // white bg
+                    // white bg
                     bgcolor: 'whitesmoke',
-                    backgroundBlendMode:'screen',
+                    backgroundBlendMode: 'screen',
                     padding: '20px 40px',
                 }}
             >
@@ -611,8 +623,11 @@ function HBTypeComponent() {
                                 Object.entries(descriptions)
                                     .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
                                     .map(([key, description]) => (
-                                        <MenuItem key={key} value={key}>
-                                            {`${key}: ${description}`}
+                                        <MenuItem key={key} value={key} style={{ display: 'block' }}>
+                                            <span>
+                                                {`${key}: ${description}`}
+                                            </span>
+
                                             <br />
                                         </MenuItem>
                                     ))
@@ -736,11 +751,11 @@ function HBTypeComponent() {
                             fullWidth
                         />
                     </Grid>
-                   
-                    <Typography variant="h7" gutterBottom sx={{mt:2,ml:2}}>
-                    HbE
+
+                    <Typography variant="h7" gutterBottom sx={{ mt: 2, ml: 2 }}>
+                        HbE
                     </Typography>
-                    <Box 
+                    <Box
                         sx={{
                             border: '2px solid #ccc',
                             borderRadius: 2,
@@ -817,7 +832,7 @@ function HBTypeComponent() {
                     </Box>
                 </Grid>
             </Box>
-            
+
 
             <Button variant="contained" onClick={handleNext}>
                 Next
