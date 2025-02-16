@@ -3,6 +3,7 @@ import { Container, Typography, FormControl, InputLabel, Select, MenuItem, Box, 
 import Grid from '@mui/material/Grid';
 //import Grid from '@mui/material/Grid2';
 import betaOptions from '../constant/betaOptions';
+import alphaOptions from '../constant/alphaOption';
 import Footbar from '../Footbar';
 import Headbar from '../Headbar';
 
@@ -23,6 +24,42 @@ function AlphaBetaThalassemiaTest() {
     const [isAlphaEnabled, setIsAlphaEnabled] = useState(false);
     const [isBetaEnabled, setIsBetaEnabled] = useState(false);
 
+    const isAlphaThal1 = (condition) => {
+        const alphaThal1Conditions = [
+            'SEA', 'THAI', 'FIL', 'MED', '-20.5kb',
+            'Pakse', 'PNP (Pak Num Po)'
+        ];
+        return alphaThal1Conditions.includes(condition);
+    };
+
+    const isAlphaThal2 = (condition) => {
+        const alphaThal2Conditions = [
+            '-3.7 kb', '-4.2 kb'
+        ];
+        return alphaThal2Conditions.includes(condition);
+    };
+
+    const isB0 = (condition) => {
+        const b0Conditions = [
+            '-28 (A>G)', 'CD26 (Hb E)', 'CD19 (A>G)', '-86', '-31',
+            'β 126 (Dhonburi)', '3.48 kb', 'thai(δβ)', 'Hb Lepore',
+            'Siriraj-thalassemia Gγ(Aγδβ)', 'Asian Indian deletion type A',
+            'Asian Indian deletion type B'
+        ];
+        return b0Conditions.includes(condition);
+    };
+
+    const isBPlus = (condition) => {
+        const bPlusConditions = [
+            'CD8/9 (+G)', 'CD17 (A>T)', 'IVSI-I (G>T)', 'IVSI-S (G>C)',
+            'IVSII-654 (C>T)', 'CD41/42 (-TCTT)', 'CD71/72 (+A)',
+            'CD26 G>T (stop cobon)', 'CD27/28 (+C)', 'CD35 (C>A)',
+            'CD41 (-C)', 'CD43 (G>T)', 'CD95 (+A)', 'CD15 (G>A)',
+            'CD123-125 Hb D khonkean', '619 bp', 'fillpino (β)',
+            'SEA HPFH (β)', 'Chinese Gγ(Aγδβ)', 'HPFH-6 Gγ(Aγδβ)'
+        ];
+        return bPlusConditions.includes(condition);
+    };
     const handleSubmit = () => {
         console.log("Dad's Alpha:", dadAlpha);
         console.log("Dad's Beta:", dadBeta);
@@ -43,7 +80,7 @@ function AlphaBetaThalassemiaTest() {
         console.log("Beta Risk:", betaRisk);
 
         if (alphaRisk && betaRisk) {
-            console.log("ส่งตรวจก่อนคลอดทั้งหมก");
+            console.log("ส่งตรวจก่อนคลอดทั้งหมด");
         } else if (alphaRisk) {
             console.log("ส่งตรวจก่อนคลอด Alpha");
         } else if (betaRisk) {
@@ -51,6 +88,79 @@ function AlphaBetaThalassemiaTest() {
         } else {
             console.log("ไม่ส่งตรวจก่อนคลอด");
         }
+
+        let dadAlphatal1 = false;
+        let momAlphatal1 = false;
+        let dadAlphatal2 = false;
+        let momAlphatal2 = false;
+        let dadB0 = false;
+        let dadbBplus = false;
+        let momB0 = false;
+        let mombBplus = false;
+        if (dadAlpha) {
+            dadAlphatal1 = isAlphaThal1(dadAlpha);
+            dadAlphatal2 = isAlphaThal2(dadAlpha);
+        }
+        if (dadBeta) {
+            dadB0 = isB0(dadBeta);
+            dadbBplus = isBPlus(dadBeta);
+        }
+        if (momBeta) {
+            momB0 = isB0(momBeta);
+            mombBplus = isBPlus(momBeta);
+        }
+        if (momAlpha) {
+            momAlphatal1 = isAlphaThal1(momAlpha);
+            momAlphatal2 = isAlphaThal2(momAlpha);
+        }
+        console.log("ALPHA TEST")
+        console.log("-----------------------")
+
+        console.log("dadAlphatal1", dadAlphatal1);
+        console.log("dadAlphatal2", dadAlphatal2);
+        console.log("dadB0", dadB0);
+        console.log("dadbBplus", dadbBplus);
+
+        console.log("momAlphatal1", momAlphatal1);
+        console.log("momAlphatal2", momAlphatal2);
+        console.log("momB0", momB0);
+        console.log("mombBplus", mombBplus);
+        console.log("-----------------------")
+
+
+        if (momAlphatal1 && dadAlphatal1) {
+            console.log("condition: ต้องส่งตรวจเจาะน้ำคร่ำ");
+        } else if ((dadAlphatal1 && momAlphatal2) || (dadAlphatal2 && momAlphatal1) || (dadAlphatal2 && momAlphatal2)) {
+            console.log(" ไม่ต้องส่งตรวจเจาะน้ำคร่ำ")
+        }
+        console.log("BETA TEST")
+        console.log("-----------------------")
+
+        if ((momBeta && dadBeta)
+            && (
+                (momB0 && dadB0)
+                ||
+                (momB0 && dadbBplus)
+                ||
+                (mombBplus && dadB0)
+                ||
+                (mombBplus && dadbBplus)
+            )) {
+            console.log(" condition1 : ต้องส่งตรวจเจาะน้ำคร่ำ ")
+        }else if(
+            (!dadBeta && !momBeta)
+            ||
+            (dadBeta && !momBeta)
+            ||
+            (dadBeta && !momBeta)
+            ||
+            (dadBeta && momBeta)
+        ){
+            console.log(" condition2 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ ")
+        }
+        // else if(
+
+        // )
     };
 
     return (
@@ -126,7 +236,7 @@ function AlphaBetaThalassemiaTest() {
                                                 <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Dad's Alpha</InputLabel>
                                                 <Select
                                                     value={dadAlpha}
-                                                    onChange={(e) => { 
+                                                    onChange={(e) => {
                                                         setDadAlpha(e.target.value)
                                                         console.log("dadAlpha", e.target.value)
                                                     }}
@@ -139,7 +249,6 @@ function AlphaBetaThalassemiaTest() {
                                                     </MenuItem>
                                                 </Select>
                                             </FormControl>
-
                                             <FormControl style={{ display: dadAlpha ? '' : 'none', minWidth: '50%', mt: 5 }}>
                                                 <InputLabel id="dad-order-select-label">Order</InputLabel>
                                                 <Select
@@ -149,12 +258,12 @@ function AlphaBetaThalassemiaTest() {
                                                     label="Order"
                                                     fullWidth
                                                 >
-                                                    {betaOptions && Object.keys(betaOptions).length > 0 ? (
-                                                        Object.entries(betaOptions)
+                                                    {alphaOptions && Object.keys(alphaOptions).length > 0 ? (
+                                                        Object.entries(alphaOptions)
                                                             .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                            .map(([key, betaOptions]) => (
+                                                            .map(([key, alphaOptions]) => (
                                                                 <MenuItem key={key} value={key}>
-                                                                    {`${betaOptions}`}
+                                                                    {`${alphaOptions}`}
                                                                     <br />
                                                                 </MenuItem>
                                                             ))
@@ -211,12 +320,12 @@ function AlphaBetaThalassemiaTest() {
                                                     label="Order"
                                                     fullWidth
                                                 >
-                                                    {betaOptions && Object.keys(betaOptions).length > 0 ? (
-                                                        Object.entries(betaOptions)
+                                                    {alphaOptions && Object.keys(alphaOptions).length > 0 ? (
+                                                        Object.entries(alphaOptions)
                                                             .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                            .map(([key, betaOptions]) => (
+                                                            .map(([key, alphaOptions]) => (
                                                                 <MenuItem key={key} value={key}>
-                                                                    {`${betaOptions}`}
+                                                                    {`${alphaOptions}`}
                                                                     <br />
                                                                 </MenuItem>
                                                             ))
@@ -305,8 +414,8 @@ function AlphaBetaThalassemiaTest() {
                                                 <InputLabel id="dad-order-select-label">Order</InputLabel>
                                                 <Select
                                                     labelId="dad-order-select-label"
-                                                    value={dadPositiveAlpha}
-                                                    onChange={(e) => setDadPositiveAlpha(e.target.value)}
+                                                    value={dadPositiveBeta}
+                                                    onChange={(e) => setDadPositiveBeta(e.target.value)}
                                                     label="Order"
                                                     fullWidth
                                                 >
