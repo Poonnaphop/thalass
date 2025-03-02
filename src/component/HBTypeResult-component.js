@@ -7,6 +7,8 @@ import Grid from '@mui/material/Grid';
 function HBTypeResultComponent() {
     const location = useLocation();
     const [doctorName, setDoctorName] = useState('');
+    const [appointmentDetails, setAppointmentDetails] = useState('');
+    const [remarks, setRemarks] = useState('');
     const formData = location.state;
 
     const {
@@ -118,6 +120,30 @@ function HBTypeResultComponent() {
           <Typography variant="h6">การประเมินความเสี่ยง</Typography>
           <Typography>{riskResult}</Typography>
       </Box>
+
+      <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+                <Typography variant="h6">นัดหมาย</Typography>
+                <TextField
+                    label="Enter Appointment Details"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => setAppointmentDetails(e.target.value)}
+                    value={appointmentDetails}
+                />
+
+            </Box>
+
+            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+                <Typography variant="h6">หมายเหตุ</Typography>
+                <TextField
+                    label="Enter Remark Details"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) =>setRemarks(e.target.value)}
+                    value={remarks}
+                />
+
+            </Box>
 
       {/* Action Buttons */}
       <Grid container justifyContent="space-between" spacing={2}>
