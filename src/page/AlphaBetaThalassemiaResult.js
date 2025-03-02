@@ -1,4 +1,5 @@
-import AlphaBetaThalassemiaResultComponent from "../component/AlphaBetaThalassemiaResult-component";
+
+import HBTypeResultComponent from "../component/HBTypeResult-component";
 import Footbar from "../Footbar";
 import Headbar from "../Headbar";
 
@@ -6,7 +7,7 @@ export default function AlphaBetaThalassemiaResult() {
     return (
         <>
         <Headbar />
-        <AlphaBetaThalassemiaResultComponent />
+        <HBTypeResultComponent />
         <Footbar/>
         </>
     );

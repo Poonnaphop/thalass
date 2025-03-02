@@ -1,21 +1,32 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Container, Box, Typography,TextField, Button } from '@mui/material';
+import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
-//import Grid from '@mui/material/Grid2';
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+
 
 function AlphaBetaThalassemiaResultComponent() {
     const location = useLocation();
     const [doctorName, setDoctorName] = useState('');
-    const formData = location.state;
+    const formData = location.state?.formData;
 
     const {
-        momOrder, dadOrder, riskResult, momDesc, dadDesc,
-        dadData,momData, wifeName,wifeSurname,husbandName,husbandSurname,
-        momOrderInput,dadOrderInput,dadOrderFlag,momOrderFlag
+        riskResult,
+        wifeName,
+        wifeSurname,
+        husbandName,
+        husbandSurname,
+        momAlpha,
+        momBeta,
+        momPositiveAlpha,
+        momPositiveBeta,
+        dadAlpha,
+        dadBeta,
+        dadPositiveAlpha,
+        dadPositiveBeta,
+        isAlphaEnabled,
+        isBetaEnabled,
+        riskTest
     } = formData || {};
-
-    console.log('formData', formData);
 
     return (
         <Container maxWidth="md" sx={{ my: 4, pb: 5 }}>
@@ -24,90 +35,121 @@ function AlphaBetaThalassemiaResultComponent() {
             </Typography>
 
             {/* Mom Section */}
-            <Box 
-                sx={{ 
-                    border: '1px solid #ccc', 
-                    borderRadius: 2, 
-                    p: 3, 
-                    mb: 3, 
+            <Box
+                sx={{
+                    border: '1px solid #ccc',
+                    borderRadius: 2,
+                    p: 3,
+                    mb: 3,
                     gap: 2,
                     display: 'flex',
                     flexDirection: 'column',
 
                     // white bg
                     bgcolor: 'whitesmoke',
-                    backgroundBlendMode:'screen',
+                    backgroundBlendMode: 'screen',
                     padding: '20px 40px',
-    
-                }}         
-            
+
+                }}
+
             >
-                 <Typography variant="h6">ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา</Typography>
-            <TextField
-                label="ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา"
-                value={doctorName}
-                onChange={(e) => setDoctorName(e.target.value)}
-                fullWidth
-                sx={{ mb: 2 }}
-            />
+                <Typography variant="h6">ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา</Typography>
+                <TextField
+                    label="ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา"
+                    value={doctorName}
+                    onChange={(e) => setDoctorName(e.target.value)}
+                    fullWidth
+                    sx={{ mb: 2 }}
+                />
                 <Typography variant="h6">ผลตรวจคัดกรองมารดา</Typography>
                 <Typography color='darkblue'>ชื่อมารดา: {wifeName ?? '-' + wifeSurname ?? '-'}</Typography>
-                <Typography color='darkblue'># Hb typing ภรรยา: {momOrder??'-' }: {momDesc??'-'}</Typography>
 
-                <Grid container spacing={2} sx={{ mt: 1 }}>
-                    <Grid item xs={6}><TextField label="MCV" value={momData.mcv ?? '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="MCH" value={momData.mch ?? '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb A" value={momData.hba ?? '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="OF" value={momData.of ?? '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb F" value={momData.hbF ?? '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb Cs" value={momData.hbCs ?? '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb Bart" value={momData.hbBart ?? '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="DCIP" value={momData.dcip ?? '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb H" value={momData.hbH ?? '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="A2" value={momData.A2 ?? '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb A2 + E" value={momData.hba2PlusE ?? '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb A2" value={momData.hbA2 ?? '-'} readOnly fullWidth /></Grid>
-                    <Grid item xs={6}><TextField label="Hb E" value={momData.hbE ?? '-'} readOnly fullWidth /></Grid>
+                <Grid container spacing={1} sx={{ mt: 1 }}>
+                    {/* Alpha Section */}
+                    {isAlphaEnabled && (
+                        <>
+                            <Grid item xs={6}>
+                                <TextField label="mom Alpha" value={momAlpha ?? '-'} readOnly fullWidth />
+                            </Grid>
+                            {momAlpha && (
+                                <Grid item xs={6}>
+                                    <TextField label="mom positive Alpha" value={momPositiveAlpha ?? '-'} readOnly fullWidth />
+                                </Grid>
+                            )}
+                        </>
+                    )}
                 </Grid>
+
+                {/* Separate Grid for Beta Section */}
+                <Grid container spacing={2} sx={{ mt: 1 }}>
+                    {isBetaEnabled && (
+                        <>
+                            <Grid item xs={6}>
+                                <TextField label="mom Beta" value={momBeta ?? '-'} readOnly fullWidth />
+                            </Grid>
+                            {momBeta && (
+                                <Grid item xs={6}>
+                                    <TextField label="mom positive Beta" value={momPositiveBeta ?? '-'} readOnly fullWidth />
+                                </Grid>
+                            )}
+                        </>
+                    )}
+                </Grid>
+
             </Box>
 
             {/* Dad Section */}
-            <Box 
-                sx={{ 
-                    border: '1px solid #ccc', 
-                    borderRadius: 2, 
-                    p: 3, 
-                    mb: 3, 
+            <Box
+                sx={{
+                    border: '1px solid #ccc',
+                    borderRadius: 2,
+                    p: 3,
+                    mb: 3,
                     gap: 2,
                     display: 'flex',
                     flexDirection: 'column',
 
                     // white bg
                     bgcolor: 'whitesmoke',
-                    backgroundBlendMode:'screen',
+                    backgroundBlendMode: 'screen',
                     padding: '20px 40px',
-        
-            
+
+
                 }}
             >
                 <Typography variant="h6">ผลตรวจคัดกรองสามี</Typography>
                 <Typography color='darkblue' >ชื่อสามี: {husbandName ?? '-' + husbandSurname ?? '-'}</Typography>
-                <Typography color='darkblue' ># Hb typing สามี: {dadOrder ?? '-'}: {dadDesc ?? '-'}</Typography>
 
+                <Grid container spacing={1} sx={{ mt: 1 }}>
+                    {/* Alpha Section */}
+                    {isAlphaEnabled && (
+                        <>
+                            <Grid item xs={6}>
+                                <TextField label="dad Alpha" value={dadAlpha ?? '-'} readOnly fullWidth />
+                            </Grid>
+                            {dadAlpha && (
+                                <Grid item xs={6}>
+                                    <TextField label="dad positive Alpha" value={dadPositiveAlpha ?? '-'} readOnly fullWidth />
+                                </Grid>
+                            )}
+                        </>
+                    )}
+                </Grid>
+
+                {/* Separate Grid for Beta Section */}
                 <Grid container spacing={2} sx={{ mt: 1 }}>
-                <Grid item xs={6}><TextField label="MCV" value={dadData.mcv ?? '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="MCH" value={dadData.mch ?? '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb A" value={dadData.hba ?? '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="OF" value={dadData.of ?? '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb F" value={dadData.hbF ?? '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb Cs" value={dadData.hbCs ?? '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb Bart" value={dadData.hbBart ?? '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="DCIP" value={dadData.dcip ?? '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb H" value={dadData.hbH ?? '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="A2" value={dadData.A2 ?? '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb A2 + E" value={dadData.hba2PlusE ?? '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb A2" value={dadData.hbA2 ?? '-'} readOnly fullWidth /></Grid>
-                <Grid item xs={6}><TextField label="Hb E" value={dadData.hbE ?? '-'} readOnly fullWidth /></Grid>
+                    {isBetaEnabled && (
+                        <>
+                            <Grid item xs={6}>
+                                <TextField label="dad Beta" value={dadBeta ?? '-'} readOnly fullWidth />
+                            </Grid>
+                            {dadBeta && (
+                                <Grid item xs={6}>
+                                    <TextField label="dad positive Beta" value={dadPositiveBeta ?? '-'} readOnly fullWidth />
+                                </Grid>
+                            )}
+                        </>
+                    )}
                 </Grid>
             </Box>
 
@@ -115,6 +157,7 @@ function AlphaBetaThalassemiaResultComponent() {
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
                 <Typography variant="h6">การประเมินความเสี่ยง</Typography>
                 <Typography>{riskResult}</Typography>
+                <Typography>{riskTest}</Typography>
             </Box>
 
             {/* Action Buttons */}
@@ -131,7 +174,7 @@ function AlphaBetaThalassemiaResultComponent() {
                 </Grid>
             </Grid>
         </Container>
-    );
+    )
 }
 
-export default AlphaBetaThalassemiaResultComponent;
+export default AlphaBetaThalassemiaResultComponent

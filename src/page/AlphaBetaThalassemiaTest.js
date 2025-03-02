@@ -6,8 +6,12 @@ import betaOptions from '../constant/betaOptions';
 import alphaOptions from '../constant/alphaOption';
 import Footbar from '../Footbar';
 import Headbar from '../Headbar';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function AlphaBetaThalassemiaTest() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const formData = location.state;
     // States for dad's dropdowns 
     const [dadAlpha, setDadAlpha] = useState(null);
     const [dadBeta, setDadBeta] = useState(null);
@@ -65,6 +69,8 @@ function AlphaBetaThalassemiaTest() {
         console.log("Dad's Beta:", dadBeta);
         console.log("Mom's Alpha:", momAlpha);
         console.log("Mom's Beta:", momBeta);
+        let riskResult = '';
+        let riskTest = '';
 
         if ((isAlphaEnabled && (dadAlpha === null || momAlpha === null)) ||
             (isBetaEnabled && (dadBeta === null || momBeta === null))) {
@@ -81,12 +87,16 @@ function AlphaBetaThalassemiaTest() {
 
         if (alphaRisk && betaRisk) {
             console.log("ส่งตรวจก่อนคลอดทั้งหมด");
+            riskResult = "ส่งตรวจก่อนคลอดทั้งหมด";
         } else if (alphaRisk) {
             console.log("ส่งตรวจก่อนคลอด Alpha");
+            riskResult = "ส่งตรวจก่อนคลอด Alpha";
         } else if (betaRisk) {
             console.log("ส่งตรวจก่อนคลอด Beta");
+            riskResult = "ส่งตรวจก่อนคลอด Beta";
         } else {
             console.log("ไม่ส่งตรวจก่อนคลอด");
+            riskResult = "ไม่ส่งตรวจก่อนคลอด";
         }
 
         let dadAlphatal1 = false;
@@ -130,8 +140,10 @@ function AlphaBetaThalassemiaTest() {
 
         if (momAlphatal1 && dadAlphatal1) {
             console.log("condition: ต้องส่งตรวจเจาะน้ำคร่ำ");
+            riskTest = "ต้องส่งตรวจเจาะน้ำคร่ำ";
         } else if ((dadAlphatal1 && momAlphatal2) || (dadAlphatal2 && momAlphatal1) || (dadAlphatal2 && momAlphatal2)) {
             console.log(" ไม่ต้องส่งตรวจเจาะน้ำคร่ำ")
+            riskTest = "ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
         }
         console.log("BETA TEST")
         console.log("-----------------------")
@@ -147,6 +159,7 @@ function AlphaBetaThalassemiaTest() {
                 (mombBplus && dadbBplus)
             )) {
             console.log(" condition1 : ต้องส่งตรวจเจาะน้ำคร่ำ ")
+            riskTest = "condition1 : ต้องส่งตรวจเจาะน้ำคร่ำ";
         }else if(
             (!dadBeta && !momBeta)
             ||
@@ -157,10 +170,31 @@ function AlphaBetaThalassemiaTest() {
             (dadBeta && momBeta)
         ){
             console.log(" condition2 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ ")
+            riskTest = "condition2 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
+        }else{
+            console.log(" condition3 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ ")
+            riskTest = "condition3 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
         }
-        // else if(
+       
+          // Prepare the new formData
+          const newFormData = {
+            ...formData, // Preserve existing data
+            momAlpha: momAlpha,
+            momBeta: momBeta,
+            momPositiveAlpha: momPositiveAlpha,
+            momPositiveBeta: momPositiveBeta,
+            dadAlpha: dadAlpha,
+            dadBeta: dadBeta,
+            dadPositiveAlpha: dadPositiveAlpha,
+            dadPositiveBeta: dadPositiveBeta,
+            isAlphaEnabled: isAlphaEnabled,
+            isBetaEnabled: isBetaEnabled,
+            riskResult: riskResult,
+            riskTest: riskTest
+        };
 
-        // )
+        console.log("New Form Data:", newFormData);
+        navigate('/alpha-beta-thalassemia-result2', { state: { formData: newFormData } });
     };
 
     return (
