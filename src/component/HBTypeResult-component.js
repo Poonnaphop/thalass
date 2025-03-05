@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Container, Box, Typography,TextField, Button } from '@mui/material';
+import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
 //import Grid from '@mui/material/Grid2';
 
@@ -13,115 +13,121 @@ function HBTypeResultComponent() {
 
     const {
         momOrder, dadOrder, riskResult, momDesc, dadDesc,
-        dadData,momData, wifeName,wifeSurname,husbandName,husbandSurname,
-        momOrderInput,dadOrderInput,dadOrderFlag,momOrderFlag
+        dadData, momData, wifeName, wifeSurname, husbandName, husbandSurname,
+        momOrderInput, dadOrderInput, dadOrderFlag, momOrderFlag, suggestion
     } = formData || {};
 
     console.log('formData', formData);
 
     return (
-    
 
-      <Container maxWidth="md" sx={{ my: 4, pb: 5 }}>
-      <Typography variant="h4" gutterBottom>
-          ผลการตรวจคัดกรอง HB Typing
-      </Typography>
 
-      {/* Mom Section */}
-      <Box 
-          sx={{ 
-              border: '1px solid #ccc', 
-              borderRadius: 2, 
-              p: 3, 
-              mb: 3, 
-              gap: 2,
-              display: 'flex',
-              flexDirection: 'column',
+        <Container maxWidth="md" sx={{ my: 4, pb: 5 }}>
+            <Typography variant="h4" gutterBottom>
+                ผลการตรวจคัดกรอง HB Typing
+            </Typography>
 
-              // white bg
-              bgcolor: 'whitesmoke',
-              backgroundBlendMode:'screen',
-              padding: '20px 40px',
+            {/* Mom Section */}
+            <Box
+                sx={{
+                    border: '1px solid #ccc',
+                    borderRadius: 2,
+                    p: 3,
+                    mb: 3,
+                    gap: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
 
-          }}         
-      
-      >
-           <Typography variant="h6">ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา</Typography>
-      <TextField
-          label="ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา"
-          value={doctorName}
-          onChange={(e) => setDoctorName(e.target.value)}
-          fullWidth
-          sx={{ mb: 2 }}
-      />
-          <Typography variant="h6">ผลตรวจคัดกรองมารดา</Typography>
-          <Typography color='darkblue'>ชื่อมารดา: {wifeName ?? '-' + wifeSurname ?? '-'}</Typography>
-          <Typography color='darkblue'># Hb typing ภรรยา: {momOrder??'-' }: {momDesc??'-'}</Typography>
+                    // white bg
+                    bgcolor: 'whitesmoke',
+                    backgroundBlendMode: 'screen',
+                    padding: '20px 40px',
 
-          <Grid container spacing={2} sx={{ mt: 1 }}>
-              <Grid item xs={6}><TextField label="MCV" value={momData.mcv ?? '-'} readOnly fullWidth /></Grid>
-              <Grid item xs={6}><TextField label="MCH" value={momData.mch ?? '-'} readOnly fullWidth /></Grid>
-              <Grid item xs={6}><TextField label="Hb A" value={momData.hba ?? '-'} readOnly fullWidth /></Grid>
-              <Grid item xs={6}><TextField label="OF" value={momData.of ?? '-'} readOnly fullWidth /></Grid>
-              <Grid item xs={6}><TextField label="Hb F" value={momData.hbF ?? '-'} readOnly fullWidth /></Grid>
-              <Grid item xs={6}><TextField label="Hb Cs" value={momData.hbCs ?? '-'} readOnly fullWidth /></Grid>
-              <Grid item xs={6}><TextField label="Hb Bart" value={momData.hbBart ?? '-'} readOnly fullWidth /></Grid>
-              <Grid item xs={6}><TextField label="DCIP" value={momData.dcip ?? '-'} readOnly fullWidth /></Grid>
-              <Grid item xs={6}><TextField label="Hb H" value={momData.hbH ?? '-'} readOnly fullWidth /></Grid>
-              <Grid item xs={6}><TextField label="A2" value={momData.A2 ?? '-'} readOnly fullWidth /></Grid>
-              <Grid item xs={6}><TextField label="Hb A2 + E" value={momData.hba2PlusE ?? '-'} readOnly fullWidth /></Grid>
-              <Grid item xs={6}><TextField label="Hb A2" value={momData.hbA2 ?? '-'} readOnly fullWidth /></Grid>
-              <Grid item xs={6}><TextField label="Hb E" value={momData.hbE ?? '-'} readOnly fullWidth /></Grid>
-          </Grid>
-      </Box>
+                }}
 
-      {/* Dad Section */}
-      <Box 
-          sx={{ 
-              border: '1px solid #ccc', 
-              borderRadius: 2, 
-              p: 3, 
-              mb: 3, 
-              gap: 2,
-              display: 'flex',
-              flexDirection: 'column',
+            >
+                <Typography variant="h6">ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา</Typography>
+                <TextField
+                    label="ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา"
+                    value={doctorName}
+                    onChange={(e) => setDoctorName(e.target.value)}
+                    fullWidth
+                    sx={{ mb: 2 }}
+                />
+                <Typography variant="h6">ผลตรวจคัดกรองมารดา</Typography>
+                <Typography color='darkblue'>ชื่อมารดา: {wifeName ?? '-' + wifeSurname ?? '-'}</Typography>
+                <Typography color='darkblue'># Hb typing ภรรยา: {momOrder ?? '-'}: {momDesc ?? '-'}</Typography>
 
-              // white bg
-              bgcolor: 'whitesmoke',
-              backgroundBlendMode:'screen',
-              padding: '20px 40px',
-  
-      
-          }}
-      >
-          <Typography variant="h6">ผลตรวจคัดกรองสามี</Typography>
-          <Typography color='darkblue' >ชื่อสามี: {husbandName ?? '-' + husbandSurname ?? '-'}</Typography>
-          <Typography color='darkblue' ># Hb typing สามี: {dadOrder ?? '-'}: {dadDesc ?? '-'}</Typography>
+                <Grid container spacing={2} sx={{ mt: 1 }}>
+                    <Grid item xs={6}><TextField label="MCV" value={momData.mcv ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="MCH" value={momData.mch ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb A" value={momData.hba ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="OF" value={momData.of ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb F" value={momData.hbF ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb Cs" value={momData.hbCs ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb Bart" value={momData.hbBart ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="DCIP" value={momData.dcip ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb H" value={momData.hbH ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="A2" value={momData.A2 ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb A2 + E" value={momData.hba2PlusE ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb A2" value={momData.hbA2 ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb E" value={momData.hbE ?? '-'} readOnly fullWidth /></Grid>
+                </Grid>
+            </Box>
 
-          <Grid container spacing={2} sx={{ mt: 1 }}>
-          <Grid item xs={6}><TextField label="MCV" value={dadData.mcv ?? '-'} readOnly fullWidth /></Grid>
-          <Grid item xs={6}><TextField label="MCH" value={dadData.mch ?? '-'} readOnly fullWidth /></Grid>
-          <Grid item xs={6}><TextField label="Hb A" value={dadData.hba ?? '-'} readOnly fullWidth /></Grid>
-          <Grid item xs={6}><TextField label="OF" value={dadData.of ?? '-'} readOnly fullWidth /></Grid>
-          <Grid item xs={6}><TextField label="Hb F" value={dadData.hbF ?? '-'} readOnly fullWidth /></Grid>
-          <Grid item xs={6}><TextField label="Hb Cs" value={dadData.hbCs ?? '-'} readOnly fullWidth /></Grid>
-          <Grid item xs={6}><TextField label="Hb Bart" value={dadData.hbBart ?? '-'} readOnly fullWidth /></Grid>
-          <Grid item xs={6}><TextField label="DCIP" value={dadData.dcip ?? '-'} readOnly fullWidth /></Grid>
-          <Grid item xs={6}><TextField label="Hb H" value={dadData.hbH ?? '-'} readOnly fullWidth /></Grid>
-          <Grid item xs={6}><TextField label="A2" value={dadData.A2 ?? '-'} readOnly fullWidth /></Grid>
-          <Grid item xs={6}><TextField label="Hb A2 + E" value={dadData.hba2PlusE ?? '-'} readOnly fullWidth /></Grid>
-          <Grid item xs={6}><TextField label="Hb A2" value={dadData.hbA2 ?? '-'} readOnly fullWidth /></Grid>
-          <Grid item xs={6}><TextField label="Hb E" value={dadData.hbE ?? '-'} readOnly fullWidth /></Grid>
-          </Grid>
-      </Box>
+            {/* Dad Section */}
+            <Box
+                sx={{
+                    border: '1px solid #ccc',
+                    borderRadius: 2,
+                    p: 3,
+                    mb: 3,
+                    gap: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
 
-      {/* Risk Assessment Section */}
-      <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
-          <Typography variant="h6">การประเมินความเสี่ยง</Typography>
-          <Typography>{riskResult}</Typography>
-      </Box>
+                    // white bg
+                    bgcolor: 'whitesmoke',
+                    backgroundBlendMode: 'screen',
+                    padding: '20px 40px',
 
-      <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+
+                }}
+            >
+                <Typography variant="h6">ผลตรวจคัดกรองสามี</Typography>
+                <Typography color='darkblue' >ชื่อสามี: {husbandName ?? '-' + husbandSurname ?? '-'}</Typography>
+                <Typography color='darkblue' ># Hb typing สามี: {dadOrder ?? '-'}: {dadDesc ?? '-'}</Typography>
+
+                <Grid container spacing={2} sx={{ mt: 1 }}>
+                    <Grid item xs={6}><TextField label="MCV" value={dadData.mcv ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="MCH" value={dadData.mch ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb A" value={dadData.hba ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="OF" value={dadData.of ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb F" value={dadData.hbF ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb Cs" value={dadData.hbCs ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb Bart" value={dadData.hbBart ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="DCIP" value={dadData.dcip ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb H" value={dadData.hbH ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="A2" value={dadData.A2 ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb A2 + E" value={dadData.hba2PlusE ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb A2" value={dadData.hbA2 ?? '-'} readOnly fullWidth /></Grid>
+                    <Grid item xs={6}><TextField label="Hb E" value={dadData.hbE ?? '-'} readOnly fullWidth /></Grid>
+                </Grid>
+            </Box>
+
+            {/* Suggestion Section */}
+            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+                <Typography variant="h6">คำแนะนำ</Typography>
+                <Typography>{suggestion}</Typography>
+            </Box>
+
+            {/* Risk Assessment Section */}
+            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+                <Typography variant="h6">การประเมินความเสี่ยง</Typography>
+                <Typography>{riskResult}</Typography>
+            </Box>
+
+            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
                 <Typography variant="h6">นัดหมาย</Typography>
                 <TextField
                     label="Enter Appointment Details"
@@ -139,26 +145,26 @@ function HBTypeResultComponent() {
                     label="Enter Remark Details"
                     variant="outlined"
                     fullWidth
-                    onChange={(e) =>setRemarks(e.target.value)}
+                    onChange={(e) => setRemarks(e.target.value)}
                     value={remarks}
                 />
 
             </Box>
 
-      {/* Action Buttons */}
-      <Grid container justifyContent="space-between" spacing={2}>
-          <Grid item>
-              <Button variant="contained" color="primary">
-                  Save
-              </Button>
-          </Grid>
-          <Grid item>
-              <Button variant="outlined" color="secondary">
-                  Print
-              </Button>
-          </Grid>
-      </Grid>
-  </Container>
+            {/* Action Buttons */}
+            <Grid container justifyContent="space-between" spacing={2}>
+                <Grid item>
+                    <Button variant="contained" color="primary">
+                        Save
+                    </Button>
+                </Grid>
+                <Grid item>
+                    <Button variant="outlined" color="secondary">
+                        Print
+                    </Button>
+                </Grid>
+            </Grid>
+        </Container>
     );
 }
 

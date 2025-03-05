@@ -28,6 +28,11 @@ function AlphaBetaThalassemiaTest() {
     const [isAlphaEnabled, setIsAlphaEnabled] = useState(false);
     const [isBetaEnabled, setIsBetaEnabled] = useState(false);
 
+    const suggestion1 = `ไม่มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Hb Bart’s hydrop fetalis, Homozygous Beta-thalassemia ชนิด 
+β๐/ β๐ และ Beta-thalassemia/Hb E ชนิด β๐/ βE `
+    const suggestion21 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Hb Bart’s hydrop fetalis`
+    const suggestion22 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Homozygous Beta-thalassemia ชนิด β๐/ β๐`
+    const suggestion23 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค  Beta-thalassemia/Hb E ชนิด β๐/ βE`
     const isAlphaThal1 = (condition) => {
         const alphaThal1Conditions = [
             'SEA', 'THAI', 'FIL', 'MED', '-20.5kb',
@@ -98,6 +103,7 @@ function AlphaBetaThalassemiaTest() {
             console.log("ไม่ส่งตรวจก่อนคลอด");
             riskResult = "ไม่ส่งตรวจก่อนคลอด";
         }
+        let suggestion = "";
 
         let dadAlphatal1 = false;
         let momAlphatal1 = false;
@@ -144,6 +150,7 @@ function AlphaBetaThalassemiaTest() {
         } else if ((dadAlphatal1 && momAlphatal2) || (dadAlphatal2 && momAlphatal1) || (dadAlphatal2 && momAlphatal2)) {
             console.log(" ไม่ต้องส่งตรวจเจาะน้ำคร่ำ")
             riskTest = "ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
+            suggestion = suggestion1
         }
         console.log("BETA TEST")
         console.log("-----------------------")
@@ -171,10 +178,21 @@ function AlphaBetaThalassemiaTest() {
         ){
             console.log(" condition2 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ ")
             riskTest = "condition2 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
+            suggestion = suggestion1
         }else{
             console.log(" condition3 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ ")
             riskTest = "condition3 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
+            suggestion = suggestion1
         }
+
+        if(dadAlphatal1 && momAlphatal1){
+            suggestion = suggestion21
+        }else if(dadPositiveBeta && momPositiveBeta){
+            suggestion = suggestion22
+        }else if( ( dadPositiveBeta == 'CD26 (Hb E)') || (momPositiveBeta == 'CD26 (Hb E)') ){
+            suggestion = suggestion23
+        }
+
        
           // Prepare the new formData
           const newFormData = {
@@ -190,7 +208,8 @@ function AlphaBetaThalassemiaTest() {
             isAlphaEnabled: isAlphaEnabled,
             isBetaEnabled: isBetaEnabled,
             riskResult: riskResult,
-            riskTest: riskTest
+            riskTest: riskTest,
+            suggestion: suggestion
         };
 
         console.log("New Form Data:", newFormData);
@@ -236,7 +255,13 @@ function AlphaBetaThalassemiaTest() {
                                     control={
                                         <Checkbox
                                             checked={isAlphaEnabled}
-                                            onChange={(e) => setIsAlphaEnabled(e.target.checked)}
+                                            onChange={(e) => {
+                                                setIsAlphaEnabled(e.target.checked);
+                                                if (!e.target.checked) {
+                                                    setDadPositiveAlpha(null);
+                                                    setMomPositiveAlpha(null);
+                                                }
+                                            }}
                                         />
                                     }
                                     label="Enable Alpha Section"
@@ -273,6 +298,9 @@ function AlphaBetaThalassemiaTest() {
                                                     onChange={(e) => {
                                                         setDadAlpha(e.target.value)
                                                         console.log("dadAlpha", e.target.value)
+                                                        if(!e.target.value){
+                                                            setDadPositiveAlpha(null)
+                                                        }
                                                     }}
                                                 >
                                                     <MenuItem value={false}>
@@ -334,7 +362,13 @@ function AlphaBetaThalassemiaTest() {
                                                 <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Mom's Alpha</InputLabel>
                                                 <Select
                                                     value={momAlpha}
-                                                    onChange={(e) => setMomAlpha(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setMomAlpha(e.target.value)
+                                                        if(!e.target.value){
+                                                            setMomPositiveAlpha(null)
+                                                        }
+                                                    }
+                                                }
                                                 >
                                                     <MenuItem value={false}>
                                                         Negative for common alpha-globin deletions based on GAP-PCR analysis
@@ -400,7 +434,13 @@ function AlphaBetaThalassemiaTest() {
                                     control={
                                         <Checkbox
                                             checked={isBetaEnabled}
-                                            onChange={(e) => setIsBetaEnabled(e.target.checked)}
+                                            onChange={(e) => {
+                                                setIsBetaEnabled(e.target.checked);
+                                                if (!e.target.checked) {
+                                                    setDadPositiveBeta(null);
+                                                    setMomPositiveBeta(null);
+                                                }
+                                            }}
                                         />
                                     }
                                     label="Enable Beta Section"
@@ -434,7 +474,13 @@ function AlphaBetaThalassemiaTest() {
                                                 <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Dad's Beta</InputLabel>
                                                 <Select
                                                     value={dadBeta}
-                                                    onChange={(e) => setDadBeta(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setDadBeta(e.target.value)
+                                                        if(!e.target.value){
+                                                            setDadPositiveBeta(null);
+                                                        }
+                                                    }
+                                                }
                                                 >
                                                     <MenuItem value={false}>
                                                         Negative for common beta-globin deletions based on GAP-PCR analysis
@@ -493,7 +539,12 @@ function AlphaBetaThalassemiaTest() {
                                                 <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Mom's Beta</InputLabel>
                                                 <Select
                                                     value={momBeta}
-                                                    onChange={(e) => setMomBeta(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setMomBeta(e.target.value)
+                                                        if(!e.target.value){
+                                                            setMomPositiveBeta(null);
+                                                        }
+                                                    }}
                                                 >
                                                     <MenuItem value={false}>
                                                         Negative for common beta-globin deletions based on GAP-PCR analysis
