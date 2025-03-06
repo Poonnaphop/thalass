@@ -13,10 +13,15 @@ function HBTypeComponent() {
     const navigate = useNavigate();
     const formData = location.state;
 
-    const HBTypeSuggesttion1 = 'ไม่ใช่คู่เสี่ยงธาลัสซีเมียชนิดรุนแรง'
-    const HBTypeSuggesttion21 = 'มีความเสี่ยงที่จะเป็นคู่เสี่ยงธาลัสซีเมียชนิดรุนแรง Hb Bart’s hydrop fetalis '
-    const HBTypeSuggesttion22 = '2.2 มีความเสี่ยงที่จะเป็นคู่เสี่ยงธาลัสซีเมียชนิดรุนแรง Homozygous Beta-thalassemia ชนิด β๐/ β๐ '
-    const HBTypeSuggesttion23 = '2.3 มีความเสี่ยงที่จะเป็นคู่เสี่ยงธาลัสซีเมียชนิดรุนแรง Beta-thalassemia/Hb E ชนิด β๐/ βE '
+    const PCRResult1 = 'ไม่ใช่คู่เสี่ยงธาลัสซีเมียชนิดรุนแรง'
+    const PCRResult21 = '2.1 มีความเสี่ยงที่จะเป็นคู่เสี่ยงธาลัสซีเมียชนิดรุนแรง Hb Bart’s hydrop fetalis '
+    const PCRResult22 = '2.2 มีความเสี่ยงที่จะเป็นคู่เสี่ยงธาลัสซีเมียชนิดรุนแรง Homozygous Beta-thalassemia ชนิด β๐/ β๐ '
+    const PCRResult23 = '2.3 มีความเสี่ยงที่จะเป็นคู่เสี่ยงธาลัสซีเมียชนิดรุนแรง Beta-thalassemia/Hb E ชนิด β๐/ βE '
+
+    const PCRSuggestion22 = 'จำเป็นต้องตรวจ PCR for Beta ทั้งคู่'
+    const PCRSuggestion21 = 'จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่'
+    const PCRSuggestion231 = 'จำเป็นต้องตรวจ PCR for Beta ของภรรยา'
+    const PCRSuggestion232 = 'จำเป็นต้องตรวจ PCR for Beta ของสามี'
     // Handle Next Button click
     const handleNext = () => {
         // Construct momData and dadData objects
@@ -50,6 +55,7 @@ function HBTypeComponent() {
         const momDesc = riskResult2.momDesc;
         const dadDesc = riskResult2.dadDesc;
         const dadOrder = riskResult2.dadOrder;
+        let PCR = riskResult2.PCR;
         let suggestion = riskResult2.suggestion;
 
 
@@ -67,6 +73,7 @@ function HBTypeComponent() {
             dadOrder,
             momDesc,
             dadDesc,
+            PCR,
             suggestion
         };
 
@@ -275,7 +282,8 @@ function HBTypeComponent() {
     function evaluateRisk(momMCV, momMCH, momHbA, momOF, momHbF, momHbCs, momHbBart, momDCIP, momHbH, momA2, momHbA2PlusE, momHbA2, momHbE,
         dadMCV, dadMCH, dadHbA, dadOF, dadHbF, dadHbCs, dadHbBart, dadDCIP, dadHbH, dadA2, dadHbA2PlusE, dadHbA2, dadHbE) {
 
-        let suggestion = 'No specific risk condition met';
+        let PCR = [];
+        let suggestion = [];
 
         let risk = "No specific risk condition met";
         let momOrderDesc = evaluateOrder(
@@ -329,70 +337,95 @@ function HBTypeComponent() {
         
         if (momOrder == 1 && dadOrder >= 1 && dadOrder <= 22) {
             risk = "Not risk";
-            suggestion = HBTypeSuggesttion1
+            PCR.push(PCRResult1); 
         } else if ([2, 8, 9, 10, 11].includes(parseInt(momOrder))) {
             if ([1, 4].includes(parseInt(dadOrder))) {
                 risk = "Not risk";
-                suggestion = HBTypeSuggesttion1;
+                PCR.push(PCRResult1);
             } else {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
-                suggestion = HBTypeSuggesttion22;
+                PCR.push(PCRResult22);
+                suggestion.push(PCRSuggestion21)
             }
         } else if (momOrder == 3) {
-            if (dadOrder == 1) { risk = "Not risk"; suggestion = HBTypeSuggesttion1; }
+            if (dadOrder == 1) { risk = "Not risk"; PCR.push(PCRResult1); }
             else if ([2, 8, 9, 10, 11].includes(parseInt(dadOrder))) {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
-                suggestion = HBTypeSuggesttion22;
+                PCR.push(PCRResult22);
+                suggestion.push(PCRSuggestion21)
             }
             else if ([3, 5, 6, 7, 12, 13, 14, 15, 16, 17, 18, 19, 20.1, 20.2, 21, 22].includes(parseInt(dadOrder))) {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
-                suggestion = HBTypeSuggesttion21 + "\n" + HBTypeSuggesttion22;
+                PCR.push(PCRResult21);
+                PCR.push(PCRResult22);
+                suggestion.push(PCRSuggestion21);
+                suggestion.push(PCRSuggestion22);
             }
 
             else {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: สามีควรส่งตรวจ beta";
-                suggestion = HBTypeSuggesttion23;
+                PCR.push(PCRResult23);
+                suggestion.push(PCRSuggestion232);
             }
         } else if (momOrder == 4) {
             if ([1, 2, 4, 5, 6, 10, 11, 16, 19, 20.1].includes(parseInt(dadOrder))) {
                 risk = "Not risk";
-                suggestion = HBTypeSuggesttion1;
+                PCR.push(PCRResult1);
             } else {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: สามีควรส่งตรวจ beta";
-                suggestion = HBTypeSuggesttion23;
+                PCR.push(PCRResult23);
+                suggestion.push(PCRSuggestion232);
             }
         } else if ([5, 6, 16, 19, 20.1, 20.2].includes(parseInt(momOrder))) {
             if ([1, 4].includes(parseInt(dadOrder))) {
                 risk = "Not risk";
-                suggestion = HBTypeSuggesttion1;
+                PCR.push(PCRResult1);
             }
             else if ([3, 7, 12, 13, 14, 15, 17, 18, 20.1, 21, 22].includes(parseInt(dadOrder))) {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
-                suggestion = HBTypeSuggesttion21 + "\n" + HBTypeSuggesttion22;
+                PCR.push(PCRResult21);
+                PCR.push(PCRResult22);
+                suggestion.push(PCRSuggestion21);
+                suggestion.push(PCRSuggestion22);
             }
             else {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
-                suggestion = HBTypeSuggesttion22;
+                PCR.push(PCRResult22);
+                suggestion.push(PCRSuggestion21);
             }
         } else if ([7, 12, 13, 14, 15, 17, 18, 21, 22].includes(parseInt(momOrder))) {
             if (dadOrder == 1) {
                 risk = "Not risk";
-                suggestion = HBTypeSuggesttion1;
+                PCR.push(PCRResult1);
             }
             else if ([2, 8, 9, 10, 11].includes(parseInt(dadOrder))) {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
-                suggestion = HBTypeSuggesttion22;
+                PCR.push(PCRResult22);
+                suggestion.push(PCRSuggestion21);
             }
             else if (dadOrder == 4) {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: ภรรยาควรส่งตรวจ beta";
-                suggestion = HBTypeSuggesttion23;
+                PCR.push(PCRResult23);
+                suggestion.push(PCRSuggestion231);
             }
             else {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ Alpha, beta";
-                suggestion = HBTypeSuggesttion21 + "\n" + HBTypeSuggesttion22;
+                PCR.push(PCRResult21);
+                PCR.push(PCRResult22);
+                suggestion.push(PCRSuggestion21);
+                suggestion.push(PCRSuggestion22);
             }
         }
-        return { risk, momOrder, dadOrder, momDesc, dadDesc, suggestion };
+        console.log(
+            'risk',risk,
+            'momOrder',momOrder,
+            'dadOrder',dadOrder,
+            'momDesc',momDesc,
+            'dadDesc',dadDesc,
+            'PCR',PCR,
+            'suggestion',suggestion
+        );
+        return { risk, momOrder, dadOrder, momDesc, dadDesc, PCR,suggestion };
     }
 
 

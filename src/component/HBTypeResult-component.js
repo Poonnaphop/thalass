@@ -14,10 +14,10 @@ function HBTypeResultComponent() {
     const {
         momOrder, dadOrder, riskResult, momDesc, dadDesc,
         dadData, momData, wifeName, wifeSurname, husbandName, husbandSurname,
-        momOrderInput, dadOrderInput, dadOrderFlag, momOrderFlag, suggestion
+        momOrderInput, dadOrderInput, dadOrderFlag, momOrderFlag, PCR,suggestion
     } = formData || {};
 
-    console.log('formData', formData);
+    console.log('formData at HBTypeResultComponent:', formData);
 
     return (
 
@@ -115,16 +115,26 @@ function HBTypeResultComponent() {
                 </Grid>
             </Box>
 
-            {/* Suggestion Section */}
-            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
-                <Typography variant="h6">คำแนะนำ</Typography>
-                <Typography>{suggestion}</Typography>
-            </Box>
-
             {/* Risk Assessment Section */}
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
                 <Typography variant="h6">การประเมินความเสี่ยง</Typography>
                 <Typography>{riskResult}</Typography>
+            </Box>
+
+            {/* Suggestion Section */}
+            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+                <Typography variant="h6">คำแนะนำ</Typography>
+                {suggestion.map((item, index) => (
+                    <Typography key={index}>{item}</Typography>
+                ))}
+            </Box>
+
+            {/* PCR Section */}
+            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+                <Typography variant="h6">รายงานผลPCR</Typography>
+                {PCR.map((item, index) => (
+                    <Typography key={index}>{item}</Typography>
+                ))}
             </Box>
 
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
