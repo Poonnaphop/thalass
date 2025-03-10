@@ -28,7 +28,8 @@ function AlphaBetaThalassemiaResultComponent() {
         isAlphaEnabled,
         isBetaEnabled,
         riskTest,
-        suggestion
+        PCRResult,
+        PCRSugestion
     } = formData || {};
 
     return (
@@ -156,18 +157,23 @@ function AlphaBetaThalassemiaResultComponent() {
                 </Grid>
             </Box>
 
-            {/* Suggestion Section */}
-            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
-                <Typography variant="h6">คำแนะนำ</Typography>
-                <Typography>{suggestion}</Typography>
-            </Box>
-
-
             {/* Risk Assessment Section */}
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
                 <Typography variant="h6">การประเมินความเสี่ยง</Typography>
                 <Typography>{riskResult}</Typography>
                 <Typography>{riskTest}</Typography>
+            </Box>
+
+             {/* Suggestion Section */}
+             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+                <Typography variant="h6">คำแนะนำ</Typography>
+                <Typography>{PCRSugestion}</Typography>
+            </Box>
+
+            {/* PCRResult Section */}
+            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+                <Typography variant="h6">รายงานผลPCR</Typography>
+                <Typography>{PCRResult}</Typography>
             </Box>
 
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>

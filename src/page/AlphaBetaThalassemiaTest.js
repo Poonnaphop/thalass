@@ -28,11 +28,14 @@ function AlphaBetaThalassemiaTest() {
     const [isAlphaEnabled, setIsAlphaEnabled] = useState(false);
     const [isBetaEnabled, setIsBetaEnabled] = useState(false);
 
-    const suggestion1 = `ไม่มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Hb Bart’s hydrop fetalis, Homozygous Beta-thalassemia ชนิด 
+    const PCRResult1 = `ไม่มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Hb Bart’s hydrop fetalis, Homozygous Beta-thalassemia ชนิด 
 β๐/ β๐ และ Beta-thalassemia/Hb E ชนิด β๐/ βE `
-    const suggestion21 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Hb Bart’s hydrop fetalis`
-    const suggestion22 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Homozygous Beta-thalassemia ชนิด β๐/ β๐`
-    const suggestion23 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค  Beta-thalassemia/Hb E ชนิด β๐/ βE`
+    const PCRResult21 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Hb Bart’s hydrop fetalis`
+    const PCRResult22 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Homozygous Beta-thalassemia ชนิด β๐/ β๐`
+    const PCRResult23 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค  Beta-thalassemia/Hb E ชนิด β๐/ βE`
+
+    const PCRSuggestion1 = '---'
+    const PCRSuggestion2 = 'แนะนำตรวจวินิจฉัยเพิ่มเติม ได้แก่ 1) เจาะน้ำคร่ำ 2) เจาะเลือดจากสายสะดือทารกในครรภ์'
     const isAlphaThal1 = (condition) => {
         const alphaThal1Conditions = [
             'SEA', 'THAI', 'FIL', 'MED', '-20.5kb',
@@ -103,7 +106,8 @@ function AlphaBetaThalassemiaTest() {
             console.log("ไม่ส่งตรวจก่อนคลอด");
             riskResult = "ไม่ส่งตรวจก่อนคลอด";
         }
-        let suggestion = "";
+        let PCRResult = "";
+        let PCRSugestion = "";
 
         let dadAlphatal1 = false;
         let momAlphatal1 = false;
@@ -150,7 +154,7 @@ function AlphaBetaThalassemiaTest() {
         } else if ((dadAlphatal1 && momAlphatal2) || (dadAlphatal2 && momAlphatal1) || (dadAlphatal2 && momAlphatal2)) {
             console.log(" ไม่ต้องส่งตรวจเจาะน้ำคร่ำ")
             riskTest = "ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
-            suggestion = suggestion1
+            PCRResult = PCRResult1
         }
         console.log("BETA TEST")
         console.log("-----------------------")
@@ -167,6 +171,7 @@ function AlphaBetaThalassemiaTest() {
             )) {
             console.log(" condition1 : ต้องส่งตรวจเจาะน้ำคร่ำ ")
             riskTest = "condition1 : ต้องส่งตรวจเจาะน้ำคร่ำ";
+            PCRResult = PCRResult1
         }else if(
             (!dadBeta && !momBeta)
             ||
@@ -178,19 +183,24 @@ function AlphaBetaThalassemiaTest() {
         ){
             console.log(" condition2 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ ")
             riskTest = "condition2 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
-            suggestion = suggestion1
+            PCRResult = PCRResult1
+            PCRSugestion = PCRSuggestion1
         }else{
             console.log(" condition3 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ ")
             riskTest = "condition3 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
-            suggestion = suggestion1
+            PCRResult = PCRResult1
+            PCRSugestion = PCRSuggestion1
         }
 
         if(dadAlphatal1 && momAlphatal1){
-            suggestion = suggestion21
+            PCRResult = PCRResult21
+            PCRSugestion = PCRSuggestion2
         }else if(dadPositiveBeta && momPositiveBeta){
-            suggestion = suggestion22
+            PCRResult = PCRResult22
+            PCRSugestion = PCRSuggestion2
         }else if( ( dadPositiveBeta == 'CD26 (Hb E)') || (momPositiveBeta == 'CD26 (Hb E)') ){
-            suggestion = suggestion23
+            PCRResult = PCRResult23
+            PCRSugestion = PCRSuggestion2
         }
 
        
@@ -209,7 +219,8 @@ function AlphaBetaThalassemiaTest() {
             isBetaEnabled: isBetaEnabled,
             riskResult: riskResult,
             riskTest: riskTest,
-            suggestion: suggestion
+            PCRResult: PCRResult,
+            PCRSugestion: PCRSugestion
         };
 
         console.log("New Form Data:", newFormData);
