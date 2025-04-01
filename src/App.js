@@ -7,8 +7,9 @@ import HBType from './page/HBType';
 import HBTypeResult from './page/HBTypeResult';
 import AlphaBetaThalassemiaTest from './page/AlphaBetaThalassemiaTest';
 import AlphaBetaThalassemiaResult from './page/AlphaBetaThalassemiaResult';
+import AlphaBetaThalassemiaResult2 from './page/AlphaBetaThalassemiaResult2';
 
-function App() {
+export default function App() {
   return (
     <Router>
       <Routes>
@@ -20,9 +21,10 @@ function App() {
         <Route path='/hbtyperesult' element={<HBTypeResult/>} />
         <Route path='/alpha-beta-thalassemia-test' element={<AlphaBetaThalassemiaTest/>} />
         <Route path='/alpha-beta-thalassemia-result' element={<AlphaBetaThalassemiaResult/>} />
+        <Route path='/alpha-beta-thalassemia-result2' element={<AlphaBetaThalassemiaResult2/>} />
       </Routes>
     </Router>
   );
 }
 
-export default App;
+

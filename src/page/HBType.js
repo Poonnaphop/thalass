@@ -1,8 +1,15 @@
 import HBTypeComponent from "../component/HBType-component";
+import Footbar from "../Footbar";
+import Headbar from "../Headbar";
 
-function HBType() {
+export default function HBType() {
     return (
-        <HBTypeComponent />
+        <div>
+            <Headbar />
+            <HBTypeComponent />
+            <Footbar />
+        </div>
     );
 }
-export default HBType
+
+

@@ -1,6 +1,6 @@
 
 const betaOptions = {
-    "CD8/5 (+G)": "CD8/5 (+G)",
+    "CD8/9 (+G)": "CD8/9 (+G)",
 "CD17 (A>T)": "CD17 (A>T)",
 "IVSI-I (G>T)": "IVSI-I (G>T)",
 "IVSI-S (G>C)": "IVSI-S (G>C)",

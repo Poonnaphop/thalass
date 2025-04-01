@@ -1,5 +1,3 @@
-import { be } from "date-fns/locale";
-
 const descriptions = {
     1: "A2A ,Hb A2<=3.5",
     2: "A2A ,Hb A2<=3.5",
@@ -26,5 +24,4 @@ const descriptions = {
     22: "rare abnormal Hb"
 };
 
-
-export default( descriptions );
+export default descriptions;

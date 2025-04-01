@@ -1,8 +1,15 @@
 import TypeSelectComponent from "../component/TypeSelect-component";
-function TypeSelect() {
+import Footbar from "../Footbar";
+import Headbar from "../Headbar";
+
+export default function TypeSelect() {
     return (
-        <TypeSelectComponent/>
+        <div>
+            <Headbar />
+            <TypeSelectComponent />
+            <Footbar />
+        </div>
     );
 }
 
-export default TypeSelect;
+
