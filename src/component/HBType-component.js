@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 //import Grid from '@mui/material/Grid2';
 import { Container, Box, Typography, TextField, Button, RadioGroup, FormControlLabel, Radio, InputLabel, FormControl, Select, MenuItem } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Checkbox } from '@material-ui/core';
+import { Checkbox } from'@mui/material';
 import descriptions from '../constant/descriptions';
 
 
