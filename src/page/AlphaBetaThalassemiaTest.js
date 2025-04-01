@@ -13,13 +13,13 @@ function AlphaBetaThalassemiaTest() {
     const navigate = useNavigate();
     const formData = location.state;
     // States for dad's dropdowns 
-    const [dadAlpha, setDadAlpha] = useState(null);
+    const [dadAlpha, setDadAlpha] = useState(true);
     const [dadBeta, setDadBeta] = useState(null);
     const [dadPositiveAlpha, setDadPositiveAlpha] = useState(null);
     const [dadPositiveBeta, setDadPositiveBeta] = useState(null);
 
     // States for mom's dropdowns
-    const [momAlpha, setMomAlpha] = useState(null);
+    const [momAlpha, setMomAlpha] = useState(true);
     const [momBeta, setMomBeta] = useState(null);
     const [momPositiveAlpha, setMomPositiveAlpha] = useState(null);
     const [momPositiveBeta, setMomPositiveBeta] = useState(null);
@@ -118,20 +118,20 @@ function AlphaBetaThalassemiaTest() {
         let momB0 = false;
         let mombBplus = false;
         if (dadAlpha) {
-            dadAlphatal1 = isAlphaThal1(dadAlpha);
-            dadAlphatal2 = isAlphaThal2(dadAlpha);
+            dadAlphatal1 = isAlphaThal1(dadPositiveAlpha);
+            dadAlphatal2 = isAlphaThal2(dadPositiveAlpha);
         }
         if (dadBeta) {
-            dadB0 = isB0(dadBeta);
-            dadbBplus = isBPlus(dadBeta);
+            dadB0 = isB0(dadPositiveBeta);
+            dadbBplus = isBPlus(dadPositiveBeta);
         }
         if (momBeta) {
-            momB0 = isB0(momBeta);
-            mombBplus = isBPlus(momBeta);
+            momB0 = isB0(momPositiveBeta);
+            mombBplus = isBPlus(momPositiveBeta);
         }
         if (momAlpha) {
-            momAlphatal1 = isAlphaThal1(momAlpha);
-            momAlphatal2 = isAlphaThal2(momAlpha);
+            momAlphatal1 = isAlphaThal1(momPositiveAlpha);
+            momAlphatal2 = isAlphaThal2(momPositiveAlpha);
         }
         console.log("ALPHA TEST")
         console.log("-----------------------")
@@ -198,7 +198,7 @@ function AlphaBetaThalassemiaTest() {
         }else if(dadPositiveBeta && momPositiveBeta){
             PCRResult = PCRResult22
             PCRSugestion = PCRSuggestion2
-        }else if( ( dadPositiveBeta == 'CD26 (Hb E)') || (momPositiveBeta == 'CD26 (Hb E)') ){
+        }else if(dadPositiveBeta && momB0 || momPositiveBeta && dadB0){
             PCRResult = PCRResult23
             PCRSugestion = PCRSuggestion2
         }
@@ -302,7 +302,7 @@ function AlphaBetaThalassemiaTest() {
                                             <Typography variant="h5" gutterBottom>
                                                 Dad - Alpha
                                             </Typography>
-                                            <FormControl fullWidth>
+                                            {/* <FormControl fullWidth>
                                                 <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Dad's Alpha</InputLabel>
                                                 <Select
                                                     value={dadAlpha}
@@ -321,7 +321,7 @@ function AlphaBetaThalassemiaTest() {
                                                         Positive for common alpha-globin deletions based on GAP-PCR analysis
                                                     </MenuItem>
                                                 </Select>
-                                            </FormControl>
+                                            </FormControl> */}
                                             <FormControl style={{ display: dadAlpha ? '' : 'none', minWidth: '50%', mt: 5 }}>
                                                 <InputLabel id="dad-order-select-label">Order</InputLabel>
                                                 <Select
@@ -369,7 +369,7 @@ function AlphaBetaThalassemiaTest() {
                                             <Typography variant="h5" gutterBottom>
                                                 Mom - Alpha
                                             </Typography>
-                                            <FormControl fullWidth>
+                                            {/* <FormControl fullWidth>
                                                 <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Mom's Alpha</InputLabel>
                                                 <Select
                                                     value={momAlpha}
@@ -388,7 +388,7 @@ function AlphaBetaThalassemiaTest() {
                                                         Positive for common alpha-globin deletions based on GAP-PCR analysis
                                                     </MenuItem>
                                                 </Select>
-                                            </FormControl>
+                                            </FormControl> */}
 
                                             <FormControl style={{ display: momAlpha ? '' : 'none', minWidth: '50%', mt: 5 }}>
                                                 <InputLabel id="mom-order-select-label">Order</InputLabel>
@@ -487,21 +487,24 @@ function AlphaBetaThalassemiaTest() {
                                                     value={dadBeta}
                                                     onChange={(e) => {
                                                         setDadBeta(e.target.value)
-                                                        if(!e.target.value){
+                                                        if(!e.target.value || e.target.value != 2){
                                                             setDadPositiveBeta(null);
                                                         }
                                                     }
                                                 }
                                                 >
-                                                    <MenuItem value={false}>
+                                                    <MenuItem value={1}>
                                                         Negative for common beta-globin deletions based on GAP-PCR analysis
                                                     </MenuItem>
-                                                    <MenuItem value={true}>
+                                                    <MenuItem value={2}>
                                                         Positive for common beta-globin deletions based on GAP-PCR analysis
+                                                    </MenuItem>
+                                                    <MenuItem value={3}>
+                                                       HBE
                                                     </MenuItem>
                                                 </Select>
                                             </FormControl>
-                                            <FormControl style={{ display: dadBeta ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                            <FormControl style={{ display: dadBeta == 2 ? '' : 'none', minWidth: '50%', mt: 5 }}>
                                                 <InputLabel id="dad-order-select-label">Order</InputLabel>
                                                 <Select
                                                     labelId="dad-order-select-label"
@@ -552,21 +555,24 @@ function AlphaBetaThalassemiaTest() {
                                                     value={momBeta}
                                                     onChange={(e) => {
                                                         setMomBeta(e.target.value)
-                                                        if(!e.target.value){
+                                                        if(!e.target.value || e.target.value != 2){
                                                             setMomPositiveBeta(null);
                                                         }
                                                     }}
                                                 >
-                                                    <MenuItem value={false}>
+                                                    <MenuItem value={1}>
                                                         Negative for common beta-globin deletions based on GAP-PCR analysis
                                                     </MenuItem>
-                                                    <MenuItem value={true}>
+                                                    <MenuItem value={2}>
                                                         Positive for common beta-globin deletions based on GAP-PCR analysis
+                                                    </MenuItem>
+                                                    <MenuItem value={3}>
+                                                       HBE
                                                     </MenuItem>
                                                 </Select>
                                             </FormControl>
 
-                                            <FormControl style={{ display: momBeta ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                            <FormControl style={{ display: momBeta == 2 ? '' : 'none', minWidth: '50%', mt: 5 }}>
                                                 <InputLabel id="mom-order-select-label">Order</InputLabel>
                                                 <Select
                                                     labelId="mom-order-select-label"

@@ -134,35 +134,35 @@ function HBTypeComponent() {
         order = 22
 
         // Condition 1:
-        if (A2 <= 3.5 && hb_a !== 0 && hb_e == 0 && hba2_plus_e == 0 && hb_f == 0 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && mcv >= 80 && mch >= 27
+        if (A2 <= 3.5 && hb_a !== 0 && hb_e == 0 && hba2_plus_e == 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && mcv >= 80 && mch >= 27
         ) {
             incondition.push(1);
             desc = descriptions[1];
             order = 1;
         }
         // Condition 2:
-        else if (A2 <= 3.5 && hb_a !== 0 && hb_e == 0 && hba2_plus_e == 0 && hb_f == 0 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && mcv < 80 && mch < 27
+        else if (A2 <= 3.5 && hb_a !== 0 && hb_e == 0 && hba2_plus_e == 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && mcv < 80 && mch < 27
         ) {
             incondition.push(2);
             desc = descriptions[2];
             order = 2;
         }
         // Condition 3:
-        else if (A2 > 3.5 && A2 <= 8 && hb_a !== 0 && hb_e == 0 && hba2_plus_e == 0 && hb_f == 0 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && mcv <= 100 && mch < 27
+        else if (A2 > 3.5 && A2 <= 8 && hb_a !== 0 && hb_e == 0 && hba2_plus_e == 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && mcv <= 100 && mch < 27
         ) {
             incondition.push(3);
             desc = descriptions[3];
             order = 3;
         }
         // Condition 4:
-        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_a !== 0 && hb_f == 0 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && mcv <= 100 && mch < 27
+        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_a !== 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && mcv <= 100 && mch < 27
         ) {
             incondition.push(4);
             desc = descriptions[4];
             order = 4;
         }
         // Condition 5:
-        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_a !== 0 && hb_f == 0 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && mcv < 80 && mch < 27
+        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_a !== 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && mcv < 80 && mch < 27
         ) {
             incondition.push(5);
             desc = descriptions[5];
@@ -183,27 +183,27 @@ function HBTypeComponent() {
             order = 7;
         }
         // Condition 8:
-        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && (hb_e == 0 || hba2_plus_e == 0) && hb_f == 0 && hb_bart == 0 && hb_h == 0 && mcv <= 100 && mch < 27
+        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && (hb_e == 0 || hba2_plus_e == 0) && hb_f <= 5 && hb_bart == 0 && hb_h == 0 && mcv <= 100 && mch < 27
         ) {
             incondition.push(8);
             desc = descriptions[8];
             order = 8;
         }
         // Condition 9:
-        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_e == 0 && hb_f == 0 && hb_h == 0 && mcv < 80 && mch < 27
+        else if (hb_cs !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_e == 0 && hb_f <= 5 && hb_h == 0 && mcv < 80 && mch < 27
         ) {
             incondition.push(9);
             desc = descriptions[9];
             order = 9;
         }
         // Condition 10:
-        else if (hb_h !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_e == 0 && hb_f == 0 && hb_cs == 0 && mcv < 80 && mch < 27) {
+        else if (hb_h !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_e == 0 && hb_f <= 5 && hb_cs == 0 && mcv < 80 && mch < 27) {
             incondition.push(10);
             desc = descriptions[10];
             order = 10;
         }
         // Condition 11:
-        else if (hb_h !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_e == 0 && hb_f == 0 && mcv < 80 && mch < 27) {
+        else if (hb_h !== 0 && A2 !== 0 && hb_a !== 0 && hb_bart !== 0 && hb_cs !== 0 && hb_e == 0 && hb_f <= 5 && mcv < 80 && mch < 27) {
             incondition.push(11);
             desc = descriptions[11];
             order = 11;
@@ -233,7 +233,7 @@ function HBTypeComponent() {
             order = 15;
         }
         // Condition 16:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs == 0 && hb_f == 0 && hb_h == 0 && A2 == 0 && mcv < 80 && mch < 27) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs == 0 && hb_f <= 5 && hb_h == 0 && A2 == 0 && mcv < 80 && mch < 27) {
             incondition.push(16);
             desc = descriptions[16];
             order = 16;
@@ -251,7 +251,7 @@ function HBTypeComponent() {
             order = 18;
         }
         // Condition 19:
-        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs !== 0 && hb_f == 0 && hb_h == 0 && mcv < 80 && mch < 27) {
+        else if (((hb_e + hba2 >= 30 && hb_e + hba2 <= 80 || 30 <= hba2_plus_e <= 80)) && hb_bart !== 0 && hb_a !== 0 && hb_cs !== 0 && hb_f <= 5 && hb_h == 0 && mcv < 80 && mch < 27) {
             incondition.push(19);
             desc = descriptions[19];
             order = 19;
