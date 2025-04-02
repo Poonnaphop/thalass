@@ -5,22 +5,20 @@ import { useLocation } from "react-router-dom";
 import { Document, Page, Text, View, StyleSheet, BlobProvider, Font } from '@react-pdf/renderer';
 
 // Register custom font and disable word hyphenation
-// Register custom font and disable word hyphenation
 const registerFonts = () => {
   try {
-    if (!Font.getRegisteredFonts().find(font => font.family === 'Sarabun')) {
-      Font.register({
-        family: 'Sarabun',
-        src: '/fonts/Sarabun-Medium.ttf',
-        format: 'truetype'
-      });
-      Font.registerHyphenationCallback((word) => [word]);
-    }
+    Font.register({
+      family: 'Sarabun',
+      src: '/fonts/Sarabun-Medium.ttf',
+      format: 'truetype'
+    });
+    Font.registerHyphenationCallback((word) => [word]);
   } catch (error) {
     console.error('Error registering font:', error);
   }
 };
 
+// Call registerFonts before creating any PDF documents
 registerFonts();
 
 const styles = StyleSheet.create({
@@ -51,7 +49,7 @@ const styles = StyleSheet.create({
   },
   signatureLine: {
     borderBottomWidth: 1,
-    borderBottomStyle: 'solid', 
+    borderBottomStyle: 'solid',
     borderBottomColor: '#000',
     marginVertical: 8,
     width: '25%',
@@ -218,7 +216,7 @@ const formatThaiDate = () => {
 
 // PDF Document Component
 const PDFDocument = ({ formData, doctorName, appointmentDetails, remarks }) => (
-  <Document>
+  <Document onRender={() => console.log('PDF rendered successfully')}>
     <Page size="A4" style={styles.page}>
       <Text style={styles.header}>
         ศูนย์พัฒนาสูตรและเป็นเลิศการคัดกรองและวินิจฉัยก่อนคลอด
@@ -390,16 +388,25 @@ const PDFDocument = ({ formData, doctorName, appointmentDetails, remarks }) => (
       </View>
 
       <View style={styles.wrappedText}>
-        <View style={{ flexDirection: "row", marginBottom: 8 }}>
-          <Text style={{ width: 40 }}>สรุป</Text>
-          <View style={styles.dotLine} />
-        </View>
-
-        <View style={{ flexDirection: "row", marginBottom: 8 }}>
-          <Text style={{ width: 80 }}>ข้อเสนอแนะ</Text>
-          <View style={styles.dotLine} />
+        <View style={{ flexDirection: "row", marginBottom: 16 }}>
+          <Text style={{ width: 80 }}>สรุป</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.summaryText, { marginBottom: 8 }]}>{formData?.PCRResult || "-"}</Text>
+            <View style={styles.dotLine} />
+          </View>
         </View>
       </View>
+
+      <View style={styles.wrappedText}>
+        <View style={{ flexDirection: "row", marginBottom: 16 }}>
+          <Text style={{ width: 80 }}>ข้อเสนอแนะ</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.summaryText, { marginBottom: 8 }]}>{formData?.PCRSugestion || "-"}</Text>
+            <View style={styles.dotLine} />
+          </View>
+        </View>
+      </View>
+
       <View
         style={{ flexDirection: "row", marginBottom: 4, alignItems: "center" }}
       >
@@ -459,14 +466,14 @@ const PDFDocument = ({ formData, doctorName, appointmentDetails, remarks }) => (
         <View style={[styles.dotLine, { marginLeft: 4 }]} />
       </View>
     </Page>
-  </Document>
+  </Document >
 );
 
 function AlphaBetaThalassemiaResultComponent() {
   const location = useLocation();
-  const [doctorName, setDoctorName] = useState('');
-  const [appointmentDetails, setAppointmentDetails] = useState('');
-  const [remarks, setRemarks] = useState('');
+  const [doctorName, setDoctorName] = useState(' ');
+  const [appointmentDetails, setAppointmentDetails] = useState(' ');
+  const [remarks, setRemarks] = useState(' ');
   const formData = location.state?.formData;
 
   const {
@@ -696,6 +703,10 @@ function AlphaBetaThalassemiaResultComponent() {
             onError={(error) => {
               console.error('Error generating PDF:', error);
               alert('เกิดข้อผิดพลาดในการสร้าง PDF กรุณาลองใหม่อีกครั้ง');
+            }}
+            options={{
+              cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/cmaps/',
+              cMapPacked: true,
             }}
           >
             {({ blob, url, loading, error }) => {

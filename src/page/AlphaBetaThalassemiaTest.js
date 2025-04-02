@@ -35,7 +35,7 @@ function AlphaBetaThalassemiaTest() {
     const PCRResult23 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค  Beta-thalassemia/Hb E ชนิด β๐/ βE`
 
     const PCRSuggestion1 = '---'
-    const PCRSuggestion2 = 'แนะนำตรวจวินิจฉัยเพิ่มเติม ได้แก่ 1) เจาะน้ำคร่ำ 2) เจาะเลือดจากสายสะดือทารกในครรภ์'
+    const PCRSuggestion2 = 'แนะนำตรวจวินิจฉัยเพิ่มเติม ได้แก่ 1) เจาะน้ำคร่ำ 2) เจาะเลือดจากสายสะดือทารกในครรภ์ '
     const isAlphaThal1 = (condition) => {
         const alphaThal1Conditions = [
             'SEA', 'THAI', 'FIL', 'MED', '-20.5kb',
