@@ -5,27 +5,24 @@ import { useLocation } from "react-router-dom";
 import { Document, Page, Text, View, StyleSheet, BlobProvider, Font } from '@react-pdf/renderer';
 
 // Register custom font and disable word hyphenation
-try {
-  Font.register({
-    family: 'Sarabun',
-    src: '/fonts/Sarabun-Medium.ttf',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    subset: true,
-    format: 'truetype'
-  });
-  
-  // Disable word hyphenation
-  Font.registerHyphenationCallback((word) => {
-    return [word];
-  });
-  
-  console.log('Font registered successfully');
-} catch (error) {
-  console.error('Error registering font:', error);
-}
+// Register custom font and disable word hyphenation
+const registerFonts = () => {
+  try {
+    if (!Font.getRegisteredFonts().find(font => font.family === 'Sarabun')) {
+      Font.register({
+        family: 'Sarabun',
+        src: '/fonts/Sarabun-Medium.ttf',
+        format: 'truetype'
+      });
+      Font.registerHyphenationCallback((word) => [word]);
+    }
+  } catch (error) {
+    console.error('Error registering font:', error);
+  }
+};
 
-// Define styles for PDF using the custom font
+registerFonts();
+
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
@@ -42,7 +39,7 @@ const styles = StyleSheet.create({
   },
   subHeader: {
     fontSize: 12,
-    marginBottom: 1,
+    marginBottom: 0,
     textAlign: 'left',
   },
   dotLine: {
@@ -192,7 +189,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
     flex: 1,
-    marginBottom: 8,
+    marginBottom: 1,
   },
   summaryText: {
     display: "flex",
@@ -223,48 +220,81 @@ const formatThaiDate = () => {
 const PDFDocument = ({ formData, doctorName, appointmentDetails, remarks }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      <Text style={styles.header}>ศูนย์พัฒนาสูตรและเป็นเลิศการคัดกรองและวินิจฉัยก่อนคลอด</Text>
-      <Text style={styles.subHeader}>โรคโลหิตจางธาลัสซีเมีย โรงพยาบาลธรรมศาสตร์เฉลิมพระเกียรติ</Text>
-      <View style={styles.dotLine} />
-      
-      <Text style={styles.formTitle}>แบบบันทึกการให้คำปรึกษาแก่คู่สมรสที่มีความเสี่ยงต่อการมีบุตรเป็นโรคธาลัสซีเมียย</Text>
-      
+      <Text style={styles.header}>
+        ศูนย์พัฒนาสูตรและเป็นเลิศการคัดกรองและวินิจฉัยก่อนคลอด
+      </Text>
+      <Text style={styles.subHeader}>
+        โรคโลหิตจางธาลัสซีเมีย โรงพยาบาลธรรมศาสตร์เฉลิมพระเกียรติ
+      </Text>
+      <View
+        style={[
+          styles.wrappedText,
+          { maxHeight: 1, marginTop: 4, marginBottom: 4 },
+        ]}
+      >
+        <View style={styles.dotLine} />
+      </View>
+
+      <Text style={styles.formTitle}>
+        แบบบันทึกการให้คำปรึกษาแก่คู่สมรสที่มีความเสี่ยงต่อการมีบุตรเป็นโรคธาลัสซีเมียย
+      </Text>
+
       <View style={styles.dateContainer}>
-        <Text style={styles.dateText}>วันที่........{formatThaiDate()}........</Text>
+        <Text style={styles.dateText}>
+          วันที่........{formatThaiDate()}........
+        </Text>
       </View>
 
       <View style={styles.boxesContainer}>
         <View style={styles.box}>
-          <Text style={[styles.boxLabel, { textAlign: 'center' }]}>ภรรยา</Text>
+          <Text style={[styles.boxLabel, { textAlign: "center" }]}>ภรรยา</Text>
           <View style={styles.wrappedText}>
-            <Text style={styles.boxText}>ชื่อ-สกุล: {formData?.wifeName || '-'} {formData?.wifeSurname || '-'}</Text>
-            <Text style={styles.boxText}>อายุ: {formData?.wifeAge || '-'} ปี</Text>
-            <Text style={styles.boxText}>HN: {formData?.wifeHn || '-'}</Text>
+            <Text style={styles.boxText}>
+              ชื่อ-สกุล: {formData?.wifeName || "-"}{" "}
+              {formData?.wifeSurname || "-"}
+            </Text>
+            <Text style={styles.boxText}>
+              อายุ: {formData?.wifeAge || "-"} ปี
+            </Text>
+            <Text style={styles.boxText}>HN: {formData?.wifeHn || "-"}</Text>
           </View>
         </View>
         <View style={styles.box}>
-          <Text style={[styles.boxLabel, { textAlign: 'center' }]}>สามี</Text>
+          <Text style={[styles.boxLabel, { textAlign: "center" }]}>สามี</Text>
           <View style={styles.wrappedText}>
-            <Text style={styles.boxText}>ชื่อ-สกุล: {formData?.husbandName || '-'} {formData?.husbandSurname || '-'}</Text>
-            <Text style={styles.boxText}>อายุ: {formData?.husbandAge || '-'} ปี</Text>
-            <Text style={styles.boxText}>HN: {formData?.husbandHn || '-'}</Text>
+            <Text style={styles.boxText}>
+              ชื่อ-สกุล: {formData?.husbandName || "-"}{" "}
+              {formData?.husbandSurname || "-"}
+            </Text>
+            <Text style={styles.boxText}>
+              อายุ: {formData?.husbandAge || "-"} ปี
+            </Text>
+            <Text style={styles.boxText}>HN: {formData?.husbandHn || "-"}</Text>
           </View>
         </View>
         <View style={styles.box}>
-          <Text style={[styles.boxLabel, { textAlign: 'center' }]}>บุตร (ถ้ามี)</Text>
+          <Text style={[styles.boxLabel, { textAlign: "center" }]}>
+            บุตร (ถ้ามี)
+          </Text>
           <View style={styles.wrappedText}>
-            <Text style={styles.boxText}>G: {formData?.gravid || '-'}</Text>
-            <Text style={styles.boxText}>P: {formData?.para || '-'}</Text>
-            <Text style={styles.boxText}>A: {formData?.abortion || '-'}</Text>
-            <Text style={styles.boxText}>L: {formData?.living || '-'}</Text>
+            <Text style={styles.boxText}>G: {formData?.gravid || "-"}</Text>
+            <Text style={styles.boxText}>P: {formData?.para || "-"}</Text>
+            <Text style={styles.boxText}>A: {formData?.abortion || "-"}</Text>
+            <Text style={styles.boxText}>L: {formData?.living || "-"}</Text>
           </View>
         </View>
       </View>
 
-      <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginBottom: 8 }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          marginBottom: 8,
+        }}
+      >
         <Text style={styles.boxLabel}>การตรวจทางห้องปฏิบัติการเพิ่มเติม</Text>
       </View>
-      
+
       <View style={styles.table}>
         <View style={styles.tableRow}>
           <View style={[styles.tableCell, { flex: 0.2 }]}>
@@ -310,10 +340,10 @@ const PDFDocument = ({ formData, doctorName, appointmentDetails, remarks }) => (
           </View>
           <View style={[styles.tableCell, { flex: 0.4, borderRightWidth: 0 }]}>
             {formData?.isAlphaEnabled && (
-              <Text>Alpha: {formData?.momPositiveAlpha || '-'}</Text>
+              <Text>Alpha: {formData?.momPositiveAlpha || "-"}</Text>
             )}
             {formData?.isBetaEnabled && (
-              <Text>Beta: {formData?.momPositiveBeta || '-'}</Text>
+              <Text>Beta: {formData?.momPositiveBeta || "-"}</Text>
             )}
           </View>
         </View>
@@ -350,52 +380,81 @@ const PDFDocument = ({ formData, doctorName, appointmentDetails, remarks }) => (
           </View>
           <View style={[styles.tableCell, { flex: 0.4, borderRightWidth: 0 }]}>
             {formData?.isAlphaEnabled && (
-              <Text>Alpha: {formData?.dadPositiveAlpha || '-'}</Text>
+              <Text>Alpha: {formData?.dadPositiveAlpha || "-"}</Text>
             )}
             {formData?.isBetaEnabled && (
-              <Text>Beta: {formData?.dadPositiveBeta || '-'}</Text>
+              <Text>Beta: {formData?.dadPositiveBeta || "-"}</Text>
             )}
           </View>
         </View>
       </View>
 
-      
       <View style={styles.wrappedText}>
-        <View style={{ flexDirection: 'row', marginBottom: 16 }}>
+        <View style={{ flexDirection: "row", marginBottom: 8 }}>
           <Text style={{ width: 40 }}>สรุป</Text>
           <View style={styles.dotLine} />
         </View>
-        
-        <View style={{ flexDirection: 'row', marginBottom: 16 }}>
+
+        <View style={{ flexDirection: "row", marginBottom: 8 }}>
           <Text style={{ width: 80 }}>ข้อเสนอแนะ</Text>
           <View style={styles.dotLine} />
         </View>
       </View>
-      <View style={{ flexDirection: 'row', marginBottom: 4, alignItems: 'center' }}>
+      <View
+        style={{ flexDirection: "row", marginBottom: 4, alignItems: "center" }}
+      >
         <Text>ลงนาม</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'flex-end', width: 100, marginHorizontal: 4, height: 20 }}>
-          <View style={{ borderBottomWidth: 1, borderBottomStyle: 'dotted', borderBottomColor: '#000', width: 100 }} />
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "flex-end",
+            width: 100,
+            marginHorizontal: 4,
+            height: 20,
+          }}
+        >
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomStyle: "dotted",
+              borderBottomColor: "#000",
+              width: 100,
+            }}
+          />
         </View>
         <Text>แพทย์/พยาบาลผู้ให้คำปรึกษาา</Text>
       </View>
 
-      <View style={{ flexDirection: 'row', marginBottom: 16, marginLeft: 40 }}>
+      <View style={{ flexDirection: "row", marginBottom: 16, marginLeft: 40 }}>
         <Text>(</Text>
-        <View style={{ borderBottomWidth: 1, borderBottomStyle: 'dotted', borderBottomColor: '#000', width: 100 }} />
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderBottomStyle: "dotted",
+            borderBottomColor: "#000",
+            width: 100,
+          }}
+        />
         <Text>)</Text>
       </View>
 
-      <View style={{ flexDirection: 'row', marginBottom: 16 }}>
+      <View style={{ flexDirection: "row", marginBottom: 16 }}>
         <Text>นัดหมาย</Text>
-        <View style={[styles.dotLine, { marginLeft: 4, marginRight: 8, flex: 0.5 }]} />
+        <View
+          style={[styles.dotLine, { marginLeft: 4, marginRight: 8, flex: 0.5 }]}
+        />
         <Text>วันที่</Text>
-        <View style={[styles.dotLine, { marginLeft: 4, marginRight: 8, flex: 0.3 }]} />
+        <View
+          style={[styles.dotLine, { marginLeft: 4, marginRight: 8, flex: 0.3 }]}
+        />
         <Text>อายุครรภ์</Text>
-        <View style={[styles.dotLine, { marginLeft: 4, marginRight: 8, flex: 0.3 }]} />
+        <View
+          style={[styles.dotLine, { marginLeft: 4, marginRight: 8, flex: 0.3 }]}
+        />
         <Text>สัปดาห์</Text>
       </View>
 
-      <View style={{ flexDirection: 'row', marginBottom: 8 }}>
+      <View style={{ flexDirection: "row", marginBottom: 8 }}>
         <Text>หมายเหตุ</Text>
         <View style={[styles.dotLine, { marginLeft: 4 }]} />
       </View>
@@ -404,275 +463,275 @@ const PDFDocument = ({ formData, doctorName, appointmentDetails, remarks }) => (
 );
 
 function AlphaBetaThalassemiaResultComponent() {
-    const location = useLocation();
-    const [doctorName, setDoctorName] = useState('');
-    const [appointmentDetails, setAppointmentDetails] = useState('');
-    const [remarks, setRemarks] = useState('');
-    const formData = location.state?.formData;
+  const location = useLocation();
+  const [doctorName, setDoctorName] = useState('');
+  const [appointmentDetails, setAppointmentDetails] = useState('');
+  const [remarks, setRemarks] = useState('');
+  const formData = location.state?.formData;
 
-    const {
-        riskResult,
-        wifeName,
-        wifeSurname,
-        wifeAge,
-        wifeHn,
-        husbandName,
-        husbandSurname,
-        husbandAge,
-        husbandHn,
-        gravid,
-        para,
-        abortion,
-        living,
-        edc,
-        ga,
-        hospitalChoice,
-        otherHospital,
-        momAlpha,
-        momBeta,
-        momPositiveAlpha,
-        momPositiveBeta,
-        dadAlpha,
-        dadBeta,
-        dadPositiveAlpha,
-        dadPositiveBeta,
-        isAlphaEnabled,
-        isBetaEnabled,
-        riskTest,
-        PCRResult,
-        PCRSugestion
-    } = formData || {};
-    console.log(formData);
+  const {
+    riskResult,
+    wifeName,
+    wifeSurname,
+    wifeAge,
+    wifeHn,
+    husbandName,
+    husbandSurname,
+    husbandAge,
+    husbandHn,
+    gravid,
+    para,
+    abortion,
+    living,
+    edc,
+    ga,
+    hospitalChoice,
+    otherHospital,
+    momAlpha,
+    momBeta,
+    momPositiveAlpha,
+    momPositiveBeta,
+    dadAlpha,
+    dadBeta,
+    dadPositiveAlpha,
+    dadPositiveBeta,
+    isAlphaEnabled,
+    isBetaEnabled,
+    riskTest,
+    PCRResult,
+    PCRSugestion
+  } = formData || {};
+  console.log(formData);
 
-    const openPdfInNewTab = (blob) => {
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
-    };
+  const openPdfInNewTab = (blob) => {
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  };
 
-    return (
-        <Container maxWidth="md" sx={{ my: 4, pb: 5 }}>
-            <Typography variant="h4" gutterBottom>
-                ผลการตรวจคัดกรอง HB Typing
-            </Typography>
+  return (
+    <Container maxWidth="md" sx={{ my: 4, pb: 5 }}>
+      <Typography variant="h4" gutterBottom>
+        ผลการตรวจคัดกรอง HB Typing
+      </Typography>
 
-            {/* Mom Section */}
-            <Box
-                sx={{
-                    border: '1px solid #ccc',
-                    borderRadius: 2,
-                    p: 3,
-                    mb: 3,
-                    gap: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
+      {/* Mom Section */}
+      <Box
+        sx={{
+          border: '1px solid #ccc',
+          borderRadius: 2,
+          p: 3,
+          mb: 3,
+          gap: 2,
+          display: 'flex',
+          flexDirection: 'column',
 
-                    // white bg
-                    bgcolor: 'whitesmoke',
-                    backgroundBlendMode: 'screen',
-                    padding: '20px 40px',
+          // white bg
+          bgcolor: 'whitesmoke',
+          backgroundBlendMode: 'screen',
+          padding: '20px 40px',
 
-                }}
+        }}
 
-            >
-                <Typography variant="h6">ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา</Typography>
-                <TextField
-                    label="ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา"
-                    value={doctorName}
-                    onChange={(e) => setDoctorName(e.target.value)}
-                    fullWidth
-                    sx={{ mb: 2 }}
-                />
-                <Typography variant="h6">ผลตรวจคัดกรองมารดา</Typography>
-                <Typography color='darkblue'>ชื่อมารดา: {wifeName ?? '-' + wifeSurname ?? '-'}</Typography>
+      >
+        <Typography variant="h6">ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา</Typography>
+        <TextField
+          label="ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา"
+          value={doctorName}
+          onChange={(e) => setDoctorName(e.target.value)}
+          fullWidth
+          sx={{ mb: 2 }}
+        />
+        <Typography variant="h6">ผลตรวจคัดกรองมารดา</Typography>
+        <Typography color='darkblue'>ชื่อมารดา: {wifeName ?? '-' + wifeSurname ?? '-'}</Typography>
 
-                <Grid container spacing={1} sx={{ mt: 1 }}>
-                    {/* Alpha Section */}
-                    {isAlphaEnabled && (
-                        <>
-                            <Grid item xs={6}>
-                                <TextField label="mom Alpha" value={momAlpha ?? '-'} readOnly fullWidth />
-                            </Grid>
-                            {momAlpha && (
-                                <Grid item xs={6}>
-                                    <TextField label="mom positive Alpha" value={momPositiveAlpha ?? '-'} readOnly fullWidth />
-                                </Grid>
-                            )}
-                        </>
-                    )}
+        <Grid container spacing={1} sx={{ mt: 1 }}>
+          {/* Alpha Section */}
+          {isAlphaEnabled && (
+            <>
+              <Grid item xs={6}>
+                <TextField label="mom Alpha" value={momAlpha ?? '-'} readOnly fullWidth />
+              </Grid>
+              {momAlpha && (
+                <Grid item xs={6}>
+                  <TextField label="mom positive Alpha" value={momPositiveAlpha ?? '-'} readOnly fullWidth />
                 </Grid>
+              )}
+            </>
+          )}
+        </Grid>
 
-                {/* Separate Grid for Beta Section */}
-                <Grid container spacing={2} sx={{ mt: 1 }}>
-                    {isBetaEnabled && (
-                        <>
-                            <Grid item xs={6}>
-                                <TextField label="mom Beta" value={momBeta ?? '-'} readOnly fullWidth />
-                            </Grid>
-                            {momBeta && (
-                                <Grid item xs={6}>
-                                    <TextField label="mom positive Beta" value={momPositiveBeta ?? '-'} readOnly fullWidth />
-                                </Grid>
-                            )}
-                        </>
-                    )}
+        {/* Separate Grid for Beta Section */}
+        <Grid container spacing={2} sx={{ mt: 1 }}>
+          {isBetaEnabled && (
+            <>
+              <Grid item xs={6}>
+                <TextField label="mom Beta" value={momBeta ?? '-'} readOnly fullWidth />
+              </Grid>
+              {momBeta && (
+                <Grid item xs={6}>
+                  <TextField label="mom positive Beta" value={momPositiveBeta ?? '-'} readOnly fullWidth />
                 </Grid>
+              )}
+            </>
+          )}
+        </Grid>
 
-            </Box>
+      </Box>
 
-            {/* Dad Section */}
-            <Box
-                sx={{
-                    border: '1px solid #ccc',
-                    borderRadius: 2,
-                    p: 3,
-                    mb: 3,
-                    gap: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
+      {/* Dad Section */}
+      <Box
+        sx={{
+          border: '1px solid #ccc',
+          borderRadius: 2,
+          p: 3,
+          mb: 3,
+          gap: 2,
+          display: 'flex',
+          flexDirection: 'column',
 
-                    // white bg
-                    bgcolor: 'whitesmoke',
-                    backgroundBlendMode: 'screen',
-                    padding: '20px 40px',
+          // white bg
+          bgcolor: 'whitesmoke',
+          backgroundBlendMode: 'screen',
+          padding: '20px 40px',
 
 
-                }}
-            >
-                <Typography variant="h6">ผลตรวจคัดกรองสามี</Typography>
-                <Typography color='darkblue' >ชื่อสามี: {husbandName ?? '-' + husbandSurname ?? '-'}</Typography>
+        }}
+      >
+        <Typography variant="h6">ผลตรวจคัดกรองสามี</Typography>
+        <Typography color='darkblue' >ชื่อสามี: {husbandName ?? '-' + husbandSurname ?? '-'}</Typography>
 
-                <Grid container spacing={1} sx={{ mt: 1 }}>
-                    {/* Alpha Section */}
-                    {isAlphaEnabled && (
-                        <>
-                            <Grid item xs={6}>
-                                <TextField label="dad Alpha" value={dadAlpha ?? '-'} readOnly fullWidth />
-                            </Grid>
-                            {dadAlpha && (
-                                <Grid item xs={6}>
-                                    <TextField label="dad positive Alpha" value={dadPositiveAlpha ?? '-'} readOnly fullWidth />
-                                </Grid>
-                            )}
-                        </>
-                    )}
+        <Grid container spacing={1} sx={{ mt: 1 }}>
+          {/* Alpha Section */}
+          {isAlphaEnabled && (
+            <>
+              <Grid item xs={6}>
+                <TextField label="dad Alpha" value={dadAlpha ?? '-'} readOnly fullWidth />
+              </Grid>
+              {dadAlpha && (
+                <Grid item xs={6}>
+                  <TextField label="dad positive Alpha" value={dadPositiveAlpha ?? '-'} readOnly fullWidth />
                 </Grid>
+              )}
+            </>
+          )}
+        </Grid>
 
-                {/* Separate Grid for Beta Section */}
-                <Grid container spacing={2} sx={{ mt: 1 }}>
-                    {isBetaEnabled && (
-                        <>
-                            <Grid item xs={6}>
-                                <TextField label="dad Beta" value={dadBeta ?? '-'} readOnly fullWidth />
-                            </Grid>
-                            {dadBeta && (
-                                <Grid item xs={6}>
-                                    <TextField label="dad positive Beta" value={dadPositiveBeta ?? '-'} readOnly fullWidth />
-                                </Grid>
-                            )}
-                        </>
-                    )}
+        {/* Separate Grid for Beta Section */}
+        <Grid container spacing={2} sx={{ mt: 1 }}>
+          {isBetaEnabled && (
+            <>
+              <Grid item xs={6}>
+                <TextField label="dad Beta" value={dadBeta ?? '-'} readOnly fullWidth />
+              </Grid>
+              {dadBeta && (
+                <Grid item xs={6}>
+                  <TextField label="dad positive Beta" value={dadPositiveBeta ?? '-'} readOnly fullWidth />
                 </Grid>
-            </Box>
+              )}
+            </>
+          )}
+        </Grid>
+      </Box>
 
-            {/* Risk Assessment Section */}
-            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
-                <Typography variant="h6">การประเมินความเสี่ยง</Typography>
-                <Typography>{riskResult}</Typography>
-                <Typography>{riskTest}</Typography>
-            </Box>
+      {/* Risk Assessment Section */}
+      <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+        <Typography variant="h6">การประเมินความเสี่ยง</Typography>
+        <Typography>{riskResult}</Typography>
+        <Typography>{riskTest}</Typography>
+      </Box>
 
-             {/* Suggestion Section */}
-             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
-                <Typography variant="h6">คำแนะนำ</Typography>
-                <Typography>{PCRSugestion}</Typography>
-            </Box>
+      {/* Suggestion Section */}
+      <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+        <Typography variant="h6">คำแนะนำ</Typography>
+        <Typography>{PCRSugestion}</Typography>
+      </Box>
 
-            {/* PCRResult Section */}
-            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
-                <Typography variant="h6">รายงานผลPCR</Typography>
-                <Typography>{PCRResult}</Typography>
-            </Box>
+      {/* PCRResult Section */}
+      <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+        <Typography variant="h6">รายงานผลPCR</Typography>
+        <Typography>{PCRResult}</Typography>
+      </Box>
 
-            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
-                <Typography variant="h6">นัดหมาย</Typography>
-                <TextField
-                    label="Enter Appointment Details"
-                    variant="outlined"
-                    fullWidth
-                    onChange={(e) => setAppointmentDetails(e.target.value)}
-                    value={appointmentDetails}
-                />
+      <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+        <Typography variant="h6">นัดหมาย</Typography>
+        <TextField
+          label="Enter Appointment Details"
+          variant="outlined"
+          fullWidth
+          onChange={(e) => setAppointmentDetails(e.target.value)}
+          value={appointmentDetails}
+        />
 
-            </Box>
+      </Box>
 
-            <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
-                <Typography variant="h6">หมายเหตุ</Typography>
-                <TextField
-                    label="Enter Remark Details"
-                    variant="outlined"
-                    fullWidth
-                    onChange={(e) => setRemarks(e.target.value)}
-                    value={remarks}
-                />
+      <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
+        <Typography variant="h6">หมายเหตุ</Typography>
+        <TextField
+          label="Enter Remark Details"
+          variant="outlined"
+          fullWidth
+          onChange={(e) => setRemarks(e.target.value)}
+          value={remarks}
+        />
 
-            </Box>
+      </Box>
 
-            {/* Action Buttons */}
-            <Grid container justifyContent="space-between" spacing={2}>
-                <Grid item>
-                    <Button variant="contained" color="primary">
-                        Save
-                    </Button>
-                </Grid>
-                <Grid item>
-                    <BlobProvider
-                        document={
-                            <PDFDocument
-                                formData={formData}
-                                doctorName={doctorName}
-                                appointmentDetails={appointmentDetails}
-                                remarks={remarks}
-                            />
-                        }
-                        onError={(error) => {
-                            console.error('Error generating PDF:', error);
-                            alert('เกิดข้อผิดพลาดในการสร้าง PDF กรุณาลองใหม่อีกครั้ง');
-                        }}
-                    >
-                        {({ blob, url, loading, error }) => {
-                            console.log('PDF Generation Status:', { loading, error });
-                            if (error) console.error('PDF Error:', error);
-                            
-                            return (
-                                <Button 
-                                    variant="outlined" 
-                                    color="secondary" 
-                                    disabled={loading || error}
-                                    onClick={() => {
-                                        if (!formData) {
-                                            alert('ไม่พบข้อมูลสำหรับสร้าง PDF');
-                                            return;
-                                        }
-                                        if (error) {
-                                            console.error('Error in PDF generation:', error);
-                                            alert('เกิดข้อผิดพลาดในการสร้าง PDF กรุณาลองใหม่อีกครั้ง');
-                                            return;
-                                        }
-                                        if (blob) {
-                                            console.log('Creating PDF blob...');
-                                            openPdfInNewTab(blob);
-                                        }
-                                    }}
-                                >
-                                    {loading ? 'กำลังสร้าง PDF...' : error ? 'เกิดข้อผิดพลาด' : 'พิมพ์'}
-                                </Button>
-                            );
-                        }}
-                    </BlobProvider>
-                </Grid>
-            </Grid>
-        </Container>
-    )
+      {/* Action Buttons */}
+      <Grid container justifyContent="space-between" spacing={2}>
+        <Grid item>
+          <Button variant="contained" color="primary">
+            Save
+          </Button>
+        </Grid>
+        <Grid item>
+          <BlobProvider
+            document={
+              <PDFDocument
+                formData={formData}
+                doctorName={doctorName}
+                appointmentDetails={appointmentDetails}
+                remarks={remarks}
+              />
+            }
+            onError={(error) => {
+              console.error('Error generating PDF:', error);
+              alert('เกิดข้อผิดพลาดในการสร้าง PDF กรุณาลองใหม่อีกครั้ง');
+            }}
+          >
+            {({ blob, url, loading, error }) => {
+              console.log('PDF Generation Status:', { loading, error });
+              if (error) console.error('PDF Error:', error);
+
+              return (
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  disabled={loading || error}
+                  onClick={() => {
+                    if (!formData) {
+                      alert('ไม่พบข้อมูลสำหรับสร้าง PDF');
+                      return;
+                    }
+                    if (error) {
+                      console.error('Error in PDF generation:', error);
+                      alert('เกิดข้อผิดพลาดในการสร้าง PDF กรุณาลองใหม่อีกครั้ง');
+                      return;
+                    }
+                    if (blob) {
+                      console.log('Creating PDF blob...');
+                      openPdfInNewTab(blob);
+                    }
+                  }}
+                >
+                  {loading ? 'กำลังสร้าง PDF...' : error ? 'เกิดข้อผิดพลาด' : 'พิมพ์'}
+                </Button>
+              );
+            }}
+          </BlobProvider>
+        </Grid>
+      </Grid>
+    </Container>
+  )
 }
 
 export default AlphaBetaThalassemiaResultComponent
