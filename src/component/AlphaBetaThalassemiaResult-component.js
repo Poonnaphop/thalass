@@ -387,8 +387,8 @@ const PDFDocument = ({ formData, doctorName, appointmentDetails, remarks }) => (
         </View>
       </View>
 
-      <View style={styles.wrappedText}>
-        <View style={{ flexDirection: "row", marginBottom: 16 }}>
+      <View style={[styles.wrappedText]}>
+        <View style={{ flexDirection: "row", marginBottom: 0 }}>
           <Text style={{ width: 80 }}>สรุป</Text>
           <View style={{ flex: 1 }}>
             <Text style={[styles.summaryText, { marginBottom: 8 }]}>{formData?.PCRResult || "-"}</Text>
@@ -398,7 +398,7 @@ const PDFDocument = ({ formData, doctorName, appointmentDetails, remarks }) => (
       </View>
 
       <View style={styles.wrappedText}>
-        <View style={{ flexDirection: "row", marginBottom: 16 }}>
+        <View style={{ flexDirection: "row", marginBottom: 0 }}>
           <Text style={{ width: 80 }}>ข้อเสนอแนะ</Text>
           <View style={{ flex: 1 }}>
             <Text style={[styles.summaryText, { marginBottom: 8 }]}>{formData?.PCRSugestion || "-"}</Text>
