@@ -763,7 +763,7 @@ function HBTypeResultComponent() {
 
             {/* PCR Section */}
             <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
-                <Typography variant="h6">รายงานผลPCR</Typography>
+                <Typography variant="h6">รายงานผล Hb typing</Typography>
                 {PCR.map((item, index) => (
                     <Typography key={index}>{item}</Typography>
                 ))}
