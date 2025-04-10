@@ -17,16 +17,22 @@ function AlphaBetaThalassemiaTest() {
     const [dadBeta, setDadBeta] = useState(null);
     const [dadPositiveAlpha, setDadPositiveAlpha] = useState(null);
     const [dadPositiveBeta, setDadPositiveBeta] = useState(null);
-    const [isdadHavemorethanone, setIsdadHavemorethanone] = useState(false);
+    const [isdadHavemorethanonealpha, setIsdadHavemorethanonealpha] = useState(false);
+    const [isdadHavemorethanonebeta, setIsdadHavemorethanonebeta] = useState(false);
     const [dadsecondPositiveAlpha, setDadsecondPositiveAlpha] = useState(null);
+    const [dadsecondBeta, setDadsecondBeta] = useState(null);
+    const [dadsecondPositiveBeta, setDadsecondPositiveBeta] = useState(null);
 
     // States for mom's dropdowns
     const [momAlpha, setMomAlpha] = useState(true);
     const [momBeta, setMomBeta] = useState(null);
     const [momPositiveAlpha, setMomPositiveAlpha] = useState(null);
     const [momPositiveBeta, setMomPositiveBeta] = useState(null);
-    const [ismomHavemorethanone, setIsmomHavemorethanone] = useState(false);
+    const [ismomHavemorethanonealpha, setIsmomHavemorethanonealpha] = useState(false);
+    const [ismomHavemorethanonebeta, setIsmomHavemorethanonebeta] = useState(false);
     const [momsecondPositiveAlpha, setMomsecondPositiveAlpha] = useState(null);
+    const [momsecondBeta, setMomsecondBeta] = useState(null);
+    const [momsecondPositiveBeta, setMomsecondPositiveBeta] = useState(null);
 
     // States for checkboxes
     const [isAlphaEnabled, setIsAlphaEnabled] = useState(false);
@@ -354,17 +360,17 @@ function AlphaBetaThalassemiaTest() {
                                             <FormControlLabel
                                                 control={
                                                     <Checkbox
-                                                        checked={isdadHavemorethanone}
+                                                        checked={isdadHavemorethanonealpha}
                                                         onChange={(e) => {
-                                                            setIsdadHavemorethanone(e.target.checked);
+                                                            setIsdadHavemorethanonealpha(e.target.checked);
                                                         }}
                                                     />
                                                 }
                                                 label="Have more than one"
                                             />
 
-                                            {isdadHavemorethanone && (
-                                                <FormControl style={{ display: isdadHavemorethanone ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                            {isdadHavemorethanonealpha && (
+                                                <FormControl style={{ display: isdadHavemorethanonealpha ? '' : 'none', minWidth: '50%', mt: 5 }}>
                                                     <InputLabel id="dad-second-order-select-label">Order</InputLabel>
                                                     <Select
                                                         labelId="dad-second-order-select-label"
@@ -472,17 +478,17 @@ function AlphaBetaThalassemiaTest() {
                                             <FormControlLabel
                                                 control={
                                                     <Checkbox
-                                                        checked={ismomHavemorethanone}
+                                                        checked={ismomHavemorethanonealpha}
                                                         onChange={(e) => {
-                                                            setIsmomHavemorethanone(e.target.checked);
+                                                            setIsmomHavemorethanonealpha(e.target.checked);
                                                         }}
                                                     />
                                                 }
                                                 label="Have more than one"
                                             />
 
-                                            {ismomHavemorethanone && (
-                                                <FormControl style={{ display: ismomHavemorethanone ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                            {ismomHavemorethanonealpha && (
+                                                <FormControl style={{ display: ismomHavemorethanonealpha ? '' : 'none', minWidth: '50%', mt: 5 }}>
                                                     <InputLabel id="mom-second-order-select-label">Order</InputLabel>
                                                     <Select
                                                         labelId="mom-second-order-select-label"
@@ -632,6 +638,75 @@ function AlphaBetaThalassemiaTest() {
                                                     )}
                                                 </Select>
                                             </FormControl>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={isdadHavemorethanonebeta}
+                                                        onChange={(e) => {
+                                                            setIsdadHavemorethanonebeta(e.target.checked);
+                                                        }}
+                                                    />
+                                                }
+                                                label="Have more than one"
+                                            />
+
+                                            {isdadHavemorethanonebeta && (
+                                                <FormControl fullWidth>
+                                                <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Dad's Beta</InputLabel>
+                                                <Select
+                                                    value={dadsecondBeta}
+                                                    onChange={(e) => {
+                                                        setDadsecondBeta(e.target.value)
+                                                    }
+                                                    }
+                                                >
+                                                    <MenuItem value={2}>
+                                                        Positive for common beta-globin deletions based on GAP-PCR analysis
+                                                    </MenuItem>    
+                                                    <MenuItem value={3}>
+                                                        HBE
+                                                    </MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            )}
+
+                                            {dadsecondBeta && (
+                                              <FormControl style={{ display: dadsecondBeta == 2 ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                              <InputLabel id="dad-order-select-label">Order</InputLabel>
+                                              <Select
+                                                  labelId="dad-order-select-label"
+                                                  value={dadsecondPositiveBeta}
+                                                  onChange={(e) => setDadsecondPositiveBeta(e.target.value)}
+                                                  label="Order"
+                                                  fullWidth
+                                              >
+                                                  {betaOptions && Object.keys(betaOptions).length > 0 ? (
+                                                      Object.entries(betaOptions)
+                                                          .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
+                                                          .filter(([key, value]) => {
+                                                              // If dadPositiveBeta is B0, only show B+ options
+                                                              if (dadPositiveBeta && isB0(dadPositiveBeta)) {
+                                                                  return !isB0(key);
+                                                              }
+                                                              // If dadPositiveBeta is B+, only show B0 options
+                                                              if (dadPositiveBeta && !isB0(dadPositiveBeta)) {
+                                                                  return isB0(key);
+                                                              }
+                                                              return true; // Show all options if no filter applies
+                                                          })
+                                                          .map(([key, betaOptions]) => (
+                                                              <MenuItem key={key} value={key}>
+                                                                  {`${betaOptions}`}
+                                                              </MenuItem>
+                                                          ))
+                                                  ) : (
+                                                      <MenuItem disabled value="">
+                                                          No descriptions
+                                                      </MenuItem>
+                                                  )}
+                                              </Select>
+                                          </FormControl>
+                                            )}
                                         </Box>
                                     </Grid>
                                     <Grid item xs={12} md={6}>
@@ -701,6 +776,75 @@ function AlphaBetaThalassemiaTest() {
                                                     )}
                                                 </Select>
                                             </FormControl>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={ismomHavemorethanonebeta}
+                                                        onChange={(e) => {
+                                                            setIsmomHavemorethanonebeta(e.target.checked);
+                                                        }}
+                                                    />
+                                                }
+                                                label="Have more than one"
+                                            />
+
+                                            {ismomHavemorethanonebeta && (
+                                                <FormControl fullWidth>
+                                                <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Mom's Beta</InputLabel>
+                                                <Select
+                                                    value={momsecondBeta}
+                                                    onChange={(e) => {
+                                                        setMomsecondBeta(e.target.value)
+                                                    }
+                                                    }
+                                                >
+                                                    <MenuItem value={2}>
+                                                        Positive for common beta-globin deletions based on GAP-PCR analysis
+                                                    </MenuItem>    
+                                                    <MenuItem value={3}>
+                                                        HBE
+                                                    </MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            )}
+
+                                            {momsecondBeta && (
+                                              <FormControl style={{ display: momsecondBeta == 2 ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                              <InputLabel id="mom-order-select-label">Order</InputLabel>
+                                              <Select
+                                                  labelId="mom-order-select-label"
+                                                  value={momsecondPositiveBeta}
+                                                  onChange={(e) => setMomsecondPositiveBeta(e.target.value)}
+                                                  label="Order"
+                                                  fullWidth
+                                              >
+                                                  {betaOptions && Object.keys(betaOptions).length > 0 ? (
+                                                      Object.entries(betaOptions)
+                                                          .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
+                                                          .filter(([key, value]) => {
+                                                              // If dadPositiveBeta is B0, only show B+ options
+                                                              if (momPositiveBeta && isB0(momPositiveBeta)) {
+                                                                  return !isB0(key);
+                                                              }
+                                                              // If dadPositiveBeta is B+, only show B0 options
+                                                              if (momPositiveBeta && !isB0(momPositiveBeta)) {
+                                                                  return isB0(key);
+                                                              }
+                                                              return true; // Show all options if no filter applies
+                                                          })
+                                                          .map(([key, betaOptions]) => (
+                                                              <MenuItem key={key} value={key}>
+                                                                  {`${betaOptions}`}
+                                                              </MenuItem>
+                                                          ))
+                                                  ) : (
+                                                      <MenuItem disabled value="">
+                                                          No descriptions
+                                                      </MenuItem>
+                                                  )}
+                                              </Select>
+                                          </FormControl>
+                                            )}
                                         </Box>
                                     </Grid>
                                 </Grid>
