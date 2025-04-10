@@ -17,12 +17,16 @@ function AlphaBetaThalassemiaTest() {
     const [dadBeta, setDadBeta] = useState(null);
     const [dadPositiveAlpha, setDadPositiveAlpha] = useState(null);
     const [dadPositiveBeta, setDadPositiveBeta] = useState(null);
+    const [isdadHavemorethanone, setIsdadHavemorethanone] = useState(false);
+    const [dadsecondPositiveAlpha, setDadsecondPositiveAlpha] = useState(null);
 
     // States for mom's dropdowns
     const [momAlpha, setMomAlpha] = useState(true);
     const [momBeta, setMomBeta] = useState(null);
     const [momPositiveAlpha, setMomPositiveAlpha] = useState(null);
     const [momPositiveBeta, setMomPositiveBeta] = useState(null);
+    const [ismomHavemorethanone, setIsmomHavemorethanone] = useState(false);
+    const [momsecondPositiveAlpha, setMomsecondPositiveAlpha] = useState(null);
 
     // States for checkboxes
     const [isAlphaEnabled, setIsAlphaEnabled] = useState(false);
@@ -172,7 +176,7 @@ function AlphaBetaThalassemiaTest() {
             console.log(" condition1 : ต้องส่งตรวจเจาะน้ำคร่ำ ")
             riskTest = "condition1 : ต้องส่งตรวจเจาะน้ำคร่ำ";
             PCRResult = PCRResult1
-        }else if(
+        } else if (
             (!dadBeta && !momBeta)
             ||
             (dadBeta && !momBeta)
@@ -180,32 +184,32 @@ function AlphaBetaThalassemiaTest() {
             (dadBeta && !momBeta)
             ||
             (dadBeta && momBeta)
-        ){
+        ) {
             console.log(" condition2 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ ")
             riskTest = "condition2 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
             PCRResult = PCRResult1
             PCRSugestion = PCRSuggestion1
-        }else{
+        } else {
             console.log(" condition3 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ ")
             riskTest = "condition3 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
             PCRResult = PCRResult1
             PCRSugestion = PCRSuggestion1
         }
 
-        if(dadAlphatal1 && momAlphatal1){
+        if (dadAlphatal1 && momAlphatal1) {
             PCRResult = PCRResult21
             PCRSugestion = PCRSuggestion2
-        }else if(dadPositiveBeta && momPositiveBeta){
+        } else if (dadPositiveBeta && momPositiveBeta) {
             PCRResult = PCRResult22
             PCRSugestion = PCRSuggestion2
-        }else if(dadPositiveBeta && momB0 || momPositiveBeta && dadB0){
+        } else if (dadPositiveBeta && momB0 || momPositiveBeta && dadB0) {
             PCRResult = PCRResult23
             PCRSugestion = PCRSuggestion2
         }
 
-       
-          // Prepare the new formData
-          const newFormData = {
+
+        // Prepare the new formData
+        const newFormData = {
             ...formData, // Preserve existing data
             momAlpha: momAlpha,
             momBeta: momBeta,
@@ -347,6 +351,56 @@ function AlphaBetaThalassemiaTest() {
                                                     )}
                                                 </Select>
                                             </FormControl>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={isdadHavemorethanone}
+                                                        onChange={(e) => {
+                                                            setIsdadHavemorethanone(e.target.checked);
+                                                        }}
+                                                    />
+                                                }
+                                                label="Have more than one"
+                                            />
+
+                                            {isdadHavemorethanone && (
+                                                <FormControl style={{ display: isdadHavemorethanone ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                                    <InputLabel id="dad-second-order-select-label">Order</InputLabel>
+                                                    <Select
+                                                        labelId="dad-second-order-select-label"
+                                                        value={dadsecondPositiveAlpha}
+                                                        onChange={(e) => setDadsecondPositiveAlpha(e.target.value)}
+                                                        label="Order"
+                                                        fullWidth
+                                                    >
+                                                        {alphaOptions && Object.keys(alphaOptions).length > 0 ? (
+                                                            Object.entries(alphaOptions)
+                                                                .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
+                                                                .filter(([key, value]) => {
+                                                                    // If dadPositiveAlpha is Alphatal1, only show Alphatal2 options
+                                                                    if (dadPositiveAlpha && isAlphaThal1(dadPositiveAlpha)) {
+                                                                        return isAlphaThal2(key);
+                                                                    }
+                                                                    // If dadPositiveAlpha is Alphatal2, only show Alphatal1 options
+                                                                    if (dadPositiveAlpha && isAlphaThal2(dadPositiveAlpha)) {
+                                                                        return isAlphaThal1(key);
+                                                                    }
+                                                                    return true; // Show all options if no filter applies
+                                                                })
+                                                                .map(([key, alphaOptions]) => (
+                                                                    <MenuItem key={key} value={key}>
+                                                                        {`${alphaOptions}`}
+                                                                        <br />
+                                                                    </MenuItem>
+                                                                ))
+                                                        ) : (
+                                                            <MenuItem disabled value="">
+                                                                No descriptions
+                                                            </MenuItem>
+                                                        )}
+                                                    </Select>
+                                                </FormControl>
+                                            )}
                                         </Box>
                                     </Grid>
                                     <Grid item xs={12} md={6}>
@@ -415,6 +469,56 @@ function AlphaBetaThalassemiaTest() {
                                                     )}
                                                 </Select>
                                             </FormControl>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={ismomHavemorethanone}
+                                                        onChange={(e) => {
+                                                            setIsmomHavemorethanone(e.target.checked);
+                                                        }}
+                                                    />
+                                                }
+                                                label="Have more than one"
+                                            />
+
+                                            {ismomHavemorethanone && (
+                                                <FormControl style={{ display: ismomHavemorethanone ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                                    <InputLabel id="mom-second-order-select-label">Order</InputLabel>
+                                                    <Select
+                                                        labelId="mom-second-order-select-label"
+                                                        value={momsecondPositiveAlpha}
+                                                        onChange={(e) => setMomsecondPositiveAlpha(e.target.value)}
+                                                        label="Order"
+                                                        fullWidth
+                                                    >
+                                                        {alphaOptions && Object.keys(alphaOptions).length > 0 ? (
+                                                            Object.entries(alphaOptions)
+                                                                .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
+                                                                .filter(([key, value]) => {
+                                                                    // If momPositiveAlpha is Alphatal1, only show Alphatal2 options
+                                                                    if (momPositiveAlpha && isAlphaThal1(momPositiveAlpha)) {
+                                                                        return isAlphaThal2(key);
+                                                                    }
+                                                                    // If momPositiveAlpha is Alphatal2, only show Alphatal1 options
+                                                                    if (momPositiveAlpha && isAlphaThal2(momPositiveAlpha)) {
+                                                                        return isAlphaThal1(key);
+                                                                    }
+                                                                    return true; // Show all options if no filter applies
+                                                                })
+                                                                .map(([key, alphaOptions]) => (
+                                                                    <MenuItem key={key} value={key}>
+                                                                        {`${alphaOptions}`}
+                                                                        <br />
+                                                                    </MenuItem>
+                                                                ))
+                                                        ) : (
+                                                            <MenuItem disabled value="">
+                                                                No descriptions
+                                                            </MenuItem>
+                                                        )}
+                                                    </Select>
+                                                </FormControl>
+                                            )}
                                         </Box>
                                     </Grid>
                                 </Grid>
@@ -487,11 +591,11 @@ function AlphaBetaThalassemiaTest() {
                                                     value={dadBeta}
                                                     onChange={(e) => {
                                                         setDadBeta(e.target.value)
-                                                        if(!e.target.value || e.target.value != 2){
+                                                        if (!e.target.value || e.target.value != 2) {
                                                             setDadPositiveBeta(null);
                                                         }
                                                     }
-                                                }
+                                                    }
                                                 >
                                                     <MenuItem value={1}>
                                                         Negative for common beta-globin deletions based on GAP-PCR analysis
@@ -500,7 +604,7 @@ function AlphaBetaThalassemiaTest() {
                                                         Positive for common beta-globin deletions based on GAP-PCR analysis
                                                     </MenuItem>
                                                     <MenuItem value={3}>
-                                                       HBE
+                                                        HBE
                                                     </MenuItem>
                                                 </Select>
                                             </FormControl>
@@ -555,7 +659,7 @@ function AlphaBetaThalassemiaTest() {
                                                     value={momBeta}
                                                     onChange={(e) => {
                                                         setMomBeta(e.target.value)
-                                                        if(!e.target.value || e.target.value != 2){
+                                                        if (!e.target.value || e.target.value != 2) {
                                                             setMomPositiveBeta(null);
                                                         }
                                                     }}
@@ -567,7 +671,7 @@ function AlphaBetaThalassemiaTest() {
                                                         Positive for common beta-globin deletions based on GAP-PCR analysis
                                                     </MenuItem>
                                                     <MenuItem value={3}>
-                                                       HBE
+                                                        HBE
                                                     </MenuItem>
                                                 </Select>
                                             </FormControl>
