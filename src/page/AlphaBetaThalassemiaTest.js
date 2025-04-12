@@ -85,8 +85,19 @@ function AlphaBetaThalassemiaTest() {
     const handleSubmit = () => {
         console.log("Dad's Alpha:", dadAlpha);
         console.log("Dad's Beta:", dadBeta);
+        console.log("Dad's Positive Alpha:", dadPositiveAlpha);
+        console.log('dad have more than one alpha',isdadHavemorethanonealpha)
+        console.log('dad second positive alpha',dadsecondPositiveAlpha)
+
+        console.log("Dad's Positive Beta:", dadPositiveBeta);
+        console.log('dad have more than one beta',isdadHavemorethanonebeta)
+        console.log('dad second positive beta',dadsecondPositiveBeta)
+
         console.log("Mom's Alpha:", momAlpha);
         console.log("Mom's Beta:", momBeta);
+        console.log("Mom's Positive Alpha:", momPositiveAlpha);
+        console.log("Mom's Positive Beta:", momPositiveBeta);
+        
         let riskResult = '';
         let riskTest = '';
 
@@ -130,6 +141,11 @@ function AlphaBetaThalassemiaTest() {
         if (dadAlpha) {
             dadAlphatal1 = isAlphaThal1(dadPositiveAlpha);
             dadAlphatal2 = isAlphaThal2(dadPositiveAlpha);
+
+            if(isdadHavemorethanonealpha && dadsecondPositiveAlpha){
+                dadAlphatal1 = true
+                dadAlphatal2 = false
+            }
         }
         if (dadBeta) {
             dadB0 = isB0(dadPositiveBeta);
@@ -142,6 +158,11 @@ function AlphaBetaThalassemiaTest() {
         if (momAlpha) {
             momAlphatal1 = isAlphaThal1(momPositiveAlpha);
             momAlphatal2 = isAlphaThal2(momPositiveAlpha);
+
+            if(ismomHavemorethanonealpha && momsecondPositiveAlpha){
+                momAlphatal1 = true
+                momAlphatal2 = false
+            }
         }
         console.log("ALPHA TEST")
         console.log("-----------------------")
@@ -205,10 +226,20 @@ function AlphaBetaThalassemiaTest() {
         if (dadAlphatal1 && momAlphatal1) {
             PCRResult = PCRResult21
             PCRSugestion = PCRSuggestion2
-        } else if (dadPositiveBeta && momPositiveBeta) {
+        } else if (dadPositiveBeta == 2  && momPositiveBeta == 2  ) {
             PCRResult = PCRResult22
             PCRSugestion = PCRSuggestion2
-        } else if (dadPositiveBeta && momB0 || momPositiveBeta && dadB0) {
+        } else if (dadPositiveBeta == 2  && momB0 || momPositiveBeta == 2 && dadB0 ||
+        // Check if one parent has HbE (value 3) and the other has β0 thalassemia
+        // or if one parent has HbE and the other has positive beta thalassemia (value 2)
+        // This covers all combinations of primary and secondary mutations for both parents
+        dadPositiveBeta == 3 && momB0 || momPositiveBeta == 3 && dadB0 ||
+        dadsecondPositiveBeta == 3 && momB0 || momsecondPositiveBeta == 3 && dadB0 ||
+        dadPositiveBeta == 2 && momPositiveBeta == 3 || dadPositiveBeta == 3 && momPositiveBeta == 2 ||
+        dadPositiveBeta == 2 && momsecondPositiveBeta == 3 || dadPositiveBeta == 3 && momsecondPositiveBeta == 2 ||
+        dadsecondPositiveBeta == 2 && momPositiveBeta == 3 || dadsecondPositiveBeta == 3 && momPositiveBeta == 2 ||
+        dadsecondPositiveBeta == 2 && momsecondPositiveBeta == 3 || dadsecondPositiveBeta == 3 && momsecondPositiveBeta == 2
+        ) {
             PCRResult = PCRResult23
             PCRSugestion = PCRSuggestion2
         }
@@ -234,7 +265,7 @@ function AlphaBetaThalassemiaTest() {
         };
 
         console.log("New Form Data:", newFormData);
-        navigate('/alpha-beta-thalassemia-result2', { state: { formData: newFormData } });
+        // navigate('/alpha-beta-thalassemia-result2', { state: { formData: newFormData } });
     };
 
     return (
@@ -363,6 +394,9 @@ function AlphaBetaThalassemiaTest() {
                                                         checked={isdadHavemorethanonealpha}
                                                         onChange={(e) => {
                                                             setIsdadHavemorethanonealpha(e.target.checked);
+                                                            if(!e.target.checked){
+                                                                setDadsecondPositiveAlpha(null)
+                                                            }
                                                         }}
                                                     />
                                                 }
@@ -485,6 +519,9 @@ function AlphaBetaThalassemiaTest() {
                                                         checked={ismomHavemorethanonealpha}
                                                         onChange={(e) => {
                                                             setIsmomHavemorethanonealpha(e.target.checked);
+                                                            if(!e.target.checked){
+                                                                setMomsecondPositiveAlpha(null)
+                                                            }
                                                         }}
                                                     />
                                                 }
