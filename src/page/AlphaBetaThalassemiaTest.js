@@ -369,7 +369,7 @@ function AlphaBetaThalassemiaTest() {
                                                 label="Have more than one"
                                             />
 
-                                            {isdadHavemorethanonealpha && (
+                                            {isdadHavemorethanonealpha &&  (
                                                 <FormControl style={{ display: isdadHavemorethanonealpha ? '' : 'none', minWidth: '50%', mt: 5 }}>
                                                     <InputLabel id="dad-second-order-select-label">Order</InputLabel>
                                                     <Select
@@ -383,14 +383,18 @@ function AlphaBetaThalassemiaTest() {
                                                             Object.entries(alphaOptions)
                                                                 .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
                                                                 .filter(([key, value]) => {
-                                                                    // If dadPositiveAlpha is Alphatal1, only show Alphatal2 options
-                                                                    if (dadPositiveAlpha && isAlphaThal1(dadPositiveAlpha)) {
-                                                                        return isAlphaThal2(key);
+                                                                      // Don't allow selecting the same alpha mutation twice
+                                                                      if (dadPositiveAlpha === key) {
+                                                                        return false;
                                                                     }
-                                                                    // If dadPositiveAlpha is Alphatal2, only show Alphatal1 options
-                                                                    if (dadPositiveAlpha && isAlphaThal2(dadPositiveAlpha)) {
-                                                                        return isAlphaThal1(key);
-                                                                    }
+                                                                    // // If dadPositiveAlpha is Alphatal1, only show Alphatal2 options
+                                                                    // if (dadPositiveAlpha && isAlphaThal1(dadPositiveAlpha)) {
+                                                                    //     return isAlphaThal2(key);
+                                                                    // }
+                                                                    // // If dadPositiveAlpha is Alphatal2, only show Alphatal1 options
+                                                                    // if (dadPositiveAlpha && isAlphaThal2(dadPositiveAlpha)) {
+                                                                    //     return isAlphaThal1(key);
+                                                                    // }
                                                                     return true; // Show all options if no filter applies
                                                                 })
                                                                 .map(([key, alphaOptions]) => (
@@ -501,14 +505,20 @@ function AlphaBetaThalassemiaTest() {
                                                             Object.entries(alphaOptions)
                                                                 .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
                                                                 .filter(([key, value]) => {
-                                                                    // If momPositiveAlpha is Alphatal1, only show Alphatal2 options
-                                                                    if (momPositiveAlpha && isAlphaThal1(momPositiveAlpha)) {
-                                                                        return isAlphaThal2(key);
+                                                                    // Don't allow selecting the same alpha mutation twice
+                                                                    if (momPositiveAlpha === key) {
+                                                                        return false;
                                                                     }
-                                                                    // If momPositiveAlpha is Alphatal2, only show Alphatal1 options
-                                                                    if (momPositiveAlpha && isAlphaThal2(momPositiveAlpha)) {
-                                                                        return isAlphaThal1(key);
-                                                                    }
+                                                                    // // For SEA, THAI, FIL, MED, -20.5kb, Pakse, PNP mutations (alpha thal 1)
+                                                                    // // only allow selecting alpha thal 2 mutations for the second selection
+                                                                    // if (momPositiveAlpha && isAlphaThal1(momPositiveAlpha)) {
+                                                                    //     return isAlphaThal2(key);
+                                                                    // }
+                                                                    // // For -3.7kb, -4.2kb mutations (alpha thal 2)
+                                                                    // // only allow selecting alpha thal 1 mutations for the second selection
+                                                                    // if (momPositiveAlpha && isAlphaThal2(momPositiveAlpha)) {
+                                                                    //     return isAlphaThal1(key);
+                                                                    // }
                                                                     return true; // Show all options if no filter applies
                                                                 })
                                                                 .map(([key, alphaOptions]) => (
@@ -639,6 +649,7 @@ function AlphaBetaThalassemiaTest() {
                                                 </Select>
                                             </FormControl>
                                             <FormControlLabel
+                                                style={{ display: dadBeta != 1 ? '' : 'none' }}
                                                 control={
                                                     <Checkbox
                                                         checked={isdadHavemorethanonebeta}
@@ -777,6 +788,7 @@ function AlphaBetaThalassemiaTest() {
                                                 </Select>
                                             </FormControl>
                                             <FormControlLabel
+                                                style={{ display: momBeta != 1 ? '' : 'none' }}
                                                 control={
                                                     <Checkbox
                                                         checked={ismomHavemorethanonebeta}
