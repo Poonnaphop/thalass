@@ -41,8 +41,8 @@ function AlphaBetaThalassemiaTest() {
     const PCRResult1 = `ไม่มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Hb Bart’s hydrop fetalis, Homozygous Beta-thalassemia ชนิด 
 β๐/ β๐ และ Beta-thalassemia/Hb E ชนิด β๐/ βE `
     const PCRResult21 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Hb Bart’s hydrop fetalis`
-    const PCRResult22 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Homozygous Beta-thalassemia ชนิด β๐/ β๐`
-    const PCRResult23 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค  Beta-thalassemia/Hb E ชนิด β๐/ βE`
+    const PCRResult22 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Homozygous Beta-thalassemia ชนิด B0/ B0`
+    const PCRResult23 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค  Beta-thalassemia/Hb E ชนิด B/ BE`
 
     const PCRSuggestion1 = '---'
     const PCRSuggestion2 = 'แนะนำตรวจวินิจฉัยเพิ่มเติม ได้แก่ 1) เจาะน้ำคร่ำ 2) เจาะเลือดจากสายสะดือทารกในครรภ์ '
@@ -226,20 +226,22 @@ function AlphaBetaThalassemiaTest() {
         if (dadAlphatal1 && momAlphatal1) {
             PCRResult = PCRResult21
             PCRSugestion = PCRSuggestion2
-        } else if (dadPositiveBeta == 2  && momPositiveBeta == 2  ) {
+        } else if (dadB0 && momB0) {
             PCRResult = PCRResult22
             PCRSugestion = PCRSuggestion2
-        } else if (dadPositiveBeta == 2  && momB0 || momPositiveBeta == 2 && dadB0 ||
-        // Check if one parent has HbE (value 3) and the other has β0 thalassemia
-        // or if one parent has HbE and the other has positive beta thalassemia (value 2)
-        // This covers all combinations of primary and secondary mutations for both parents
-        dadPositiveBeta == 3 && momB0 || momPositiveBeta == 3 && dadB0 ||
-        dadsecondPositiveBeta == 3 && momB0 || momsecondPositiveBeta == 3 && dadB0 ||
-        dadPositiveBeta == 2 && momPositiveBeta == 3 || dadPositiveBeta == 3 && momPositiveBeta == 2 ||
-        dadPositiveBeta == 2 && momsecondPositiveBeta == 3 || dadPositiveBeta == 3 && momsecondPositiveBeta == 2 ||
-        dadsecondPositiveBeta == 2 && momPositiveBeta == 3 || dadsecondPositiveBeta == 3 && momPositiveBeta == 2 ||
-        dadsecondPositiveBeta == 2 && momsecondPositiveBeta == 3 || dadsecondPositiveBeta == 3 && momsecondPositiveBeta == 2
-        ) {
+        } else 
+        // if (dadsecondBeta == 2  && momB0 || momsecondBeta == 2 && dadB0 ||
+        // // Check if one parent has HbE (value 3) and the other has β0 thalassemia
+        // // or if one parent has HbE and the other has positive beta thalassemia (value 2)
+        // // This covers all combinations of primary and secondary mutations for both parents
+        // dadsecondBeta == 3 && momB0 || momsecondBeta == 3 && dadB0 ||
+        // dadsecondBeta == 3 && momB0 || momsecondBeta == 3 && dadB0 ||
+        // dadsecondBeta == 2 && momsecondBeta == 3 || dadsecondBeta == 3 && momsecondBeta == 2 ||
+        // dadsecondBeta == 2 && momsecondBeta == 3 || dadsecondBeta == 3 && momsecondBeta == 2 ||
+        // dadsecondBeta == 2 && momsecondBeta == 3 || dadsecondBeta == 3 && momsecondBeta == 2 ||
+        // dadsecondBeta == 2 && momsecondBeta == 3 || dadsecondBeta == 3 && momsecondBeta == 2
+        // ) 
+        {
             PCRResult = PCRResult23
             PCRSugestion = PCRSuggestion2
         }
