@@ -679,14 +679,20 @@ function AlphaBetaThalassemiaTest() {
                                                             Object.entries(betaOptions)
                                                                 .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
                                                                 .filter(([key, value]) => {
-                                                                    // If dadPositiveBeta is B0, only show B+ options
-                                                                    if (dadPositiveBeta && isB0(dadPositiveBeta)) {
-                                                                        return !isB0(key);
+
+                                                                    // Filter out the option that's already selected in dadPositiveBeta
+                                                                    if (dadPositiveBeta && key === dadPositiveBeta) {
+                                                                        return false;
                                                                     }
-                                                                    // If dadPositiveBeta is B+, only show B0 options
-                                                                    if (dadPositiveBeta && !isB0(dadPositiveBeta)) {
-                                                                        return isB0(key);
-                                                                    }
+
+                                                                    // // If dadPositiveBeta is B0, only show B+ options
+                                                                    // if (dadPositiveBeta && isB0(dadPositiveBeta)) {
+                                                                    //     return !isB0(key);
+                                                                    // }
+                                                                    // // If dadPositiveBeta is B+, only show B0 options
+                                                                    // if (dadPositiveBeta && !isB0(dadPositiveBeta)) {
+                                                                    //     return isB0(key);
+                                                                    // }
                                                                     return true; // Show all options if no filter applies
                                                                 })
                                                                 .map(([key, betaOptions]) => (
@@ -823,14 +829,19 @@ function AlphaBetaThalassemiaTest() {
                                                             Object.entries(betaOptions)
                                                                 .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
                                                                 .filter(([key, value]) => {
-                                                                    // If dadPositiveBeta is B0, only show B+ options
-                                                                    if (momPositiveBeta && isB0(momPositiveBeta)) {
-                                                                        return !isB0(key);
+
+                                                                    // Filter out the option that's already selected in momPositiveBeta
+                                                                    if (momPositiveBeta && key === momPositiveBeta) {
+                                                                        return false;
                                                                     }
-                                                                    // If dadPositiveBeta is B+, only show B0 options
-                                                                    if (momPositiveBeta && !isB0(momPositiveBeta)) {
-                                                                        return isB0(key);
-                                                                    }
+                                                                    // // If dadPositiveBeta is B0, only show B+ options
+                                                                    // if (momPositiveBeta && isB0(momPositiveBeta)) {
+                                                                    //     return !isB0(key);
+                                                                    // }
+                                                                    // // If dadPositiveBeta is B+, only show B0 options
+                                                                    // if (momPositiveBeta && !isB0(momPositiveBeta)) {
+                                                                    //     return isB0(key);
+                                                                    // }
                                                                     return true; // Show all options if no filter applies
                                                                 })
                                                                 .map(([key, betaOptions]) => (
