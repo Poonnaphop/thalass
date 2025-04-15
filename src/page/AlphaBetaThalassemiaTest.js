@@ -38,14 +38,13 @@ function AlphaBetaThalassemiaTest() {
     const [isAlphaEnabled, setIsAlphaEnabled] = useState(false);
     const [isBetaEnabled, setIsBetaEnabled] = useState(false);
 
-    const PCRResult1 = `ไม่มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Hb Bart’s hydrop fetalis, Homozygous Beta-thalassemia ชนิด 
-β๐/ β๐ และ Beta-thalassemia/Hb E ชนิด β๐/ βE `
-    const PCRResult21 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Hb Bart’s hydrop fetalis`
-    const PCRResult22 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค Homozygous Beta-thalassemia ชนิด B0/ B0`
-    const PCRResult23 = `มีความเสี่ยงในการให้กำเนิดบุตรเป็นโรค  Beta-thalassemia/Hb E ชนิด B/ BE`
+    const PCRResult1 = `'ไม่ใช่คู่เสี่ยงธาลัสซีเมียชนิดรุนแรง`
+    const PCRResult21 = `มีความเสี่ยงที่จะเป็นคู่เสี่ยงธาลัสซีเมียชนิดรุนแรง Hb Bart's hydrop fetalis`
+    const PCRResult22 = `มีความเสี่ยงที่จะเป็นคู่เสี่ยงธาลัสซีเมียชนิดรุนแรง Homozygous Beta-thalassemia`
+    const PCRResult23 = `มีความเสี่ยงที่จะเป็นคู่เสี่ยงธาลัสซีเมียชนิดรุนแรง Beta-thalassemia/Hb E ชนิด β๐/ βE`
 
     const PCRSuggestion1 = '---'
-    const PCRSuggestion2 = 'แนะนำตรวจวินิจฉัยเพิ่มเติม ได้แก่ 1) เจาะน้ำคร่ำ 2) เจาะเลือดจากสายสะดือทารกในครรภ์ '
+    const PCRSuggestion2 = 'แนะนำตรวจวินิจฉัยเพิ่มเติม ได้แก่ 1) เจาะน้ำคร่ำ2) เจาะเลือดจากสายสะดือทารกในครรภ์'
     const isAlphaThal1 = (condition) => {
         const alphaThal1Conditions = [
             'SEA', 'THAI', 'FIL', 'MED', '-20.5kb',
@@ -114,6 +113,9 @@ function AlphaBetaThalassemiaTest() {
         let dadAlphaTag = []
         let dadBetaTag = []
 
+        // EVALUATE SECTION
+
+        // ALPHA SECTION
         if (isAlphaEnabled) {
             // dadsection
             if (dadPositiveAlpha) {
@@ -152,7 +154,7 @@ function AlphaBetaThalassemiaTest() {
             }
 
         }
-        //beta section
+        //BETA SECTION
         if (isBetaEnabled) {
             // dadsection
             if (dadBeta == 2) { 
@@ -221,10 +223,50 @@ function AlphaBetaThalassemiaTest() {
 
 
         let riskResult = ''
-        let riskTest = ''
-        let PCRResult = ''
+        let riskTest = '' // unused
+        let PCRResult = '' // unused
         let PCRSugestion = ''
+        let riskResultArr = []
+        let SuggestionArr = []
+        
+        // ALPHA SECTION
+        // to do
 
+
+        // BETA SECTION
+        // Check for Beta Thalassemia risk combinations (B0/B0 or B0/B+)
+        if((momBetaTag.includes('B0') && dadBetaTag.includes('B0')) || 
+           (momBetaTag.includes('B0') && dadBetaTag.includes('B+')) ||
+           (dadBetaTag.includes('B0') && momBetaTag.includes('B+')) ||
+           (momBetaTag.includes('B+') && dadBetaTag.includes('B+'))
+        ) {
+            riskResultArr.push(PCRResult22)
+            SuggestionArr.push(PCRSuggestion2)
+        }
+        
+        if((momBetaTag.includes('B0') && dadBetaTag.includes('HBE')) || 
+           (dadBetaTag.includes('B0') && momBetaTag.includes('HBE'))) {
+            riskResultArr.push(PCRResult23)
+            SuggestionArr.push(PCRSuggestion2)
+        }
+
+        if(
+            (momBetaTag.includes('B0') && dadBetaTag.includes('Negative')) ||
+            (momBetaTag.includes('B+') && dadBetaTag.includes('HBE')) ||
+            (dadBetaTag.includes('B+') && momBetaTag.includes('Negative')) ||
+            (dadBetaTag.includes('HBE') && momBetaTag.includes('B+')) ||
+            (dadBetaTag.includes('HBE') && momBetaTag.includes('HBE')) ||
+            (dadBetaTag.includes('HBE') && momBetaTag.includes('Negative'))||
+            (momBetaTag.includes('Negative') && dadBetaTag.includes('B0')) ||
+            (momBetaTag.includes('Negative') && dadBetaTag.includes('B+')) ||
+            (momBetaTag.includes('Negative') && dadBetaTag.includes('HBE')) ||
+            (momBetaTag.includes('Negative') && dadBetaTag.includes('Negative'))
+        ) {
+            riskResultArr.push(PCRResult1)
+        }
+
+        console.log('riskResultArr', riskResultArr)
+        console.log('SuggestionArr', SuggestionArr)
 
         // Prepare the new formData
         const newFormData = {
