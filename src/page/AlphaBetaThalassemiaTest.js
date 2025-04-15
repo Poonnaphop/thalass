@@ -114,6 +114,7 @@ function AlphaBetaThalassemiaTest() {
         let dadBetaTag = []
 
         // EVALUATE SECTION
+        console.log('--------------EVALUATE SECTION----------------')
 
         // ALPHA SECTION
         if (isAlphaEnabled) {
@@ -230,9 +231,13 @@ function AlphaBetaThalassemiaTest() {
         let SuggestionArr = []
         
         // ALPHA SECTION
-        // to do
-
-
+        if(momAlphaTag.includes('Alpha Thal 1') && dadAlphaTag.includes('Alpha Thal 1')) {
+            riskResultArr.push(PCRResult21)
+            SuggestionArr.push(PCRSuggestion2)
+        }else{
+            riskResultArr.push(PCRResult1)
+        }
+        
         // BETA SECTION
         // Check for Beta Thalassemia risk combinations (B0/B0 or B0/B+)
         if((momBetaTag.includes('B0') && dadBetaTag.includes('B0')) || 
@@ -264,6 +269,14 @@ function AlphaBetaThalassemiaTest() {
         ) {
             riskResultArr.push(PCRResult1)
         }
+
+
+        //remove duplicate
+        riskResultArr= [...new Set(riskResultArr)];
+        SuggestionArr= [...new Set(SuggestionArr)];
+
+        riskResult = riskResultArr.join('\n')
+        PCRSugestion = SuggestionArr.join('\n')
 
         console.log('riskResultArr', riskResultArr)
         console.log('SuggestionArr', SuggestionArr)
