@@ -1,5 +1,6 @@
 
 const betaOptions = {
+    "CD26 (Hb E)": "CD26 (Hb E)",
     "CD8/9 (+G)": "CD8/9 (+G)",
 "CD17 (A>T)": "CD17 (A>T)",
 "IVSI-I (G>T)": "IVSI-I (G>T)",
@@ -21,7 +22,6 @@ const betaOptions = {
 "Chinese Gγ(Aγδβ)": "Chinese Gγ(Aγδβ)",
 "HPFH-6 Gγ(Aγδβ)": "HPFH-6 Gγ(Aγδβ)",
 "-28 (A>G)": "-28 (A>G)",
-"CD26 (Hb E)": "CD26 (Hb E)",
 "CD19 (A>G)": "CD19 (A>G)",
 "-86": "-86",
 "-31": "-31",

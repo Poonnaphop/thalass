@@ -70,7 +70,7 @@ function AlphaBetaThalassemiaTest() {
 
     const isBPlus = (condition) => {
         const b0Conditions = [
-            '-28 (A>G)', 'CD26 (Hb E)', 'CD19 (A>G)', '-86', '-31',
+            '-28 (A>G)', 'CD19 (A>G)', '-86', '-31',
             'β 126 (Dhonburi)', '3.48 kb', 'thai(δβ)', 'Hb Lepore',
             'Siriraj-thalassemia Gγ(Aγδβ)', 'Asian Indian deletion type A',
             'Asian Indian deletion type B'
@@ -78,7 +78,7 @@ function AlphaBetaThalassemiaTest() {
         return b0Conditions.includes(condition);
     };
 
-    const isBP0 = (condition) => {
+    const isB0 = (condition) => {
         const bPlusConditions = [
             'CD8/9 (+G)', 'CD17 (A>T)', 'IVSI-I (G>T)', 'IVSI-S (G>C)',
             'IVSII-654 (C>T)', 'CD41/42 (-TCTT)', 'CD71/72 (+A)',
@@ -660,9 +660,7 @@ function AlphaBetaThalassemiaTest() {
                                                         <MenuItem value={2}>
                                                             Positive for common beta-globin deletions based on GAP-PCR analysis
                                                         </MenuItem>
-                                                        <MenuItem value={3}>
-                                                            HBE
-                                                        </MenuItem>
+                                                        
                                                     </Select>
                                                 </FormControl>
                                             )}
@@ -806,9 +804,7 @@ function AlphaBetaThalassemiaTest() {
                                                         <MenuItem value={2}>
                                                             Positive for common beta-globin deletions based on GAP-PCR analysis
                                                         </MenuItem>
-                                                        <MenuItem value={3}>
-                                                            HBE
-                                                        </MenuItem>
+                                                        
                                                     </Select>
                                                 </FormControl>
                                             )}
