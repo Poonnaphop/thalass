@@ -61,6 +61,13 @@ function AlphaBetaThalassemiaTest() {
         return alphaThal2Conditions.includes(condition);
     };
 
+    const isHBE = (condition) => {
+        const hbeConditions = [
+            'HBE','CD26 (Hb E)',3 // 3 is HBE
+        ];
+        return hbeConditions.includes(condition);
+    };
+
     const isB0 = (condition) => {
         const b0Conditions = [
             '-28 (A>G)', 'CD26 (Hb E)', 'CD19 (A>G)', '-86', '-31',
@@ -83,168 +90,90 @@ function AlphaBetaThalassemiaTest() {
         return bPlusConditions.includes(condition);
     };
     const handleSubmit = () => {
-        console.log("Dad's Alpha:", dadAlpha);
-        console.log("Dad's Beta:", dadBeta);
-        console.log("Dad's Positive Alpha:", dadPositiveAlpha);
-        console.log('dad have more than one alpha',isdadHavemorethanonealpha)
-        console.log('dad second positive alpha',dadsecondPositiveAlpha)
-
-        console.log("Dad's Positive Beta:", dadPositiveBeta);
-        console.log('dad have more than one beta',isdadHavemorethanonebeta)
-        console.log('dad second positive beta',dadsecondPositiveBeta)
-
-        console.log("Mom's Alpha:", momAlpha);
-        console.log("Mom's Beta:", momBeta);
-        console.log("Mom's Positive Alpha:", momPositiveAlpha);
-        console.log("Mom's Positive Beta:", momPositiveBeta);
+// to do need to validate data no blank data
         
-        let riskResult = '';
-        let riskTest = '';
+        console.log("isAlphaEnabled", isAlphaEnabled)
+        console.log('dadPositiveAlpha', dadPositiveAlpha)
+        console.log('isdadHavemorethanonealpha', isdadHavemorethanonealpha)
+        console.log('dadsecondPositiveAlpha', dadsecondPositiveAlpha)
+        console.log('momPositiveAlpha', momPositiveAlpha)
+        console.log('ismomHavemorethanonealpha', ismomHavemorethanonealpha)
+        console.log('momsecondPositiveAlpha', momsecondPositiveAlpha)
+         let momAlphaTag = []
+         let momBetaTag = []
+         let dadAlphaTag = []
+         let dadBetaTag = []
 
-        if ((isAlphaEnabled && (dadAlpha === null || momAlpha === null)) ||
-            (isBetaEnabled && (dadBeta === null || momBeta === null))) {
-            alert("Please select values for all enabled dropdowns.");
-            return;
-        }
-
-        const alphaRisk = isAlphaEnabled && momAlpha && dadAlpha;
-        const betaRisk = isBetaEnabled && momBeta && dadBeta;
-
-
-        console.log("Alpha Risk:", alphaRisk);
-        console.log("Beta Risk:", betaRisk);
-
-        if (alphaRisk && betaRisk) {
-            console.log("ส่งตรวจก่อนคลอดทั้งหมด");
-            riskResult = "ส่งตรวจก่อนคลอดทั้งหมด";
-        } else if (alphaRisk) {
-            console.log("ส่งตรวจก่อนคลอด Alpha");
-            riskResult = "ส่งตรวจก่อนคลอด Alpha";
-        } else if (betaRisk) {
-            console.log("ส่งตรวจก่อนคลอด Beta");
-            riskResult = "ส่งตรวจก่อนคลอด Beta";
-        } else {
-            console.log("ไม่ส่งตรวจก่อนคลอด");
-            riskResult = "ไม่ส่งตรวจก่อนคลอด";
-        }
-        let PCRResult = "";
-        let PCRSugestion = "";
-
-        let dadAlphatal1 = false;
-        let momAlphatal1 = false;
-        let dadAlphatal2 = false;
-        let momAlphatal2 = false;
-        let dadB0 = false;
-        let dadbBplus = false;
-        let momB0 = false;
-        let mombBplus = false;
-        if (dadAlpha) {
-            dadAlphatal1 = isAlphaThal1(dadPositiveAlpha);
-            dadAlphatal2 = isAlphaThal2(dadPositiveAlpha);
-
-            if(isdadHavemorethanonealpha && dadsecondPositiveAlpha){
-                dadAlphatal1 = true
-                dadAlphatal2 = false
+         if(isAlphaEnabled){
+            // dadsection
+            if(dadPositiveAlpha){
+                if(isAlphaThal1(dadPositiveAlpha)){
+                    dadAlphaTag.push('Alpha Thal 1')
+                }
+                if(isAlphaThal2(dadPositiveAlpha)){
+                    dadAlphaTag.push('Alpha Thal 2')
+                }
             }
-        }
-        if (dadBeta) {
-            dadB0 = isB0(dadPositiveBeta);
-            dadbBplus = isBPlus(dadPositiveBeta);
-        }
-        if (momBeta) {
-            momB0 = isB0(momPositiveBeta);
-            mombBplus = isBPlus(momPositiveBeta);
-        }
-        if (momAlpha) {
-            momAlphatal1 = isAlphaThal1(momPositiveAlpha);
-            momAlphatal2 = isAlphaThal2(momPositiveAlpha);
-
-            if(ismomHavemorethanonealpha && momsecondPositiveAlpha){
-                momAlphatal1 = true
-                momAlphatal2 = false
+            if(isdadHavemorethanonealpha){
+               if(isAlphaThal1(dadsecondPositiveAlpha)){
+                dadAlphaTag.push('Alpha Thal 1')
+               }
+               if(isAlphaThal2(dadsecondPositiveAlpha)){
+                dadAlphaTag.push('Alpha Thal 2')
+               }
             }
-        }
-        console.log("ALPHA TEST")
-        console.log("-----------------------")
 
-        console.log("dadAlphatal1", dadAlphatal1);
-        console.log("dadAlphatal2", dadAlphatal2);
-        console.log("dadB0", dadB0);
-        console.log("dadbBplus", dadbBplus);
+            // momsection
+            if(momPositiveAlpha){
+                if(isAlphaThal1(momPositiveAlpha)){
+                    momAlphaTag.push('Alpha Thal 1')
+                }
+                if(isAlphaThal2(momPositiveAlpha)){
+                    momAlphaTag.push('Alpha Thal 2')
+                }
+            }
+            if(ismomHavemorethanonealpha){
+                if(isAlphaThal1(momsecondPositiveAlpha)){
+                    momAlphaTag.push('Alpha Thal 1')
+                }
+                if(isAlphaThal2(momsecondPositiveAlpha)){
+                    momAlphaTag.push('Alpha Thal 2')
+                }
+            }
 
-        console.log("momAlphatal1", momAlphatal1);
-        console.log("momAlphatal2", momAlphatal2);
-        console.log("momB0", momB0);
-        console.log("mombBplus", mombBplus);
-        console.log("-----------------------")
+         }
+//beta section
+         if(isBetaEnabled){
+            // dadsection
+            if(dadPositiveBeta){
+                if(isB0(dadPositiveBeta)){
+                    dadBetaTag.push('B0')
+                }
+                if(isBPlus(dadPositiveBeta)){
+                    dadBetaTag.push('B+')
+                }
+                if(isHBE(dadPositiveBeta) || isHBE(dadsecondPositiveBeta)){
+                    dadBetaTag.push('HBE')
+                }
+            }
+            if(isdadHavemorethanonebeta){
+                if(isB0(dadsecondPositiveBeta)){
+                    dadBetaTag.push('B0')
+                }
+                if(isBPlus(dadsecondPositiveBeta)){
+                    dadBetaTag.push('B+')
+                }
+            }
+         }
+         console.log('dadAlphaTag', dadAlphaTag)
+         console.log('momAlphaTag', momAlphaTag)
 
 
-        if (momAlphatal1 && dadAlphatal1) {
-            console.log("condition: ต้องส่งตรวจเจาะน้ำคร่ำ");
-            riskTest = "ต้องส่งตรวจเจาะน้ำคร่ำ";
-        } else if ((dadAlphatal1 && momAlphatal2) || (dadAlphatal2 && momAlphatal1) || (dadAlphatal2 && momAlphatal2)) {
-            console.log(" ไม่ต้องส่งตรวจเจาะน้ำคร่ำ")
-            riskTest = "ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
-            PCRResult = PCRResult1
-        }
-        console.log("BETA TEST")
-        console.log("-----------------------")
 
-        if ((momBeta && dadBeta)
-            && (
-                (momB0 && dadB0)
-                ||
-                (momB0 && dadbBplus)
-                ||
-                (mombBplus && dadB0)
-                ||
-                (mombBplus && dadbBplus)
-            )) {
-            console.log(" condition1 : ต้องส่งตรวจเจาะน้ำคร่ำ ")
-            riskTest = "condition1 : ต้องส่งตรวจเจาะน้ำคร่ำ";
-            PCRResult = PCRResult1
-        } else if (
-            (!dadBeta && !momBeta)
-            ||
-            (dadBeta && !momBeta)
-            ||
-            (dadBeta && !momBeta)
-            ||
-            (dadBeta && momBeta)
-        ) {
-            console.log(" condition2 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ ")
-            riskTest = "condition2 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
-            PCRResult = PCRResult1
-            PCRSugestion = PCRSuggestion1
-        } else {
-            console.log(" condition3 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ ")
-            riskTest = "condition3 : ไม่ต้องส่งตรวจเจาะน้ำคร่ำ";
-            PCRResult = PCRResult1
-            PCRSugestion = PCRSuggestion1
-        }
-
-        if (dadAlphatal1 && momAlphatal1) {
-            PCRResult = PCRResult21
-            PCRSugestion = PCRSuggestion2
-        } else if (dadB0 && momB0) {
-            PCRResult = PCRResult22
-            PCRSugestion = PCRSuggestion2
-        } else 
-        // if (dadsecondBeta == 2  && momB0 || momsecondBeta == 2 && dadB0 ||
-        // // Check if one parent has HbE (value 3) and the other has β0 thalassemia
-        // // or if one parent has HbE and the other has positive beta thalassemia (value 2)
-        // // This covers all combinations of primary and secondary mutations for both parents
-        // dadsecondBeta == 3 && momB0 || momsecondBeta == 3 && dadB0 ||
-        // dadsecondBeta == 3 && momB0 || momsecondBeta == 3 && dadB0 ||
-        // dadsecondBeta == 2 && momsecondBeta == 3 || dadsecondBeta == 3 && momsecondBeta == 2 ||
-        // dadsecondBeta == 2 && momsecondBeta == 3 || dadsecondBeta == 3 && momsecondBeta == 2 ||
-        // dadsecondBeta == 2 && momsecondBeta == 3 || dadsecondBeta == 3 && momsecondBeta == 2 ||
-        // dadsecondBeta == 2 && momsecondBeta == 3 || dadsecondBeta == 3 && momsecondBeta == 2
-        // ) 
-        {
-            PCRResult = PCRResult23
-            PCRSugestion = PCRSuggestion2
-        }
+        let riskResult = ''
+        let riskTest = ''
+        let PCRResult = ''
+        let PCRSugestion = ''
 
 
         // Prepare the new formData
@@ -314,6 +243,10 @@ function AlphaBetaThalassemiaTest() {
                                                 if (!e.target.checked) {
                                                     setDadPositiveAlpha(null);
                                                     setMomPositiveAlpha(null);
+                                                    setDadsecondPositiveAlpha(null);
+                                                    setMomsecondPositiveAlpha(null);
+                                                    setIsdadHavemorethanonealpha(false);
+                                                    setIsmomHavemorethanonealpha(false);
                                                 }
                                             }}
                                         />
@@ -396,7 +329,7 @@ function AlphaBetaThalassemiaTest() {
                                                         checked={isdadHavemorethanonealpha}
                                                         onChange={(e) => {
                                                             setIsdadHavemorethanonealpha(e.target.checked);
-                                                            if(!e.target.checked){
+                                                            if (!e.target.checked) {
                                                                 setDadsecondPositiveAlpha(null)
                                                             }
                                                         }}
@@ -405,7 +338,7 @@ function AlphaBetaThalassemiaTest() {
                                                 label="Have more than one"
                                             />
 
-                                            {isdadHavemorethanonealpha &&  (
+                                            {isdadHavemorethanonealpha && (
                                                 <FormControl style={{ display: isdadHavemorethanonealpha ? '' : 'none', minWidth: '50%', mt: 5 }}>
                                                     <InputLabel id="dad-second-order-select-label">Order</InputLabel>
                                                     <Select
@@ -419,18 +352,18 @@ function AlphaBetaThalassemiaTest() {
                                                             Object.entries(alphaOptions)
                                                                 .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
                                                                 .filter(([key, value]) => {
-                                                                      // Don't allow selecting the same alpha mutation twice
-                                                                      if (dadPositiveAlpha === key) {
-                                                                        return false;
+                                                                    //   // Don't allow selecting the same alpha mutation twice
+                                                                    //   if (dadPositiveAlpha === key) {
+                                                                    //     return false;
+                                                                    // }
+                                                                    // If dadPositiveAlpha is Alphatal1, only show Alphatal2 options
+                                                                    if (dadPositiveAlpha && isAlphaThal1(dadPositiveAlpha)) {
+                                                                        return isAlphaThal2(key);
                                                                     }
-                                                                    // // If dadPositiveAlpha is Alphatal1, only show Alphatal2 options
-                                                                    // if (dadPositiveAlpha && isAlphaThal1(dadPositiveAlpha)) {
-                                                                    //     return isAlphaThal2(key);
-                                                                    // }
-                                                                    // // If dadPositiveAlpha is Alphatal2, only show Alphatal1 options
-                                                                    // if (dadPositiveAlpha && isAlphaThal2(dadPositiveAlpha)) {
-                                                                    //     return isAlphaThal1(key);
-                                                                    // }
+                                                                    // If dadPositiveAlpha is Alphatal2, only show Alphatal1 options
+                                                                    if (dadPositiveAlpha && isAlphaThal2(dadPositiveAlpha)) {
+                                                                        return isAlphaThal1(key);
+                                                                    }
                                                                     return true; // Show all options if no filter applies
                                                                 })
                                                                 .map(([key, alphaOptions]) => (
@@ -521,7 +454,7 @@ function AlphaBetaThalassemiaTest() {
                                                         checked={ismomHavemorethanonealpha}
                                                         onChange={(e) => {
                                                             setIsmomHavemorethanonealpha(e.target.checked);
-                                                            if(!e.target.checked){
+                                                            if (!e.target.checked) {
                                                                 setMomsecondPositiveAlpha(null)
                                                             }
                                                         }}
@@ -544,20 +477,20 @@ function AlphaBetaThalassemiaTest() {
                                                             Object.entries(alphaOptions)
                                                                 .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
                                                                 .filter(([key, value]) => {
-                                                                    // Don't allow selecting the same alpha mutation twice
-                                                                    if (momPositiveAlpha === key) {
-                                                                        return false;
+                                                                    // // Don't allow selecting the same alpha mutation twice
+                                                                    // if (momPositiveAlpha === key) {
+                                                                    //     return false;
+                                                                    // }
+                                                                    // For SEA, THAI, FIL, MED, -20.5kb, Pakse, PNP mutations (alpha thal 1)
+                                                                    // only allow selecting alpha thal 2 mutations for the second selection
+                                                                    if (momPositiveAlpha && isAlphaThal1(momPositiveAlpha)) {
+                                                                        return isAlphaThal2(key);
                                                                     }
-                                                                    // // For SEA, THAI, FIL, MED, -20.5kb, Pakse, PNP mutations (alpha thal 1)
-                                                                    // // only allow selecting alpha thal 2 mutations for the second selection
-                                                                    // if (momPositiveAlpha && isAlphaThal1(momPositiveAlpha)) {
-                                                                    //     return isAlphaThal2(key);
-                                                                    // }
-                                                                    // // For -3.7kb, -4.2kb mutations (alpha thal 2)
-                                                                    // // only allow selecting alpha thal 1 mutations for the second selection
-                                                                    // if (momPositiveAlpha && isAlphaThal2(momPositiveAlpha)) {
-                                                                    //     return isAlphaThal1(key);
-                                                                    // }
+                                                                    // For -3.7kb, -4.2kb mutations (alpha thal 2)
+                                                                    // only allow selecting alpha thal 1 mutations for the second selection
+                                                                    if (momPositiveAlpha && isAlphaThal2(momPositiveAlpha)) {
+                                                                        return isAlphaThal1(key);
+                                                                    }
                                                                     return true; // Show all options if no filter applies
                                                                 })
                                                                 .map(([key, alphaOptions]) => (
@@ -606,9 +539,19 @@ function AlphaBetaThalassemiaTest() {
                                             checked={isBetaEnabled}
                                             onChange={(e) => {
                                                 setIsBetaEnabled(e.target.checked);
+                                                console.log("isBetaEnabled", e.target.checked)
                                                 if (!e.target.checked) {
+                                                    console.log("clearing data")
+                                                    setDadBeta(null);
+                                                    setMomBeta(null);
                                                     setDadPositiveBeta(null);
                                                     setMomPositiveBeta(null);
+                                                    setDadsecondBeta(null);
+                                                    setMomsecondBeta(null);
+                                                    setIsdadHavemorethanonebeta(false);
+                                                    setIsmomHavemorethanonebeta(false);
+                                                    setDadsecondPositiveBeta(null);
+                                                    setMomsecondPositiveBeta(null);
                                                 }
                                             }}
                                         />
@@ -649,6 +592,10 @@ function AlphaBetaThalassemiaTest() {
                                                         if (!e.target.value || e.target.value != 2) {
                                                             setDadPositiveBeta(null);
                                                         }
+                                                        // If dadBeta is 1, disable have more than one checkbox and remove dadsecondBeta and dadsecondPositiveBeta
+                                                        if (e.target.value == 1 || e.target.value == 3) {
+                                                            setIsdadHavemorethanonebeta(false)
+                                                        }
                                                     }
                                                     }
                                                 >
@@ -688,7 +635,7 @@ function AlphaBetaThalassemiaTest() {
                                                 </Select>
                                             </FormControl>
                                             <FormControlLabel
-                                                style={{ display: dadBeta != 1 ? '' : 'none' }}
+                                                style={{ display: dadBeta != 1 && dadBeta != 3 ? '' : 'none' }}
                                                 control={
                                                     <Checkbox
                                                         checked={isdadHavemorethanonebeta}
@@ -702,60 +649,60 @@ function AlphaBetaThalassemiaTest() {
 
                                             {isdadHavemorethanonebeta && (
                                                 <FormControl fullWidth>
-                                                <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Dad's Beta</InputLabel>
-                                                <Select
-                                                    value={dadsecondBeta}
-                                                    onChange={(e) => {
-                                                        setDadsecondBeta(e.target.value)
-                                                    }
-                                                    }
-                                                >
-                                                    <MenuItem value={2}>
-                                                        Positive for common beta-globin deletions based on GAP-PCR analysis
-                                                    </MenuItem>    
-                                                    <MenuItem value={3}>
-                                                        HBE
-                                                    </MenuItem>
-                                                </Select>
-                                            </FormControl>
+                                                    <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Dad's Beta</InputLabel>
+                                                    <Select
+                                                        value={dadsecondBeta}
+                                                        onChange={(e) => {
+                                                            setDadsecondBeta(e.target.value)
+                                                        }
+                                                        }
+                                                    >
+                                                        <MenuItem value={2}>
+                                                            Positive for common beta-globin deletions based on GAP-PCR analysis
+                                                        </MenuItem>
+                                                        <MenuItem value={3}>
+                                                            HBE
+                                                        </MenuItem>
+                                                    </Select>
+                                                </FormControl>
                                             )}
 
                                             {dadsecondBeta && (
-                                              <FormControl style={{ display: dadsecondBeta == 2 ? '' : 'none', minWidth: '50%', mt: 5 }}>
-                                              <InputLabel id="dad-order-select-label">Order</InputLabel>
-                                              <Select
-                                                  labelId="dad-order-select-label"
-                                                  value={dadsecondPositiveBeta}
-                                                  onChange={(e) => setDadsecondPositiveBeta(e.target.value)}
-                                                  label="Order"
-                                                  fullWidth
-                                              >
-                                                  {betaOptions && Object.keys(betaOptions).length > 0 ? (
-                                                      Object.entries(betaOptions)
-                                                          .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                          .filter(([key, value]) => {
-                                                              // If dadPositiveBeta is B0, only show B+ options
-                                                              if (dadPositiveBeta && isB0(dadPositiveBeta)) {
-                                                                  return !isB0(key);
-                                                              }
-                                                              // If dadPositiveBeta is B+, only show B0 options
-                                                              if (dadPositiveBeta && !isB0(dadPositiveBeta)) {
-                                                                  return isB0(key);
-                                                              }
-                                                              return true; // Show all options if no filter applies
-                                                          })
-                                                          .map(([key, betaOptions]) => (
-                                                              <MenuItem key={key} value={key}>
-                                                                  {`${betaOptions}`}
-                                                              </MenuItem>
-                                                          ))
-                                                  ) : (
-                                                      <MenuItem disabled value="">
-                                                          No descriptions
-                                                      </MenuItem>
-                                                  )}
-                                              </Select>
-                                          </FormControl>
+                                                <FormControl style={{ display: dadsecondBeta == 2 ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                                    <InputLabel id="dad-order-select-label">Order</InputLabel>
+                                                    <Select
+                                                        labelId="dad-order-select-label"
+                                                        value={dadsecondPositiveBeta}
+                                                        onChange={(e) => setDadsecondPositiveBeta(e.target.value)}
+                                                        label="Order"
+                                                        fullWidth
+                                                    >
+                                                        {betaOptions && Object.keys(betaOptions).length > 0 ? (
+                                                            Object.entries(betaOptions)
+                                                                .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
+                                                                .filter(([key, value]) => {
+                                                                    // If dadPositiveBeta is B0, only show B+ options
+                                                                    if (dadPositiveBeta && isB0(dadPositiveBeta)) {
+                                                                        return !isB0(key);
+                                                                    }
+                                                                    // If dadPositiveBeta is B+, only show B0 options
+                                                                    if (dadPositiveBeta && !isB0(dadPositiveBeta)) {
+                                                                        return isB0(key);
+                                                                    }
+                                                                    return true; // Show all options if no filter applies
+                                                                })
+                                                                .map(([key, betaOptions]) => (
+                                                                    <MenuItem key={key} value={key}>
+                                                                        {`${betaOptions}`}
+                                                                    </MenuItem>
+                                                                ))
+                                                        ) : (
+                                                            <MenuItem disabled value="">
+                                                                No descriptions
+                                                            </MenuItem>
+                                                        )}
+                                                    </Select>
+                                                </FormControl>
                                             )}
                                         </Box>
                                     </Grid>
@@ -786,6 +733,13 @@ function AlphaBetaThalassemiaTest() {
                                                         setMomBeta(e.target.value)
                                                         if (!e.target.value || e.target.value != 2) {
                                                             setMomPositiveBeta(null);
+                                                        }
+
+                                                        // If momBeta is 1, disable have more than one checkbox and remove momsecondBeta and momsecondPositiveBeta
+                                                        if (e.target.value == 1 || e.target.value == 3) {
+                                                            setIsmomHavemorethanonebeta(false)
+                                                            setMomsecondBeta(null)
+                                                            setMomsecondPositiveBeta(null)
                                                         }
                                                     }}
                                                 >
@@ -827,7 +781,7 @@ function AlphaBetaThalassemiaTest() {
                                                 </Select>
                                             </FormControl>
                                             <FormControlLabel
-                                                style={{ display: momBeta != 1 ? '' : 'none' }}
+                                                style={{ display: momBeta != 1 && momBeta != 3 ? '' : 'none' }}
                                                 control={
                                                     <Checkbox
                                                         checked={ismomHavemorethanonebeta}
@@ -841,60 +795,60 @@ function AlphaBetaThalassemiaTest() {
 
                                             {ismomHavemorethanonebeta && (
                                                 <FormControl fullWidth>
-                                                <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Mom's Beta</InputLabel>
-                                                <Select
-                                                    value={momsecondBeta}
-                                                    onChange={(e) => {
-                                                        setMomsecondBeta(e.target.value)
-                                                    }
-                                                    }
-                                                >
-                                                    <MenuItem value={2}>
-                                                        Positive for common beta-globin deletions based on GAP-PCR analysis
-                                                    </MenuItem>    
-                                                    <MenuItem value={3}>
-                                                        HBE
-                                                    </MenuItem>
-                                                </Select>
-                                            </FormControl>
+                                                    <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Mom's Beta</InputLabel>
+                                                    <Select
+                                                        value={momsecondBeta}
+                                                        onChange={(e) => {
+                                                            setMomsecondBeta(e.target.value)
+                                                        }
+                                                        }
+                                                    >
+                                                        <MenuItem value={2}>
+                                                            Positive for common beta-globin deletions based on GAP-PCR analysis
+                                                        </MenuItem>
+                                                        <MenuItem value={3}>
+                                                            HBE
+                                                        </MenuItem>
+                                                    </Select>
+                                                </FormControl>
                                             )}
 
                                             {momsecondBeta && (
-                                              <FormControl style={{ display: momsecondBeta == 2 ? '' : 'none', minWidth: '50%', mt: 5 }}>
-                                              <InputLabel id="mom-order-select-label">Order</InputLabel>
-                                              <Select
-                                                  labelId="mom-order-select-label"
-                                                  value={momsecondPositiveBeta}
-                                                  onChange={(e) => setMomsecondPositiveBeta(e.target.value)}
-                                                  label="Order"
-                                                  fullWidth
-                                              >
-                                                  {betaOptions && Object.keys(betaOptions).length > 0 ? (
-                                                      Object.entries(betaOptions)
-                                                          .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
-                                                          .filter(([key, value]) => {
-                                                              // If dadPositiveBeta is B0, only show B+ options
-                                                              if (momPositiveBeta && isB0(momPositiveBeta)) {
-                                                                  return !isB0(key);
-                                                              }
-                                                              // If dadPositiveBeta is B+, only show B0 options
-                                                              if (momPositiveBeta && !isB0(momPositiveBeta)) {
-                                                                  return isB0(key);
-                                                              }
-                                                              return true; // Show all options if no filter applies
-                                                          })
-                                                          .map(([key, betaOptions]) => (
-                                                              <MenuItem key={key} value={key}>
-                                                                  {`${betaOptions}`}
-                                                              </MenuItem>
-                                                          ))
-                                                  ) : (
-                                                      <MenuItem disabled value="">
-                                                          No descriptions
-                                                      </MenuItem>
-                                                  )}
-                                              </Select>
-                                          </FormControl>
+                                                <FormControl style={{ display: momsecondBeta == 2 ? '' : 'none', minWidth: '50%', mt: 5 }}>
+                                                    <InputLabel id="mom-order-select-label">Order</InputLabel>
+                                                    <Select
+                                                        labelId="mom-order-select-label"
+                                                        value={momsecondPositiveBeta}
+                                                        onChange={(e) => setMomsecondPositiveBeta(e.target.value)}
+                                                        label="Order"
+                                                        fullWidth
+                                                    >
+                                                        {betaOptions && Object.keys(betaOptions).length > 0 ? (
+                                                            Object.entries(betaOptions)
+                                                                .sort(([keyA], [keyB]) => parseFloat(keyA) - parseFloat(keyB)) // Sort by numeric key
+                                                                .filter(([key, value]) => {
+                                                                    // If dadPositiveBeta is B0, only show B+ options
+                                                                    if (momPositiveBeta && isB0(momPositiveBeta)) {
+                                                                        return !isB0(key);
+                                                                    }
+                                                                    // If dadPositiveBeta is B+, only show B0 options
+                                                                    if (momPositiveBeta && !isB0(momPositiveBeta)) {
+                                                                        return isB0(key);
+                                                                    }
+                                                                    return true; // Show all options if no filter applies
+                                                                })
+                                                                .map(([key, betaOptions]) => (
+                                                                    <MenuItem key={key} value={key}>
+                                                                        {`${betaOptions}`}
+                                                                    </MenuItem>
+                                                                ))
+                                                        ) : (
+                                                            <MenuItem disabled value="">
+                                                                No descriptions
+                                                            </MenuItem>
+                                                        )}
+                                                    </Select>
+                                                </FormControl>
                                             )}
                                         </Box>
                                     </Grid>
