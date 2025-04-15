@@ -42,6 +42,7 @@ export default function Login() {
             <Headbar />
             <div style={{ minHeight: "85vh" }}>
                 <SignIn onSignIn={handleSignIn} />
+                <p style={{visibility: "hidden"}}>version 202504152335</p>
 
                 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                     <MuiAlert onClose={handleClose} severity={snackbarData.severity} sx={{ width: "100%" }}>
