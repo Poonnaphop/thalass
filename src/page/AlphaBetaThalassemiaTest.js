@@ -63,7 +63,7 @@ function AlphaBetaThalassemiaTest() {
 
     const isHBE = (condition) => {
         const hbeConditions = [
-            'HBE','CD26 (Hb E)',3 // 3 is HBE
+            'HBE', 'CD26 (Hb E)', 3 // 3 is HBE
         ];
         return hbeConditions.includes(condition);
     };
@@ -90,8 +90,8 @@ function AlphaBetaThalassemiaTest() {
         return bPlusConditions.includes(condition);
     };
     const handleSubmit = () => {
-// to do need to validate data no blank data
-        
+        // to do need to validate data no blank data
+        console.log('--------------ALPHA SECTION------------------')
         console.log("isAlphaEnabled", isAlphaEnabled)
         console.log('dadPositiveAlpha', dadPositiveAlpha)
         console.log('isdadHavemorethanonealpha', isdadHavemorethanonealpha)
@@ -99,74 +99,124 @@ function AlphaBetaThalassemiaTest() {
         console.log('momPositiveAlpha', momPositiveAlpha)
         console.log('ismomHavemorethanonealpha', ismomHavemorethanonealpha)
         console.log('momsecondPositiveAlpha', momsecondPositiveAlpha)
-         let momAlphaTag = []
-         let momBetaTag = []
-         let dadAlphaTag = []
-         let dadBetaTag = []
+        console.log('--------------BETA SECTION------------------')
+        console.log('isBetaEnabled', isBetaEnabled)
+        console.log('dadBeta', dadBeta)
+        console.log('dadPositiveBeta', dadPositiveBeta)
+        console.log('isdadHavemorethanonebeta', isdadHavemorethanonebeta)
+        console.log('dadsecondPositiveBeta', dadsecondPositiveBeta)
+        console.log('momBeta', momBeta)
+        console.log('momPositiveBeta', momPositiveBeta)
+        console.log('ismomHavemorethanonebeta', ismomHavemorethanonebeta)
+        console.log('momsecondPositiveBeta', momsecondPositiveBeta)
+        let momAlphaTag = []
+        let momBetaTag = []
+        let dadAlphaTag = []
+        let dadBetaTag = []
 
-         if(isAlphaEnabled){
+        if (isAlphaEnabled) {
             // dadsection
-            if(dadPositiveAlpha){
-                if(isAlphaThal1(dadPositiveAlpha)){
+            if (dadPositiveAlpha) {
+                if (isAlphaThal1(dadPositiveAlpha)) {
                     dadAlphaTag.push('Alpha Thal 1')
                 }
-                if(isAlphaThal2(dadPositiveAlpha)){
+                if (isAlphaThal2(dadPositiveAlpha)) {
                     dadAlphaTag.push('Alpha Thal 2')
                 }
             }
-            if(isdadHavemorethanonealpha){
-               if(isAlphaThal1(dadsecondPositiveAlpha)){
-                dadAlphaTag.push('Alpha Thal 1')
-               }
-               if(isAlphaThal2(dadsecondPositiveAlpha)){
-                dadAlphaTag.push('Alpha Thal 2')
-               }
+            if (isdadHavemorethanonealpha) {
+                if (isAlphaThal1(dadsecondPositiveAlpha)) {
+                    dadAlphaTag.push('Alpha Thal 1')
+                }
+                if (isAlphaThal2(dadsecondPositiveAlpha)) {
+                    dadAlphaTag.push('Alpha Thal 2')
+                }
             }
 
             // momsection
-            if(momPositiveAlpha){
-                if(isAlphaThal1(momPositiveAlpha)){
+            if (momPositiveAlpha) {
+                if (isAlphaThal1(momPositiveAlpha)) {
                     momAlphaTag.push('Alpha Thal 1')
                 }
-                if(isAlphaThal2(momPositiveAlpha)){
+                if (isAlphaThal2(momPositiveAlpha)) {
                     momAlphaTag.push('Alpha Thal 2')
                 }
             }
-            if(ismomHavemorethanonealpha){
-                if(isAlphaThal1(momsecondPositiveAlpha)){
+            if (ismomHavemorethanonealpha) {
+                if (isAlphaThal1(momsecondPositiveAlpha)) {
                     momAlphaTag.push('Alpha Thal 1')
                 }
-                if(isAlphaThal2(momsecondPositiveAlpha)){
+                if (isAlphaThal2(momsecondPositiveAlpha)) {
                     momAlphaTag.push('Alpha Thal 2')
                 }
             }
 
-         }
-//beta section
-         if(isBetaEnabled){
+        }
+        //beta section
+        if (isBetaEnabled) {
             // dadsection
-            if(dadPositiveBeta){
-                if(isB0(dadPositiveBeta)){
+            if (dadBeta == 2) { 
+                if (isB0(dadPositiveBeta)) {
                     dadBetaTag.push('B0')
                 }
-                if(isBPlus(dadPositiveBeta)){
+                if (isBPlus(dadPositiveBeta)) {
                     dadBetaTag.push('B+')
                 }
-                if(isHBE(dadPositiveBeta) || isHBE(dadsecondPositiveBeta)){
+                if (isHBE(dadPositiveBeta) || isHBE(dadsecondPositiveBeta)) {
+                    dadBetaTag.push('HBE')
+                }
+            } else if (dadBeta == 1) {
+                dadBetaTag.push('Negative')
+            } else if (dadBeta == 3) {
+                dadBetaTag.push('HBE')
+            }
+
+            if (isdadHavemorethanonebeta) {
+                if (isB0(dadsecondPositiveBeta)) {
+                    dadBetaTag.push('B0')
+                }
+                if (isBPlus(dadsecondPositiveBeta)) {
+                    dadBetaTag.push('B+')
+                }
+                if (isHBE(dadsecondPositiveBeta)) {
                     dadBetaTag.push('HBE')
                 }
             }
-            if(isdadHavemorethanonebeta){
-                if(isB0(dadsecondPositiveBeta)){
-                    dadBetaTag.push('B0')
+            // momsection
+            if (momBeta == 2) { // check if dadPositiveBeta is not 1 and 1 is negative
+                if (isB0(momPositiveBeta)) {
+                    momBetaTag.push('B0')
                 }
-                if(isBPlus(dadsecondPositiveBeta)){
-                    dadBetaTag.push('B+')
+                if (isBPlus(momPositiveBeta)) {
+                    momBetaTag.push('B+')
+                }
+                if (isHBE(momPositiveBeta) || isHBE(momsecondPositiveBeta)) {
+                    momBetaTag.push('HBE')
+                }
+            } else if (momBeta == 1) {
+                momBetaTag.push('Negative')
+            } else if (momBeta == 3) {
+                momBetaTag.push('HBE')
+            }
+
+
+            if (ismomHavemorethanonebeta) {
+                if (isB0(momsecondPositiveBeta)) {
+                    momBetaTag.push('B0')
+                }
+                if (isBPlus(momsecondPositiveBeta)) {
+                    momBetaTag.push('B+')
+                }
+                if (isHBE(momsecondPositiveBeta)) {
+                    momBetaTag.push('HBE')
                 }
             }
-         }
-         console.log('dadAlphaTag', dadAlphaTag)
-         console.log('momAlphaTag', momAlphaTag)
+
+        }
+        console.log('dadAlphaTag', dadAlphaTag)
+        console.log('momAlphaTag', momAlphaTag)
+        console.log('dadBetaTag', dadBetaTag)
+        console.log('momBetaTag', momBetaTag)
 
 
 
@@ -660,7 +710,7 @@ function AlphaBetaThalassemiaTest() {
                                                         <MenuItem value={2}>
                                                             Positive for common beta-globin deletions based on GAP-PCR analysis
                                                         </MenuItem>
-                                                        
+
                                                     </Select>
                                                 </FormControl>
                                             )}
@@ -810,7 +860,7 @@ function AlphaBetaThalassemiaTest() {
                                                         <MenuItem value={2}>
                                                             Positive for common beta-globin deletions based on GAP-PCR analysis
                                                         </MenuItem>
-                                                        
+
                                                     </Select>
                                                 </FormControl>
                                             )}
