@@ -271,7 +271,7 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks,riskResul
             text: 'วันที่'
           },
           {
-            width: 100,
+              width: 100,
             canvas: [
               {
                 type: 'line',
