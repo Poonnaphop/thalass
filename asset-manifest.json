@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/thalass/static/css/main.036da6ee.css",
-    "main.js": "/thalass/static/js/main.c99d52e1.js",
+    "main.js": "/thalass/static/js/main.c39dc67b.js",
     "static/js/453.68693753.chunk.js": "/thalass/static/js/453.68693753.chunk.js",
     "static/media/blood3.jpg": "/thalass/static/media/blood3.8b03985a0be9bac11946.jpg",
     "index.html": "/thalass/index.html",
     "main.036da6ee.css.map": "/thalass/static/css/main.036da6ee.css.map",
-    "main.c99d52e1.js.map": "/thalass/static/js/main.c99d52e1.js.map",
+    "main.c39dc67b.js.map": "/thalass/static/js/main.c39dc67b.js.map",
     "453.68693753.chunk.js.map": "/thalass/static/js/453.68693753.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.036da6ee.css",
-    "static/js/main.c99d52e1.js"
+    "static/js/main.c39dc67b.js"
   ]
 }
