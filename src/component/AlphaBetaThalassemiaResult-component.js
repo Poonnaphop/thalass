@@ -2,204 +2,24 @@ import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Document, Page, Text, View, StyleSheet, BlobProvider, Font } from '@react-pdf/renderer';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
-// Register custom font and disable word hyphenation
-const registerFonts = () => {
-  try {
-    Font.register({
-      family: 'Sarabun',
-      src: '/fonts/Sarabun-Medium.ttf',
-      format: 'truetype'
-    });
-    Font.registerHyphenationCallback((word) => [word]);
-  } catch (error) {
-    console.error('Error registering font:', error);
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+pdfMake.fonts = {
+  THSarabunNew: {
+    normal: 'THSarabunNew.ttf',
+    bold: 'THSarabunNew Bold.ttf',
+    italics: 'THSarabunNew.ttf',
+    bolditalics: 'THSarabunNew.ttf'
+  },
+  Roboto: {
+    normal: 'Roboto-Regular.ttf',
+    bold: 'Roboto-Medium.ttf',
+    italics: 'Roboto-Italic.ttf',
+    bolditalics: 'Roboto-MediumItalic.ttf'
   }
-};
-
-// Call registerFonts before creating any PDF documents
-registerFonts();
-
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'column',
-    backgroundColor: '#FFFFFF',
-    padding: 30,
-    fontFamily: 'Sarabun',
-    fallbackFonts: ['Helvetica'],
-    fontSize: 10,
-  },
-  header: {
-    fontSize: 14,
-    marginBottom: 2,
-    textAlign: 'left',
-  },
-  subHeader: {
-    fontSize: 12,
-    marginBottom: 0,
-    textAlign: 'left',
-  },
-  dotLine: {
-    borderBottomWidth: 1,
-    borderBottomStyle: 'dotted',
-    borderBottomColor: '#000',
-    marginVertical: 2,
-    flex: 1,
-  },
-  signatureLine: {
-    borderBottomWidth: 1,
-    borderBottomStyle: 'solid',
-    borderBottomColor: '#000',
-    marginVertical: 8,
-    width: '25%',
-  },
-  formTitle: {
-    fontSize: 12,
-    marginBottom: 16,
-    textAlign: 'center',
-    marginTop: 24,
-  },
-  dateContainer: {
-    marginBottom: 8,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginTop: 16,
-  },
-  dateText: {
-    fontSize: 10,
-  },
-  boxesContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-  },
-  box: {
-    width: '31%',
-    minHeight: 100,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: '#000',
-    padding: 5,
-    fontSize: 8,
-  },
-  boxLabel: {
-    fontSize: 10,
-    textAlign: 'left',
-    marginBottom: 4,
-    fontWeight: 'bold',
-  },
-  boxText: {
-    fontSize: 8,
-    marginBottom: 2,
-    paddingLeft: 3,
-  },
-  table: {
-    marginTop: 16,
-    marginBottom: 16,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: '#000',
-  },
-  tableHeader: {
-    backgroundColor: '#f5f5f5',
-    fontSize: 10,
-    padding: 4,
-    borderBottomStyle: 'solid',
-    borderBottomWidth: 1,
-    borderBottomColor: '#000',
-  },
-  tableRow: {
-    flexDirection: 'row',
-    borderBottomStyle: 'solid',
-    borderBottomWidth: 1,
-    borderBottomColor: '#000',
-    minHeight: 24,
-  },
-  tableCell: {
-    padding: 4,
-    fontSize: 10,
-    flex: 1,
-    borderRightStyle: 'solid',
-    borderRightWidth: 1,
-    borderRightColor: '#000',
-    borderTopStyle: 'solid',
-    borderTopWidth: 0,
-    borderTopColor: '#000',
-  },
-  tableCellLast: {
-    padding: 4,
-    fontSize: 10,
-    flex: 1,
-    borderTopStyle: 'solid',
-    borderTopWidth: 0,
-    borderTopColor: '#000',
-  },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 3,
-  },
-  checkbox: {
-    width: 8,
-    height: 8,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: '#000',
-    marginRight: 4,
-    backgroundColor: '#FFFFFF',
-  },
-  checkedBox: {
-    width: 8,
-    height: 8,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: '#000',
-    marginRight: 4,
-    backgroundColor: '#000',
-  },
-  footer: {
-    marginTop: 24,
-  },
-  footerText: {
-    fontSize: 10,
-    marginBottom: 4,
-  },
-  signatureSection: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 8,
-    marginTop: 16,
-  },
-  appointmentSection: {
-    flexDirection: 'row',
-    marginTop: 16,
-  },
-  textWrap: {
-    display: "flex",
-    flexWrap: "wrap",
-    flexGrow: 1,
-    flexBasis: 0,
-    padding: 2,
-  },
-  wrappedText: {
-    display: "flex",
-    flexDirection: 'column',
-    width: '100%',
-    flex: 1,
-    marginBottom: 1,
-  },
-  summaryText: {
-    display: "flex",
-    flexWrap: "wrap",
-    flexGrow: 1,
-    flexBasis: 0,
-    fontSize: 10,
-    marginBottom: 4,
-    lineHeight: 1.5,
-    paddingLeft: 3,
-  },
-});
+}
 
 // Helper function to format date in Thai
 const formatThaiDate = () => {
@@ -214,266 +34,349 @@ const formatThaiDate = () => {
   return `${day} ${month} พ.ศ. ${year}`;
 };
 
-// PDF Document Component
-const PDFDocument = ({ formData, doctorName, appointmentDetails, remarks }) => (
-  <Document onRender={() => console.log('PDF rendered successfully')}>
-    <Page size="A4" style={styles.page}>
-      <Text style={styles.header}>
-        ศูนย์พัฒนาสูตรและเป็นเลิศการคัดกรองและวินิจฉัยก่อนคลอด
-      </Text>
-      <Text style={styles.subHeader}>
-        โรคโลหิตจางธาลัสซีเมีย โรงพยาบาลธรรมศาสตร์เฉลิมพระเกียรติ
-      </Text>
-      <View
-        style={[
-          styles.wrappedText,
-          { maxHeight: 1, marginTop: 4, marginBottom: 4 },
-        ]}
-      >
-        <View style={styles.dotLine} />
-      </View>
-
-      <Text style={styles.formTitle}>
-        แบบบันทึกการให้คำปรึกษาแก่คู่สมรสที่มีความเสี่ยงต่อการมีบุตรเป็นโรคธาลัสซีเมียย
-      </Text>
-
-      <View style={styles.dateContainer}>
-        <Text style={styles.dateText}>
-          วันที่........{formatThaiDate()}........
-        </Text>
-      </View>
-
-      <View style={styles.boxesContainer}>
-        <View style={styles.box}>
-          <Text style={[styles.boxLabel, { textAlign: "center" }]}>ภรรยา</Text>
-          <View style={styles.wrappedText}>
-            <Text style={styles.boxText}>
-              ชื่อ-สกุล: {formData?.wifeName || "-"}{" "}
-              {formData?.wifeSurname || "-"}
-            </Text>
-            <Text style={styles.boxText}>
-              อายุ: {formData?.wifeAge || "-"} ปี
-            </Text>
-            <Text style={styles.boxText}>HN: {formData?.wifeHn || "-"}</Text>
-          </View>
-        </View>
-        <View style={styles.box}>
-          <Text style={[styles.boxLabel, { textAlign: "center" }]}>สามี</Text>
-          <View style={styles.wrappedText}>
-            <Text style={styles.boxText}>
-              ชื่อ-สกุล: {formData?.husbandName || "-"}{" "}
-              {formData?.husbandSurname || "-"}
-            </Text>
-            <Text style={styles.boxText}>
-              อายุ: {formData?.husbandAge || "-"} ปี
-            </Text>
-            <Text style={styles.boxText}>HN: {formData?.husbandHn || "-"}</Text>
-          </View>
-        </View>
-        <View style={styles.box}>
-          <Text style={[styles.boxLabel, { textAlign: "center" }]}>
-            บุตร (ถ้ามี)
-          </Text>
-          <View style={styles.wrappedText}>
-            <Text style={styles.boxText}>G: {formData?.gravid || "-"}</Text>
-            <Text style={styles.boxText}>P: {formData?.para || "-"}</Text>
-            <Text style={styles.boxText}>A: {formData?.abortion || "-"}</Text>
-            <Text style={styles.boxText}>L: {formData?.living || "-"}</Text>
-          </View>
-        </View>
-      </View>
-
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          marginBottom: 8,
-        }}
-      >
-        <Text style={styles.boxLabel}>การตรวจทางห้องปฏิบัติการเพิ่มเติม</Text>
-      </View>
-
-      <View style={styles.table}>
-        <View style={styles.tableRow}>
-          <View style={[styles.tableCell, { flex: 0.2 }]}>
-            <Text>ตรวจหา</Text>
-          </View>
-          <View style={[styles.tableCell, { flex: 0.4 }]}>
-            <Text>รายการตรวจ</Text>
-          </View>
-          <View style={[styles.tableCell, { flex: 0.4, borderRightWidth: 0 }]}>
-            <Text>ผลการตรวจ</Text>
-          </View>
-        </View>
-
-        <View style={styles.tableRow}>
-          <View style={[styles.tableCell, { flex: 0.2 }]}>
-            <Text>ภรรยา</Text>
-          </View>
-          <View style={[styles.tableCell, { flex: 0.4 }]}>
-            {formData?.isAlphaEnabled && (
-              <View style={styles.checkboxContainer}>
-                <View style={styles.checkedBox} />
-                <Text>PCR for alpha</Text>
-              </View>
-            )}
-            {!formData?.isAlphaEnabled && (
-              <View style={styles.checkboxContainer}>
-                <View style={styles.checkbox} />
-                <Text>PCR for alpha</Text>
-              </View>
-            )}
-            {formData?.isBetaEnabled && (
-              <View style={styles.checkboxContainer}>
-                <View style={styles.checkedBox} />
-                <Text>PCR for beta</Text>
-              </View>
-            )}
-            {!formData?.isBetaEnabled && (
-              <View style={styles.checkboxContainer}>
-                <View style={styles.checkbox} />
-                <Text>PCR for beta</Text>
-              </View>
-            )}
-          </View>
-          <View style={[styles.tableCell, { flex: 0.4, borderRightWidth: 0 }]}>
-            {formData?.isAlphaEnabled && (
-              <Text>Alpha: {formData?.momPositiveAlpha || "-"}</Text>
-            )}
-            {formData?.isBetaEnabled && (
-              <Text>Beta: {formData?.momPositiveBeta || "-"}</Text>
-            )}
-          </View>
-        </View>
-
-        <View style={[styles.tableRow, { borderBottomWidth: 0 }]}>
-          <View style={[styles.tableCell, { flex: 0.2 }]}>
-            <Text>สามี</Text>
-          </View>
-          <View style={[styles.tableCell, { flex: 0.4 }]}>
-            {formData?.isAlphaEnabled && (
-              <View style={styles.checkboxContainer}>
-                <View style={styles.checkedBox} />
-                <Text>PCR for alpha</Text>
-              </View>
-            )}
-            {!formData?.isAlphaEnabled && (
-              <View style={styles.checkboxContainer}>
-                <View style={styles.checkbox} />
-                <Text>PCR for alpha</Text>
-              </View>
-            )}
-            {formData?.isBetaEnabled && (
-              <View style={styles.checkboxContainer}>
-                <View style={styles.checkedBox} />
-                <Text>PCR for beta</Text>
-              </View>
-            )}
-            {!formData?.isBetaEnabled && (
-              <View style={styles.checkboxContainer}>
-                <View style={styles.checkbox} />
-                <Text>PCR for beta</Text>
-              </View>
-            )}
-          </View>
-          <View style={[styles.tableCell, { flex: 0.4, borderRightWidth: 0 }]}>
-            {formData?.isAlphaEnabled && (
-              <Text>Alpha: {formData?.dadPositiveAlpha || "-"}</Text>
-            )}
-            {formData?.isBetaEnabled && (
-              <Text>Beta: {formData?.dadPositiveBeta || "-"}</Text>
-            )}
-          </View>
-        </View>
-      </View>
-
-      <View style={[styles.wrappedText]}>
-        <View style={{ flexDirection: "row", marginBottom: 0 }}>
-          <Text style={{ width: 80 }}>สรุป</Text>
-          <View style={{ flex: 1 }}>
-            <Text style={[styles.summaryText, { marginBottom: 8 }]}>{formData?.PCRResult || "-"}</Text>
-            <View style={styles.dotLine} />
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.wrappedText}>
-        <View style={{ flexDirection: "row", marginBottom: 0 }}>
-          <Text style={{ width: 80 }}>ข้อเสนอแนะ</Text>
-          <View style={{ flex: 1 }}>
-            <Text style={[styles.summaryText, { marginBottom: 8 }]}>{formData?.PCRSugestion || "-"}</Text>
-            <View style={styles.dotLine} />
-          </View>
-        </View>
-      </View>
-
-      <View
-        style={{ flexDirection: "row", marginBottom: 4, alignItems: "center" }}
-      >
-        <Text>ลงนาม</Text>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "flex-end",
+// Function to generate PDF document
+const generatePDF = (formData, doctorName, appointmentDetails, remarks,riskResult,riskTest,week,day) => {
+  console.log('riskResult', riskResult)
+  console.log('formData', formData)
+  console.log('riskTest', riskTest)
+  console.log('week', week)
+  console.log('day', day)
+  const docDefinition = {
+    pageSize: 'A4',
+    pageMargins: [30, 30, 30, 30],
+    defaultStyle: {
+      font: 'THSarabunNew'
+    },
+    content: [
+      {
+        text: 'ศูนย์พัฒนาสูตรและเป็นเลิศการคัดกรองและวินิจฉัยก่อนคลอด',
+        style: 'header',
+        bold: true
+      },
+      {
+        text: 'โรคโลหิตจางธาลัสซีเมีย โรงพยาบาลธรรมศาสตร์เฉลิมพระเกียรติ',
+        style: 'subHeader',
+        bold: true
+      },
+      {
+        canvas: [
+          {
+            type: 'line',
+            x1: 0, y1: 0,
+            x2: 515, y2: 0,
+            lineWidth: 1,
+            lineColor: '#000000',
+            dash: { length: 1 }
+          }
+        ],
+        margin: [0, 10, 0, 10]
+      },
+      {
+        text: 'แบบบันทึกการให้คำปรึกษาแก่คู่สมรสที่มีความเสี่ยงต่อการมีบุตรเป็นโรคธาลัสซีเมีย',
+        style: 'formTitle',
+        alignment: 'center'
+      },
+      {
+        text: `วันที่........${formatThaiDate()}........`,
+        style: 'dateText'
+      },
+      {
+        columns: [
+          {
+            width: '31%',
+            border: [true, true, true, true],
+            margin: [0, 10, 0, 0],
+            stack: [
+              { text: 'ภรรยา', style: 'boxLabel', alignment: 'center' },
+              { text: `ชื่อ-สกุล: ${formData?.wifeName || '-'} ${formData?.wifeSurname || '-'}`, style: 'boxText' },
+              { text: `อายุ: ${formData?.wifeAge || '-'} ปี`, style: 'boxText' },
+              { text: `HN: ${formData?.wifeHn || '-'}`, style: 'boxText' }
+            ]
+          },
+          {
+            width: '31%',
+            border: [true, true, true, true],
+            margin: [0, 10, 0, 0],
+            stack: [
+              { text: 'สามี', style: 'boxLabel', alignment: 'center' },
+              { text: `ชื่อ-สกุล: ${formData?.husbandName || '-'} ${formData?.husbandSurname || '-'}`, style: 'boxText' },
+              { text: `อายุ: ${formData?.husbandAge || '-'} ปี`, style: 'boxText' },
+              { text: `HN: ${formData?.husbandHn || '-'}`, style: 'boxText' }
+            ]
+          },
+          {
+            width: '31%',
+            border: [true, true, true, true],
+            margin: [0, 10, 0, 0],
+            stack: [
+              { text: 'บุตร (ถ้ามี)', style: 'boxLabel', alignment: 'center' },
+              { text: `G: ${formData?.gravid || '-'}`, style: 'boxText' },
+              { text: `P: ${formData?.para || '-'}`, style: 'boxText' },
+              { text: `A: ${formData?.abortion || '-'}`, style: 'boxText' },
+              { text: `L: ${formData?.living || '-'}`, style: 'boxText' }
+            ]
+          }
+        ]
+      },
+      {
+        text: 'การตรวจทางห้องปฏิบัติการเพิ่มเติม',
+        style: 'boxLabel',
+        margin: [0, 20, 0, 10]
+      },
+      {
+        table: {
+          headerRows: 1,
+          widths: ['20%', '40%', '40%'],
+          body: [
+            [
+              { text: 'ตรวจหา', style: 'tableHeader' },
+              { text: 'รายการตรวจ', style: 'tableHeader' },
+              { text: 'ผลการตรวจ', style: 'tableHeader' }
+            ],
+            [
+              { text: 'ภรรยา', style: 'tableCell' },
+              {
+                stack: [
+                  formData?.isAlphaEnabled ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
+                  formData?.isBetaEnabled ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
+                ],
+                style: 'tableCell'
+              },
+              {
+                stack: [
+                  formData?.isAlphaEnabled ? { text: `Alpha: ${formData?.momPositiveAlpha || '-'}`, style: 'tableCell' } : '',
+                  formData?.isBetaEnabled ? { text: `Beta: ${formData?.momPositiveBeta || '-'}`, style: 'tableCell' } : ''
+                ],
+                style: 'tableCell'
+              }
+            ],
+            [
+              { text: 'สามี', style: 'tableCell' },
+              {
+                stack: [
+                  formData?.isAlphaEnabled ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
+                  formData?.isBetaEnabled ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
+                ],
+                style: 'tableCell'
+              },
+              {
+                stack: [
+                  formData?.isAlphaEnabled ? { text: `Alpha: ${formData?.dadPositiveAlpha || '-'}`, style: 'tableCell' } : '',
+                  formData?.isBetaEnabled ? { text: `Beta: ${formData?.dadPositiveBeta || '-'}`, style: 'tableCell' } : ''
+                ],
+                style: 'tableCell'
+              }
+            ]
+          ]
+        },
+        margin: [0, 0, 0, 20]
+      },
+      {
+        columns: [
+          {
+            width: 80,
+            text: 'สรุป',
+            style: 'label'
+          },
+          {
+            width: '*',
+            text: riskResult || '....................',
+            style: 'summaryText'
+          }
+        ],
+        margin: [0, 0, 0, 20]
+      },
+      {
+        columns: [
+          {
+            width: 80,
+            text: 'ข้อเสนอแนะ',
+            style: 'label'
+          },
+          {
+            width: '*',
+            text: formData?.PCRSugestion || '-',
+            style: 'summaryText'
+          }
+        ],
+        margin: [0, 0, 0, 20]
+      },
+      {
+        columns: [
+          {
+            width: 40,
+            text: 'ลงนาม'
+          },
+          {
             width: 100,
-            marginHorizontal: 4,
-            height: 20,
-          }}
-        >
-          <View
-            style={{
-              borderBottomWidth: 1,
-              borderBottomStyle: "dotted",
-              borderBottomColor: "#000",
-              width: 100,
-            }}
-          />
-        </View>
-        <Text>แพทย์/พยาบาลผู้ให้คำปรึกษาา</Text>
-      </View>
-
-      <View style={{ flexDirection: "row", marginBottom: 16, marginLeft: 40 }}>
-        <Text>(</Text>
-        <View
-          style={{
-            borderBottomWidth: 1,
-            borderBottomStyle: "dotted",
-            borderBottomColor: "#000",
+            canvas: [
+              {
+                type: 'line',
+                x1: 0, y1: 10,
+                x2: 100, y2: 10,
+                lineWidth: 1,
+                lineColor: '#000000',
+                dash: { length: 1 }
+              }
+            ]
+          },
+          {
+            width: '*',
+            text: 'แพทย์/พยาบาลผู้ให้คำปรึกษา'
+          }
+        ],
+        margin: [0, 0, 0, 20]
+      },
+      {
+        columns: [
+          {
+            width: 20,
+            text: '('
+          },
+          {
             width: 100,
-          }}
-        />
-        <Text>)</Text>
-      </View>
+            text: doctorName || '',
+            alignment: 'center'
+          },
+          {
+            width: 20,
+            text: ')'
+          }
+        ],
+        margin: [40, 0, 0, 20]
+      },
+      {
+        columns: [
+          {
+            width: 60,
+            text: 'นัดหมาย'
+          },
+          {
+            width: 150,
+            canvas: [
+              {
+                type: 'line',
+                x1: 0, y1: 10,
+                x2: 150, y2: 10,
+                lineWidth: 1,
+                lineColor: '#000000',
+                dash: { length: 1 }
+              }
+            ],
+            text: appointmentDetails || '',
+            alignment: 'center'
+          },
+          {
+            width: 40,
+            text: 'วันที่'
+          },
+          {
+            width: 100,
+            canvas: [
+              {
+                type: 'line',
+                x1: 0, y1: 10,
+                x2: 100, y2: 10,
+                lineWidth: 1,
+                lineColor: '#000000',
+                dash: { length: 1 }
+              }
+            ],
+            text: formData?.edc || '',
+            alignment: 'center'
+          },
+          {
+            width: 100,
+            text: `อายุครรภ์ ${week || ''} สัปดาห์ ${day || ''} วัน`,
+            alignment: 'center'
+          }
+        ],
+        margin: [0, 0, 0, 20]
+      },
+      {
+        columns: [
+          {
+            width: 60,
+            text: 'หมายเหตุ'
+          },
+          {
+            width: '*',
+            canvas: [
+              {
+                type: 'line',
+                x1: 0, y1: 10,
+                x2: 215, y2: 10,
+                lineWidth: 1,
+                lineColor: '#000000',
+                dash: { length: 1 }
+              }
+            ],
+            text: `${remarks || '...............................................................................................................'}`
+          }
+        ]
+      }
+    ],
+    styles: {
+      header: {
+        fontSize: 18,
+        bold: true,
+        margin: [0, 0, 0, 2]
+      },
+      subHeader: {
+        fontSize: 16,
+        margin: [0, 0, 0, 0]
+      },
+      formTitle: {
+        fontSize: 14,
+        bold: true,
+        margin: [0, 24, 0, 16]
+      },
+      dateText: {
+        fontSize: 12,
+        margin: [0, 16, 0, 8]
+      },
+      boxLabel: {
+        fontSize: 12,
+        bold: true,
+        margin: [0, 0, 0, 4]
+      },
+      boxText: {
+        fontSize: 12,
+        margin: [3, 0, 0, 2]
+      },
+      tableHeader: {
+        fontSize: 12,
+        bold: true,
+        fillColor: '#f5f5f5',
+        margin: [4, 4, 4, 4]
+      },
+      tableCell: {
+        fontSize: 12,
+        margin: [4, 4, 4, 4]
+      },
+      checkboxText: {
+        fontSize: 12,
+        margin: [0, 3, 0, 0]
+      },
+      label: {
+        fontSize: 12,
+        bold: true
+      },
+      summaryText: {
+        fontSize: 12,
+        margin: [0, 0, 0, 8]
+      }
+    }
+  };
 
-      <View style={{ flexDirection: "row", marginBottom: 16 }}>
-        <Text>นัดหมาย</Text>
-        <View
-          style={[styles.dotLine, { marginLeft: 4, marginRight: 8, flex: 0.5 }]}
-        />
-        <Text>วันที่</Text>
-        <View
-          style={[styles.dotLine, { marginLeft: 4, marginRight: 8, flex: 0.3 }]}
-        />
-        <Text>อายุครรภ์</Text>
-        <View
-          style={[styles.dotLine, { marginLeft: 4, marginRight: 8, flex: 0.3 }]}
-        />
-        <Text>สัปดาห์</Text>
-      </View>
-
-      <View style={{ flexDirection: "row", marginBottom: 8 }}>
-        <Text>หมายเหตุ</Text>
-        <View style={[styles.dotLine, { marginLeft: 4 }]} />
-      </View>
-    </Page>
-  </Document >
-);
+  return docDefinition;
+};
 
 function AlphaBetaThalassemiaResultComponent() {
   const location = useLocation();
-  const [doctorName, setDoctorName] = useState(' ');
-  const [appointmentDetails, setAppointmentDetails] = useState(' ');
-  const [remarks, setRemarks] = useState(' ');
+  const [doctorName, setDoctorName] = useState('');
+  const [appointmentDetails, setAppointmentDetails] = useState('');
+  const [remarks, setRemarks] = useState('');
   const formData = location.state?.formData;
 
   const {
@@ -506,13 +409,19 @@ function AlphaBetaThalassemiaResultComponent() {
     isBetaEnabled,
     riskTest,
     PCRResult,
-    PCRSugestion
+    PCRSugestion,
+    week,
+    day
   } = formData || {};
-  console.log(formData);
 
-  const openPdfInNewTab = (blob) => {
-    const url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
+  const handlePrint = () => {
+    if (!formData) {
+      alert('ไม่พบข้อมูลสำหรับสร้าง PDF');
+      return;
+    }
+
+    const docDefinition = generatePDF(formData, doctorName, appointmentDetails, remarks, riskResult, riskTest, week, day);
+    pdfMake.createPdf(docDefinition).open();
   };
 
   return (
@@ -531,14 +440,10 @@ function AlphaBetaThalassemiaResultComponent() {
           gap: 2,
           display: 'flex',
           flexDirection: 'column',
-
-          // white bg
           bgcolor: 'whitesmoke',
           backgroundBlendMode: 'screen',
           padding: '20px 40px',
-
         }}
-
       >
         <Typography variant="h6">ชื่อ แพทย์/พยาบาลผู้ให้คำปรึกษา</Typography>
         <TextField
@@ -582,7 +487,6 @@ function AlphaBetaThalassemiaResultComponent() {
             </>
           )}
         </Grid>
-
       </Box>
 
       {/* Dad Section */}
@@ -595,17 +499,13 @@ function AlphaBetaThalassemiaResultComponent() {
           gap: 2,
           display: 'flex',
           flexDirection: 'column',
-
-          // white bg
           bgcolor: 'whitesmoke',
           backgroundBlendMode: 'screen',
           padding: '20px 40px',
-
-
         }}
       >
         <Typography variant="h6">ผลตรวจคัดกรองสามี</Typography>
-        <Typography color='darkblue' >ชื่อสามี: {husbandName ?? '-' + husbandSurname ?? '-'}</Typography>
+        <Typography color='darkblue'>ชื่อสามี: {husbandName ?? '-' + husbandSurname ?? '-'}</Typography>
 
         <Grid container spacing={1} sx={{ mt: 1 }}>
           {/* Alpha Section */}
@@ -644,7 +544,7 @@ function AlphaBetaThalassemiaResultComponent() {
       <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
         <Typography variant="h6">การประเมินความเสี่ยง</Typography>
         <Typography>{riskResult}</Typography>
-        <Typography>{riskTest}</Typography>
+        {/* <Typography>{riskTest}</Typography> */}
       </Box>
 
       {/* Suggestion Section */}
@@ -653,11 +553,11 @@ function AlphaBetaThalassemiaResultComponent() {
         <Typography>{PCRSugestion}</Typography>
       </Box>
 
-      {/* PCRResult Section */}
+      {/* PCRResult Section
       <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
         <Typography variant="h6">รายงานผลPCR</Typography>
         <Typography>{PCRResult}</Typography>
-      </Box>
+      </Box> */}
 
       <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
         <Typography variant="h6">นัดหมาย</Typography>
@@ -668,7 +568,6 @@ function AlphaBetaThalassemiaResultComponent() {
           onChange={(e) => setAppointmentDetails(e.target.value)}
           value={appointmentDetails}
         />
-
       </Box>
 
       <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
@@ -680,7 +579,6 @@ function AlphaBetaThalassemiaResultComponent() {
           onChange={(e) => setRemarks(e.target.value)}
           value={remarks}
         />
-
       </Box>
 
       {/* Action Buttons */}
@@ -691,58 +589,17 @@ function AlphaBetaThalassemiaResultComponent() {
           </Button>
         </Grid>
         <Grid item>
-          <BlobProvider
-            document={
-              <PDFDocument
-                formData={formData}
-                doctorName={doctorName}
-                appointmentDetails={appointmentDetails}
-                remarks={remarks}
-              />
-            }
-            onError={(error) => {
-              console.error('Error generating PDF:', error);
-              alert('เกิดข้อผิดพลาดในการสร้าง PDF กรุณาลองใหม่อีกครั้ง');
-            }}
-            options={{
-              cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/cmaps/',
-              cMapPacked: true,
-            }}
-          >
-            {({ blob, url, loading, error }) => {
-              console.log('PDF Generation Status:', { loading, error });
-              if (error) console.error('PDF Error:', error);
-
-              return (
                 <Button
                   variant="outlined"
                   color="secondary"
-                  disabled={loading || error}
-                  onClick={() => {
-                    if (!formData) {
-                      alert('ไม่พบข้อมูลสำหรับสร้าง PDF');
-                      return;
-                    }
-                    if (error) {
-                      console.error('Error in PDF generation:', error);
-                      alert('เกิดข้อผิดพลาดในการสร้าง PDF กรุณาลองใหม่อีกครั้ง');
-                      return;
-                    }
-                    if (blob) {
-                      console.log('Creating PDF blob...');
-                      openPdfInNewTab(blob);
-                    }
-                  }}
-                >
-                  {loading ? 'กำลังสร้าง PDF...' : error ? 'เกิดข้อผิดพลาด' : 'พิมพ์'}
+            onClick={handlePrint}
+          >
+            พิมพ์
                 </Button>
-              );
-            }}
-          </BlobProvider>
         </Grid>
       </Grid>
     </Container>
-  )
+  );
 }
 
-export default AlphaBetaThalassemiaResultComponent
+export default AlphaBetaThalassemiaResultComponent;

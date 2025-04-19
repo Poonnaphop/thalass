@@ -301,7 +301,7 @@ function AlphaBetaThalassemiaTest() {
         };
 
         console.log("New Form Data:", newFormData);
-        // navigate('/alpha-beta-thalassemia-result2', { state: { formData: newFormData } });
+        navigate('/alpha-beta-thalassemia-result2', { state: { formData: newFormData } });
     };
 
     return (

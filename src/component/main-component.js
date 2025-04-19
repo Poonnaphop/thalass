@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField, Box, Container, Typography, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
 //import Grid from '@mui/material/Grid2';
@@ -48,11 +48,12 @@ function MainComponent() {
             ga,
             hospitalChoice,
             otherHospital,
+            week: edc ? Math.floor(-( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 / 7) : '',
+            day: edc ? Math.floor(-( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 % 7) : '',
         };
         navigate('/type-select', { state: formData });
     }
 
-    console.log(FormData);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} locale="en-gb">
