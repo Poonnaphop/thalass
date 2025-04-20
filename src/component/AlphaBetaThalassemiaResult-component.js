@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import logo from '../img/logo.png';
+import hospitalLogo from '../img/TUHospital.jpeg';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.fonts = {
@@ -35,12 +37,34 @@ const formatThaiDate = () => {
 };
 
 // Function to generate PDF document
-const generatePDF = (formData, doctorName, appointmentDetails, remarks,riskResult,riskTest,week,day) => {
+const generatePDF = (formData, doctorName, appointmentDetails, remarks,riskResult,riskTest,week,day, gravid, para, abortion, living, edc, ga, hospitalChoice,
+  otherHospital) => {
   console.log('riskResult', riskResult)
   console.log('formData', formData)
   console.log('riskTest', riskTest)
   console.log('week', week)
   console.log('day', day)
+  const getBase64FromImage = (img) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(img);
+      reader.onloadend = () => {
+        resolve(reader.result);
+      };
+    });
+  };
+  // Load images
+  Promise.all([
+    fetch(logo).then(res => res.blob()),
+    fetch(hospitalLogo).then(res => res.blob())
+  ]).then(([logoBlob, hospitalBlob]) => {
+    return Promise.all([
+      getBase64FromImage(logoBlob),
+      getBase64FromImage(hospitalBlob)
+    ]);
+  }).then(([logoData, hospitalData]) => {
+    
+  });
   const docDefinition = {
     pageSize: 'A4',
     pageMargins: [30, 30, 30, 30],
@@ -367,7 +391,7 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks,riskResul
         margin: [0, 0, 0, 8]
       }
     }
-  };
+  }
 
   return docDefinition;
 };
