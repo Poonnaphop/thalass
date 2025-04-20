@@ -37,7 +37,7 @@ const formatThaiDate = () => {
 };
 
 // Function to generate PDF document
-const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResult, riskTest, week, day) => {
+const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResult, riskTest, week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital) => {
   // Convert images to base64
   const getBase64FromImage = (img) => {
     return new Promise((resolve) => {
@@ -126,39 +126,114 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
         {
           columns: [
             {
-              width: '31%',
-              border: [true, true, true, true],
-              margin: [0, 10, 0, 0],
-              stack: [
-                { text: 'ภรรยา', style: 'boxLabel', alignment: 'center' },
-                { text: `ชื่อ-สกุล: ${formData?.wifeName || '-'} ${formData?.wifeSurname || '-'}`, style: 'boxText' },
-                { text: `อายุ: ${formData?.wifeAge || '-'} ปี`, style: 'boxText' },
-                { text: `HN: ${formData?.wifeHn || '-'}`, style: 'boxText' }
-              ]
+              table: {
+                widths: ['*'],
+                body: [
+                  [
+                    {
+                      stack: [
+                        {
+                          text: 'ภรรยา',
+                          style: 'boxLabel'
+                        },
+                        {
+                          text: `ชื่อ-สกุล: ${formData?.wifeName || '-'} ${formData?.wifeSurname || '-'}`,
+                          style: 'boxText'
+                        },
+                        {
+                          text: `อายุ: ${formData?.wifeAge || '-'} ปี`,
+                          style: 'boxText'
+                        },
+                        {
+                          text: `HN: ${formData?.wifeHn || '-'}`,
+                          style: 'boxText',
+                          margin: [0, 0, 0, 10]
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              },
+              layout: {
+                hLineWidth: function (i, node) { return 1; },
+                vLineWidth: function (i, node) { return 1; },
+                hLineColor: function (i, node) { return '#000000'; },
+                vLineColor: function (i, node) { return '#000000'; }
+              },
+              margin: [0, 0, 20, 10]
+            },
+    
+            {
+              table: {
+                widths: ['*'],
+                body: [
+                  [
+                    {
+                      stack: [
+                        {
+                          text: 'สามี',
+                          style: 'boxLabel'
+                        },
+                        {
+                          text: `ชื่อ-สกุล: ${formData?.husbandName || '-'} ${formData?.husbandSurname || '-'}`,
+                          style: 'boxText'
+                        },
+                        {
+                          text: `อายุ: ${formData?.husbandAge || '-'} ปี`,
+                          style: 'boxText'
+                        },
+                        {
+                          text: `HN: ${formData?.husbandHn || '-'}`,
+                          style: 'boxText',
+                          margin: [0, 0, 0, 10]
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              },
+              layout: {
+                hLineWidth: function (i, node) { return 1; },
+                vLineWidth: function (i, node) { return 1; },
+                hLineColor: function (i, node) { return '#000000'; },
+                vLineColor: function (i, node) { return '#000000'; }
+              },
+              margin: [0, 0, 20, 10]
             },
             {
-              width: '31%',
-              border: [true, true, true, true],
-              margin: [0, 10, 0, 0],
-              stack: [
-                { text: 'สามี', style: 'boxLabel', alignment: 'center' },
-                { text: `ชื่อ-สกุล: ${formData?.husbandName || '-'} ${formData?.husbandSurname || '-'}`, style: 'boxText' },
-                { text: `อายุ: ${formData?.husbandAge || '-'} ปี`, style: 'boxText' },
-                { text: `HN: ${formData?.husbandHn || '-'}`, style: 'boxText' }
-              ]
+              table: {
+                widths: ['*'],
+                body: [
+                  [
+                    {
+                      stack: [
+                        {
+                          text: `Gravid: ${gravid || '......'} Para: ${para || '......'} Abortion: ${abortion || '......'} Living: ${living || '......'}`,
+                          style: 'boxText'
+                        },
+                        {
+                          text: `EDC: ${edc || '......'} GA: ${week || '......'} week`,
+                          style: 'boxText',
+                          margin: [0, 5, 0, 5]
+                        },
+                        {
+                          text: `ส่งมารับคำปรึกษาจาก  ${hospitalChoice === 'รพธ' ? '[x] รพธ [ ] อื่นๆ ....' : '[ ] รพธ [x] อื่นๆ ' + (otherHospital || '....')}`,
+                          style: 'boxText',
+                          margin: [0, 0, 0, 5]
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              },
+              layout: {
+                hLineWidth: function (i, node) { return 1; },
+                vLineWidth: function (i, node) { return 1; },
+                hLineColor: function (i, node) { return '#000000'; },
+                vLineColor: function (i, node) { return '#000000'; }
+              },
+              margin: [0, 0, 20, 10]
             },
-            {
-              width: '31%',
-              border: [true, true, true, true],
-              margin: [0, 10, 0, 0],
-              stack: [
-                { text: 'บุตร (ถ้ามี)', style: 'boxLabel', alignment: 'center' },
-                { text: `G: ${formData?.gravid || '-'}`, style: 'boxText' },
-                { text: `P: ${formData?.para || '-'}`, style: 'boxText' },
-                { text: `A: ${formData?.abortion || '-'}`, style: 'boxText' },
-                { text: `L: ${formData?.living || '-'}`, style: 'boxText' }
-              ]
-            }
           ]
         },
         {
@@ -247,46 +322,62 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
         {
           columns: [
             {
-              width: 40,
-              text: 'ลงนาม'
-            },
-            {
-              width: 100,
-              canvas: [
-                {
-                  type: 'line',
-                  x1: 0, y1: 10,
-                  x2: 100, y2: 10,
-                  lineWidth: 1,
-                  lineColor: '#000000',
-                  dash: { length: 1 }
-                }
-              ]
-            },
-            {
               width: '*',
-              text: 'แพทย์/พยาบาลผู้ให้คำปรึกษา'
-            }
-          ],
-          margin: [0, 0, 0, 20]
-        },
-        {
-          columns: [
-            {
-              width: 20,
-              text: '('
+              text: ''
             },
             {
-              width: 100,
-              text: doctorName || '',
-              alignment: 'center'
-            },
-            {
-              width: 20,
-              text: ')'
+              width: 'auto',
+              stack: [
+                {
+                  columns: [
+                    {
+                      width: 40,
+                      text: 'ลงนาม'
+                    },
+                    {
+                      width: 100,
+                      canvas: [
+                        {
+                          type: 'line',
+                          x1: 0, y1: 10,
+                          x2: 100, y2: 10,
+                          lineWidth: 1,
+                          lineColor: '#000000',
+                          dash: { length: 1 }
+                        }
+                      ]
+                    },
+                    {
+                      width: 200,
+                      text: 'แพทย์/พยาบาลผู้ให้คำปรึกษา'
+                    }
+                  ]
+                },
+                {
+                  columns: [
+                    {
+                      width: 20,
+                      text: ''
+                    },
+                    {
+                      width: 20,
+                      text: '('
+                    },
+                    {
+                      width: 100,
+                      text: doctorName || '',
+                      alignment: 'center'
+                    },
+                    {
+                      width: 20,
+                      text: ')'
+                    }
+                  ]
+                }
+              ],
             }
           ],
-          margin: [40, 0, 0, 20]
+          margin: [10, 0, 0, 20]
         },
         {
           columns: [
@@ -306,7 +397,7 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
                   dash: { length: 1 }
                 }
               ],
-              text: appointmentDetails || '',
+              text: appointmentDetails || '...............................................................',
               alignment: 'center'
             },
             {
@@ -511,7 +602,7 @@ function AlphaBetaThalassemiaResultComponent() {
       return;
     }
 
-    generatePDF(formData, doctorName, appointmentDetails, remarks, riskResult, riskTest, week, day);
+    generatePDF(formData, doctorName, appointmentDetails, remarks, riskResult, riskTest, week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital);
   };
 
   return (
