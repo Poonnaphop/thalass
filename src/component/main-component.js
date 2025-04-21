@@ -28,6 +28,10 @@ function MainComponent() {
     const [ga, setGa] = useState('');
     const [hospitalChoice, setHospitalChoice] = useState('รพธ');
     const [otherHospital, setOtherHospital] = useState('');
+    const [additionalInfo, setAdditionalInfo] = useState('');
+
+    const [week, setWeek] = useState(0);
+    const [day, setDay] = useState(0);
 
     const handleNext = () => {
         console.log("Next");
@@ -48,11 +52,20 @@ function MainComponent() {
             ga,
             hospitalChoice,
             otherHospital,
-            week: edc ? Math.floor(-( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 / 7) : '',
-            day: edc ? Math.floor(-( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 % 7) : '',
+            week: week,
+            day: day,
+            additionalInfo: additionalInfo,
         };
         navigate('/type-select', { state: formData });
     }
+
+    useEffect(() => {
+        if (edc) {
+            const totalDays = 40*7 - Math.floor(-( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24);
+            setWeek(Math.min(Math.floor(totalDays / 7), 40)); // Cap at 40 weeks
+            setDay(totalDays % 7);
+        }
+    }, [edc]);
 
 
     return (
@@ -240,7 +253,7 @@ function MainComponent() {
                             <TextField
                                 label="GA"
                                 variant="outlined"
-                                value={edc ? Math.floor(-( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 / 7) : ''}
+                                value={week}
                                 sx={{ mr: 2 }}
                                 viewOnly
                             />
@@ -249,7 +262,7 @@ function MainComponent() {
                             <TextField
                                 label="GA"
                                 variant="outlined"
-                                value={edc ? Math.floor(-( new Date().setHours(0, 0, 0, 0) - new Date(edc).setHours(0, 0, 0, 0)) / 1000 / 60 / 60 / 24 % 7) : ''}
+                                value={day}
                                 sx={{ mr: 2 }}
                                 viewOnly
                             />
@@ -277,6 +290,15 @@ function MainComponent() {
                                     />
                                 )}
                             </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="ประวัติเพิ่มเติม"
+                                variant="outlined"
+                                value={additionalInfo}
+                                onChange={(e) => setAdditionalInfo(e.target.value)}
+                                fullWidth
+                            />
                         </Grid>
                     </Grid>
                 </Box>

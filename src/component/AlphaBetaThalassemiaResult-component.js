@@ -36,6 +36,16 @@ const formatThaiDate = () => {
   return `${day} ${month} พ.ศ. ${year}`;
 };
 
+// Helper function to calculate days from now
+const calculateDaysFromNow = (edc) => {
+  if (!edc) return 0;
+  const today = new Date();
+  const edcDate = new Date(edc);
+  const diffTime = edcDate - today;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+};
+
 // Function to generate PDF document
 const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResult, riskTest, week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital) => {
   // Convert images to base64
@@ -405,7 +415,7 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
               text: 'วันที่'
             },
             {
-                width: 100,
+              width: 100,
               canvas: [
                 {
                   type: 'line',
@@ -421,7 +431,7 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
             },
             {
               width: 100,
-              text: `อายุครรภ์ ${week || ''} สัปดาห์ ${day || ''} วัน`,
+              text: `อายุครรภ์ ${week || ''} สัปดาห์ ${day || ''} วัน (อีก ${calculateDaysFromNow(edc)} วัน)`,
               alignment: 'center'
             }
           ],
