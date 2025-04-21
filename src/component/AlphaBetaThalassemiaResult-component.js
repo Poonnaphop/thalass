@@ -571,6 +571,10 @@ function AlphaBetaThalassemiaResultComponent() {
   const [remarks, setRemarks] = useState('');
   const formData = location.state?.formData;
 
+  const [weekAfterAppoinment, setWeekAfterAppoinment] = useState(0);
+  const [dayAfterAppoinment, setDayAfterAppoinment] = useState(0);
+
+
   const {
     riskResult,
     wifeName,
@@ -603,8 +607,11 @@ function AlphaBetaThalassemiaResultComponent() {
     PCRResult,
     PCRSugestion,
     week,
-    day
+    day,
+    additionalInfo
   } = formData || {};
+
+  console.log('formData at AlphaBetaThalassemiaResultComponent:', formData);
 
   const handlePrint = () => {
     if (!formData) {
@@ -750,15 +757,68 @@ function AlphaBetaThalassemiaResultComponent() {
         <Typography>{PCRResult}</Typography>
       </Box> */}
 
+<Box
+        sx={{
+          border: '1px solid #ccc',
+          borderRadius: 2,
+          p: 2,
+          mb: 3,
+          bgcolor: 'whitesmoke',
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          นัดหมาย
+        </Typography>
+
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+          <TextField
+            label="วันที่นัดหมาย"
+            variant="outlined"
+            type="date"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={(e) => setAppointmentDetails(e.target.value)}
+            value={appointmentDetails}
+            sx={{ minWidth: 180 }}
+          />
+
+          <Typography>อายุครรภ์</Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <TextField
+              // label="GA"
+              variant="outlined"
+              value={weekAfterAppoinment}
+              sx={{ width: 60 }}
+              InputProps={{ readOnly: true }}
+            />
+            <Typography>weeks</Typography>
+          </Box>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <TextField
+              // label="GA"
+              variant="outlined"
+              value={dayAfterAppoinment}
+              sx={{ width: 60 }}
+              InputProps={{ readOnly: true }}
+            />
+            <Typography>days</Typography>
+          </Box>
+        </Box>
+      </Box>
+
       <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>
-        <Typography variant="h6">นัดหมาย</Typography>
+        <Typography variant="h6">ข้อมูลเพิ่มเติม</Typography>
         <TextField
-          label="Enter Appointment Details"
+          // label="Enter Remark Details"
           variant="outlined"
           fullWidth
-          onChange={(e) => setAppointmentDetails(e.target.value)}
-          value={appointmentDetails}
+          multiline
+          readOnly
+          value={additionalInfo}
         />
+
       </Box>
 
       <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3, mb: 3, bgcolor: 'whitesmoke', }}>

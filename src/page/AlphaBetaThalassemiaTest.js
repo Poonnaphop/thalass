@@ -43,7 +43,6 @@ function AlphaBetaThalassemiaTest() {
     const PCRResult22 = `มีความเสี่ยงที่จะเป็นคู่เสี่ยงธาลัสซีเมียชนิดรุนแรง Homozygous Beta-thalassemia`
     const PCRResult23 = `มีความเสี่ยงที่จะเป็นคู่เสี่ยงธาลัสซีเมียชนิดรุนแรง Beta-thalassemia/Hb E ชนิด β๐/ βE`
 
-    const PCRSuggestion1 = '---'
     const PCRSuggestion2 = 'แนะนำตรวจวินิจฉัยเพิ่มเติม ได้แก่ 1) เจาะน้ำคร่ำ2) เจาะเลือดจากสายสะดือทารกในครรภ์'
     const isAlphaThal1 = (condition) => {
         const alphaThal1Conditions = [
@@ -158,7 +157,7 @@ function AlphaBetaThalassemiaTest() {
         //BETA SECTION
         if (isBetaEnabled) {
             // dadsection
-            if (dadBeta == 2) { 
+            if (dadBeta == 2) {
                 if (isB0(dadPositiveBeta)) {
                     dadBetaTag.push('B0')
                 }
@@ -229,39 +228,39 @@ function AlphaBetaThalassemiaTest() {
         let PCRSugestion = ''
         let riskResultArr = []
         let SuggestionArr = []
-        
+
         // ALPHA SECTION
-        if(momAlphaTag.includes('Alpha Thal 1') && dadAlphaTag.includes('Alpha Thal 1')) {
+        if (momAlphaTag.includes('Alpha Thal 1') && dadAlphaTag.includes('Alpha Thal 1')) {
             riskResultArr.push(PCRResult21)
             SuggestionArr.push(PCRSuggestion2)
-        }else{
+        } else {
             riskResultArr.push(PCRResult1)
         }
-        
+
         // BETA SECTION
         // Check for Beta Thalassemia risk combinations (B0/B0 or B0/B+)
-        if((momBetaTag.includes('B0') && dadBetaTag.includes('B0')) || 
-           (momBetaTag.includes('B0') && dadBetaTag.includes('B+')) ||
-           (dadBetaTag.includes('B0') && momBetaTag.includes('B+')) ||
-           (momBetaTag.includes('B+') && dadBetaTag.includes('B+'))
+        if ((momBetaTag.includes('B0') && dadBetaTag.includes('B0')) ||
+            (momBetaTag.includes('B0') && dadBetaTag.includes('B+')) ||
+            (dadBetaTag.includes('B0') && momBetaTag.includes('B+')) ||
+            (momBetaTag.includes('B+') && dadBetaTag.includes('B+'))
         ) {
             riskResultArr.push(PCRResult22)
             SuggestionArr.push(PCRSuggestion2)
         }
-        
-        if((momBetaTag.includes('B0') && dadBetaTag.includes('HBE')) || 
-           (dadBetaTag.includes('B0') && momBetaTag.includes('HBE'))) {
+
+        if ((momBetaTag.includes('B0') && dadBetaTag.includes('HBE')) ||
+            (dadBetaTag.includes('B0') && momBetaTag.includes('HBE'))) {
             riskResultArr.push(PCRResult23)
             SuggestionArr.push(PCRSuggestion2)
         }
 
-        if(
+        if (
             (momBetaTag.includes('B0') && dadBetaTag.includes('Negative')) ||
             (momBetaTag.includes('B+') && dadBetaTag.includes('HBE')) ||
             (dadBetaTag.includes('B+') && momBetaTag.includes('Negative')) ||
             (dadBetaTag.includes('HBE') && momBetaTag.includes('B+')) ||
             (dadBetaTag.includes('HBE') && momBetaTag.includes('HBE')) ||
-            (dadBetaTag.includes('HBE') && momBetaTag.includes('Negative'))||
+            (dadBetaTag.includes('HBE') && momBetaTag.includes('Negative')) ||
             (momBetaTag.includes('Negative') && dadBetaTag.includes('B0')) ||
             (momBetaTag.includes('Negative') && dadBetaTag.includes('B+')) ||
             (momBetaTag.includes('Negative') && dadBetaTag.includes('HBE')) ||
@@ -272,8 +271,19 @@ function AlphaBetaThalassemiaTest() {
 
 
         //remove duplicate
-        riskResultArr= [...new Set(riskResultArr)];
-        SuggestionArr= [...new Set(SuggestionArr)];
+        riskResultArr = [...new Set(riskResultArr)];
+        SuggestionArr = [...new Set(SuggestionArr)];
+
+        //remove PCRResult1 if it exists in the array
+        if (riskResultArr.length > 0) {
+            riskResultArr = riskResultArr.filter(result => result !== PCRResult1);
+
+            // If array is empty after filtering, add back PCRResult1
+            if (riskResultArr.length === 0) {
+                riskResultArr.push(PCRResult1);
+            }
+        }
+
 
         riskResult = riskResultArr.join('\n')
         PCRSugestion = SuggestionArr.join('\n')
