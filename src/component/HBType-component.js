@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 //import Grid from '@mui/material/Grid2';
 import { Container, Box, Typography, TextField, Button, RadioGroup, FormControlLabel, Radio, InputLabel, FormControl, Select, MenuItem } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Checkbox } from'@mui/material';
+import { Checkbox } from '@mui/material';
 import descriptions from '../constant/descriptions';
 
 
@@ -148,14 +148,14 @@ function HBTypeComponent() {
             order = 2;
         }
         // Condition 3:
-        else if (A2 > 3.5 && A2 <= 8 && hb_a !== 0 && hb_e == 0 && hba2_plus_e == 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && 80<=mcv <= 100  && mch < 27
+        else if (A2 > 3.5 && A2 <= 8 && hb_a !== 0 && hb_e == 0 && hba2_plus_e == 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && 80 <= mcv <= 100 && mch < 27
         ) {
             incondition.push(3);
             desc = descriptions[3];
             order = 3;
         }
         // Condition 4:
-        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_a !== 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && 80<= mcv <= 100  && mch < 27
+        else if ((hb_e + hba2 >= 25 || hba2_plus_e >= 25) && (hb_e !== 0 || hba2_plus_e !== 0) && hb_a !== 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && 80 <= mcv <= 100 && mch < 27
         ) {
             incondition.push(4);
             desc = descriptions[4];
@@ -334,10 +334,10 @@ function HBTypeComponent() {
         console.log("dadOrder:", dadOrder, "dadDesc:", dadDesc);
 
         console.log("......")
-        
+
         if (momOrder == 1 && dadOrder >= 1 && dadOrder <= 22) {
             risk = "Not risk";
-            PCR.push(PCRResult1); 
+            PCR.push(PCRResult1);
         } else if ([2, 8, 9, 10, 11].includes(parseInt(momOrder))) {
             if ([1, 4].includes(parseInt(dadOrder))) {
                 risk = "Not risk";
@@ -417,15 +417,15 @@ function HBTypeComponent() {
             }
         }
         console.log(
-            'risk',risk,
-            'momOrder',momOrder,
-            'dadOrder',dadOrder,
-            'momDesc',momDesc,
-            'dadDesc',dadDesc,
-            'PCR',PCR,
-            'suggestion',suggestion
+            'risk', risk,
+            'momOrder', momOrder,
+            'dadOrder', dadOrder,
+            'momDesc', momDesc,
+            'dadDesc', dadDesc,
+            'PCR', PCR,
+            'suggestion', suggestion
         );
-        return { risk, momOrder, dadOrder, momDesc, dadDesc, PCR,suggestion };
+        return { risk, momOrder, dadOrder, momDesc, dadDesc, PCR, suggestion };
     }
 
 
@@ -514,26 +514,38 @@ function HBTypeComponent() {
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="DCIP"
-                            type="number"
-                            variant="outlined"
-                            value={dcipMother}
-                            onChange={(e) => setDcipMother(e.target.value)}
-                            disabled={momOrderFlag}
-                            fullWidth
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel id="mom-DCIP-label">DCIP</InputLabel>
+                            <Select
+                                labelId="mom-DCIP-label"
+                                value={dcipMother}
+                                onChange={(e) => setDcipMother(e.target.value)}
+                                label="DCIP"
+                                disabled={momOrderFlag}
+                                fullWidth
+                            >
+                                <MenuItem value="positive">Positive</MenuItem>
+                                <MenuItem value="negative">Negative</MenuItem>
+                                <MenuItem value="unknown">Unknown</MenuItem>
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="OF"
-                            type="number"
-                            variant="outlined"
-                            value={ofMother}
-                            onChange={(e) => setOfMother(e.target.value)}
-                            disabled={momOrderFlag}
-                            fullWidth
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel id="mom-OF-label">OF</InputLabel>
+                            <Select
+                                labelId="mom-OF-label"
+                                value={ofMother}
+                                onChange={(e) => setOfMother(e.target.value)}
+                                label="OF"
+                                disabled={momOrderFlag}
+                                fullWidth
+                            >
+                                <MenuItem value="positive">Positive</MenuItem>
+                                <MenuItem value="negative">Negative</MenuItem>
+                                <MenuItem value="unknown">Unknown</MenuItem>
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
@@ -542,6 +554,18 @@ function HBTypeComponent() {
                             variant="outlined"
                             value={hbAMother}
                             onChange={(e) => setHbAMother(e.target.value)}
+                            disabled={momOrderFlag}
+                            fullWidth
+                        />
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Hb A2"
+                            type="number"
+                            variant="outlined"
+                            value={a2Mother}
+                            onChange={(e) => seta2Mother(e.target.value)}
                             disabled={momOrderFlag}
                             fullWidth
                         />
@@ -592,17 +616,7 @@ function HBTypeComponent() {
                             fullWidth
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Hb A2"
-                            type="number"
-                            variant="outlined"
-                            value={a2Mother}
-                            onChange={(e) => seta2Mother(e.target.value)}
-                            disabled={momOrderFlag}
-                            fullWidth
-                        />
-                    </Grid>
+                    
 
                     <Typography variant="h7" gutterBottom sx={{ mt: 2, ml: 2 }}>
                         HbE
@@ -764,27 +778,52 @@ function HBTypeComponent() {
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="DCIP"
-                            type="number"
-                            variant="outlined"
-                            value={dcipFather}
-                            onChange={(e) => setDcipFather(e.target.value)}
-                            disabled={dadOrderFlag}
-                            fullWidth
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel id="dad-DCIP-label">DCIP</InputLabel>
+                            <Select
+                                labelId="dad-DCIP-label"
+                                value={dcipFather}
+                                onChange={(e) => setDcipFather(e.target.value)}
+                                label="DCIP"
+                                disabled={dadOrderFlag}
+                                fullWidth
+                            >
+                                <MenuItem value="positive">Positive</MenuItem>
+                                <MenuItem value="negative">Negative</MenuItem>
+                                <MenuItem value="unknown">Unknown</MenuItem>
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth>
+                            <InputLabel id="dad-OF-label">OF</InputLabel>
+                            <Select
+                                labelId="dad-OF-label"
+                                value={ofFather}
+                                onChange={(e) => setOfFather(e.target.value)}
+                                label="OF"
+                                disabled={dadOrderFlag}
+                                fullWidth
+                            >
+                                <MenuItem value="positive">Positive</MenuItem>
+                                <MenuItem value="negative">Negative</MenuItem>
+                                <MenuItem value="unknown">Unknown</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
                         <TextField
-                            label="OF"
+                            label="Hb A2"
                             type="number"
                             variant="outlined"
-                            value={ofFather}
-                            onChange={(e) => setOfFather(e.target.value)}
+                            value={a2Father}
+                            onChange={(e) => seta2Father(e.target.value)}
                             disabled={dadOrderFlag}
                             fullWidth
                         />
                     </Grid>
+                    
                     <Grid item xs={12} sm={6}>
                         <TextField
                             label="Hb A"
@@ -836,18 +875,6 @@ function HBTypeComponent() {
                             variant="outlined"
                             value={hbhFather}
                             onChange={(e) => sethbhFather(e.target.value)}
-                            disabled={dadOrderFlag}
-                            fullWidth
-                        />
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Hb A2"
-                            type="number"
-                            variant="outlined"
-                            value={a2Father}
-                            onChange={(e) => seta2Father(e.target.value)}
                             disabled={dadOrderFlag}
                             fullWidth
                         />

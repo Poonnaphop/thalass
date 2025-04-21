@@ -21,7 +21,7 @@ export default function Footbar() {
         position: "fixed",
       }}
     >
-      <Typography variant="caption" sx={{ color: "white" }}>
+      <Typography variant="caption" sx={{ color: "white",zIndex: 1000 }}>
         Copyright © 2025 Thammasart Hospital University, Thailand.
       </Typography>
     </Box>
