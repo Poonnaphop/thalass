@@ -23,16 +23,17 @@ function TypeSelectComponent() {
                         borderRadius: 2,
                         p: 3,
                         height: '100%',
+                        width: '100%',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'center',
                         textAlign: 'center',
-                        bgcolor:'#87bc45',
-                        
+                        bgcolor:'#F0F0F0',
+                        color:'#003366'
                     }}
                     onClick={() => handleNavigation("/hbtype")} // Pass state to /hbtype                    
                 >
-                    <Typography variant="h4" color="blue" gutterBottom>
+                    <Typography variant="h4"  gutterBottom>
                         HB Typing
                     </Typography>
                 </Button>
@@ -45,15 +46,17 @@ function TypeSelectComponent() {
                         borderRadius: 2,
                         p: 3,
                         height: '100%',
+                        width: '100%',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'center',
                         textAlign: 'center',
-                        bgcolor:'#ffb55a',
+                        bgcolor:'#F0F0F0',
+                        color:'#003366'
                     }}
                     onClick={() => handleNavigation("/alpha-beta-thalassemia-test")} // Pass state to /alpha-beta-thalassemia-test
                 >
-                    <Typography variant="h4" color="red" gutterBottom>
+                    <Typography variant="h4" gutterBottom>
                         Alpha & Beta Thalassemia Test
                     </Typography>
                 </Button>

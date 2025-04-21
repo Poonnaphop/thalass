@@ -38,7 +38,7 @@ const formatThaiDate = () => {
 
 const generatePDF = (formData, doctorName, appointmentDetails,
   remarks, gravid, para, abortion, living, edc, ga, hospitalChoice,
-  otherHospital, week, day, suggestion) => {
+  otherHospital, week, day, suggestion, additionalInfo) => {
   // Convert images to base64
   const getBase64FromImage = (img) => {
     return new Promise((resolve) => {
@@ -518,7 +518,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
       },
       content: [
         {
-          text: 'ศูนย์พัฒนาสูตรและเป็นเลิศการคัดกรองและวินิจฉัยก่อนคลอด',
+          text: 'ศูนย์พัฒนาสู่ความเป็นเลิศการคัดกรองและวินิจฉัยก่อนคลอด',
           style: 'header',
           bold: true,
           alignment: 'center'
@@ -1153,7 +1153,7 @@ function HBTypeResultComponent() {
               }
               generatePDF(formData, doctorName, appointmentDetails,
                 remarks, gravid, para, abortion, living, edc, ga,
-                hospitalChoice, otherHospital, week, day, suggestion);
+                hospitalChoice, otherHospital, week, day, suggestion, additionalInfo);
             }}
           >
             พิมพ์
