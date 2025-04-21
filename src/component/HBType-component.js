@@ -811,6 +811,18 @@ function HBTypeComponent() {
                             </Select>
                         </FormControl>
                     </Grid>
+                    
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Hb A"
+                            type="number"
+                            variant="outlined"
+                            value={hbAFather}
+                            onChange={(e) => setHbAFather(e.target.value)}
+                            disabled={dadOrderFlag}
+                            fullWidth
+                        />
+                    </Grid>
 
                     <Grid item xs={12} sm={6}>
                         <TextField
@@ -824,17 +836,6 @@ function HBTypeComponent() {
                         />
                     </Grid>
                     
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Hb A"
-                            type="number"
-                            variant="outlined"
-                            value={hbAFather}
-                            onChange={(e) => setHbAFather(e.target.value)}
-                            disabled={dadOrderFlag}
-                            fullWidth
-                        />
-                    </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
                             label="Hb F"

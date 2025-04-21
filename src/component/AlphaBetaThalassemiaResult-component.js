@@ -1,6 +1,6 @@
 import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -47,7 +47,11 @@ const calculateDaysFromNow = (edc) => {
 };
 
 // Function to generate PDF document
-const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResult, riskTest, week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital) => {
+const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResult, riskTest, 
+  week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital,additionalInfo,appointmentDate,
+  weekAfterAppoinment, dayAfterAppoinment
+) => {
+  const baseFontSize = 16;
   // Convert images to base64
   const getBase64FromImage = (img) => {
     return new Promise((resolve) => {
@@ -82,7 +86,7 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
               width: '70%',
               stack: [
                 {
-                  text: 'ศูนย์พัฒนาสูตรและเป็นเลิศการคัดกรองและวินิจฉัยก่อนคลอด',
+                  text: 'ศูนย์พัฒนาสู่ความเป็นเลิศการคัดกรองและวินิจฉัยก่อนคลอด',
                   style: 'header',
                   bold: true,
                   alignment: 'left'
@@ -227,7 +231,10 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
                           margin: [0, 5, 0, 5]
                         },
                         {
-                          text: `ส่งมารับคำปรึกษาจาก  ${hospitalChoice === 'รพธ' ? '[x] รพธ [ ] อื่นๆ ....' : '[ ] รพธ [x] อื่นๆ ' + (otherHospital || '....')}`,
+                          text: [
+                            'ส่งมารับคำปรึกษาจาก\n',
+                            hospitalChoice === 'รพธ' ? '[x] รพธ [ ] อื่นๆ ....' : '[ ] รพธ [x] อื่นๆ ' + (otherHospital || '....')
+                          ],
                           style: 'boxText',
                           margin: [0, 0, 0, 5]
                         }
@@ -247,9 +254,14 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
           ]
         },
         {
+          text: `ประวัติเพิ่มเติม : ${additionalInfo || '......................................................................................................................'}`,
+          style: 'boxText',
+          margin: [0, 0, 0, 0]
+        },
+        {
           text: 'การตรวจทางห้องปฏิบัติการเพิ่มเติม',
           style: 'boxLabel',
-          margin: [0, 20, 0, 10]
+          margin: [0, 5, 0, 5]
         },
         {
           table: {
@@ -396,26 +408,11 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
               text: 'นัดหมาย'
             },
             {
-              width: 150,
-              canvas: [
-                {
-                  type: 'line',
-                  x1: 0, y1: 10,
-                  x2: 150, y2: 10,
-                  lineWidth: 1,
-                  lineColor: '#000000',
-                  dash: { length: 1 }
-                }
-              ],
-              text: appointmentDetails || '...............................................................',
-              alignment: 'center'
-            },
-            {
-              width: 40,
+              width: 20,
               text: 'วันที่'
             },
             {
-              width: 100,
+              width: 50,
               canvas: [
                 {
                   type: 'line',
@@ -426,12 +423,12 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
                   dash: { length: 1 }
                 }
               ],
-              text: formData?.edc || '',
+              text: appointmentDate || '',
               alignment: 'center'
             },
             {
               width: 100,
-              text: `อายุครรภ์ ${week || ''} สัปดาห์ ${day || ''} วัน (อีก ${calculateDaysFromNow(edc)} วัน)`,
+              text: `อายุครรภ์ ${weekAfterAppoinment || ''} สัปดาห์ ${dayAfterAppoinment || ''} วัน `,
               alignment: 'center'
             }
           ],
@@ -462,52 +459,52 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
       ],
       styles: {
         header: {
-          fontSize: 18,
+          fontSize: baseFontSize + 6,
           bold: true,
           margin: [0, 0, 0, 2]
         },
         subHeader: {
-          fontSize: 16,
+          fontSize: baseFontSize + 4,
           margin: [0, 0, 0, 0]
         },
         formTitle: {
-          fontSize: 14,
+          fontSize: baseFontSize + 2,
           bold: true,
           margin: [0, 24, 0, 16]
         },
         dateText: {
-          fontSize: 12,
+          fontSize: baseFontSize,
           margin: [0, 16, 0, 8]
         },
         boxLabel: {
-          fontSize: 12,
+          fontSize: baseFontSize,
           bold: true,
           margin: [0, 0, 0, 4]
         },
         boxText: {
-          fontSize: 12,
+          fontSize: baseFontSize,
           margin: [3, 0, 0, 2]
         },
         tableHeader: {
-          fontSize: 12,
+          fontSize: baseFontSize,
           bold: true,
           fillColor: '#f5f5f5',
           margin: [4, 4, 4, 4]
         },
         tableCell: {
-          fontSize: 12,
+          fontSize: baseFontSize,
           margin: [4, 4, 4, 4]
         },
         checkboxText: {
-          fontSize: 12,
+          fontSize: baseFontSize,
           margin: [0, 3, 0, 0]
         },
         label: {
-          fontSize: 12,
+          fontSize: baseFontSize,
           bold: true
         },
         summaryText: {
-          fontSize: 12,
+          fontSize: baseFontSize,
           margin: [0, 0, 0, 8]
         }
       }
@@ -574,6 +571,22 @@ function AlphaBetaThalassemiaResultComponent() {
   const [weekAfterAppoinment, setWeekAfterAppoinment] = useState(0);
   const [dayAfterAppoinment, setDayAfterAppoinment] = useState(0);
 
+  useEffect(() => {
+    const today = new Date();
+    const appointmentDate = new Date(appointmentDetails);
+    const diffTime = Math.abs(appointmentDate - today);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    console.log('today', today, 'appointmentDate', appointmentDate, 'diffTime', diffTime, 'diffDays', diffDays);
+
+    const totalDay = week * 7 + day + diffDays;
+    console.log('totalDay', totalDay);
+    const weekAfterAppoinment = Math.floor(totalDay / 7);
+    const dayAfterAppoinment = totalDay % 7;
+    console.log('weekAfterAppoinment', weekAfterAppoinment, 'dayAfterAppoinment', dayAfterAppoinment);
+    setWeekAfterAppoinment(weekAfterAppoinment);
+    setDayAfterAppoinment(dayAfterAppoinment);
+  }, [appointmentDetails]);
+
 
   const {
     riskResult,
@@ -618,14 +631,17 @@ function AlphaBetaThalassemiaResultComponent() {
       alert('ไม่พบข้อมูลสำหรับสร้าง PDF');
       return;
     }
-
-    generatePDF(formData, doctorName, appointmentDetails, remarks, riskResult, riskTest, week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital);
+    
+const riskResultClean = riskResult.replace(/β/g, 'B');
+    generatePDF(formData, doctorName, appointmentDetails, remarks, riskResultClean,
+       riskTest, week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital,
+       additionalInfo,appointmentDetails,weekAfterAppoinment, dayAfterAppoinment);
   };
 
   return (
     <Container maxWidth="md" sx={{ my: 4, pb: 5 }}>
       <Typography variant="h4" gutterBottom>
-        ผลการตรวจคัดกรอง HB Typing
+        ผลการตรวจคัดกรอง Alpha Beta Thalassemia
       </Typography>
 
       {/* Mom Section */}

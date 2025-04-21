@@ -307,7 +307,7 @@ function AlphaBetaThalassemiaTest() {
             riskResult: riskResult,
             riskTest: riskTest,
             PCRResult: PCRResult,
-            PCRSugestion: PCRSugestion
+            PCRSugestion: PCRSugestion,
         };
 
         console.log("New Form Data:", newFormData);
