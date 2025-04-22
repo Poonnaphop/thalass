@@ -38,7 +38,9 @@ const formatThaiDate = () => {
 
 const generatePDF = (formData, doctorName, appointmentDetails,
   remarks, gravid, para, abortion, living, edc, ga, hospitalChoice,
-  otherHospital, week, day, suggestion, additionalInfo, riskResult) => {
+  otherHospital, week, day, suggestion, additionalInfo, riskResult,pcr,suggestionTxt) => {
+console.log("pcr",pcr)
+
   // Convert images to base64
   const getBase64FromImage = (img) => {
     return new Promise((resolve) => {
@@ -263,7 +265,8 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                       ['A2', formData?.momData?.A2 || '-', formData?.dadData?.A2 || '-'],
                       ['Hb A2 + E', formData?.momData?.hba2PlusE || '-', formData?.dadData?.hba2PlusE || '-'],
                       ['Hb A2', formData?.momData?.hbA2 || '-', formData?.dadData?.hbA2 || '-'],
-                      ['Hb E', formData?.momData?.hbE || '-', formData?.dadData?.hbE || '-']
+                      ['Hb E', formData?.momData?.hbE || '-', formData?.dadData?.hbE || '-'],
+                      ['Hb Typing', formData?.momDesc || '-', formData?.dadDesc || '-']
                     ]
                   }
                 }
@@ -329,7 +332,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
             },
             {
               width: '*',
-              text: riskResult || '....................',
+              text: pcr || '....................',
               style: 'summaryText'
             }
           ],
@@ -344,7 +347,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
             },
             {
               width: '*',
-              text: suggestion || '-',
+              text: suggestionTxt || '-',
               style: 'summaryText'
             }
           ],
@@ -738,7 +741,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                         margin: [0, 5, 0, 5]
                       },
                       {
-                        text: formData?.riskResult || '-',
+                        text: pcr || '-',
                         style: 'normalText',
                         margin: [0, 5, 0, 5]
                       }
@@ -1150,9 +1153,13 @@ function HBTypeResultComponent() {
                 alert('ไม่พบข้อมูลสำหรับสร้าง PDF');
                 return;
               }
+              const PCRTxt = PCR.join('\n');
+              const PCRClean = PCRTxt.replace(/<br>/g, '\n').replace(/β/g, 'B');
+
+              const suggestionTxt = suggestion.join("\n");
               generatePDF(formData, doctorName, appointmentDetails,
                 remarks, gravid, para, abortion, living, edc, ga,
-                hospitalChoice, otherHospital, week, day, suggestion, additionalInfo, riskResult);
+                hospitalChoice, otherHospital, week, day, suggestion, additionalInfo, riskResult,PCRClean,suggestionTxt);
             }}
           >
             พิมพ์
