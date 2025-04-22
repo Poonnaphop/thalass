@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/thalass/static/css/main.036da6ee.css",
-    "main.js": "/thalass/static/js/main.5d3cc3e7.js",
+    "main.js": "/thalass/static/js/main.dd31615a.js",
     "static/js/453.68693753.chunk.js": "/thalass/static/js/453.68693753.chunk.js",
     "static/media/blood3.jpg": "/thalass/static/media/blood3.8b03985a0be9bac11946.jpg",
     "static/media/TUHospital.jpeg": "/thalass/static/media/TUHospital.43ce0286c07b6821a9ae.jpeg",
     "static/media/logo.png": "/thalass/static/media/logo.d0020963913813f8b63b.png",
     "index.html": "/thalass/index.html",
     "main.036da6ee.css.map": "/thalass/static/css/main.036da6ee.css.map",
-    "main.5d3cc3e7.js.map": "/thalass/static/js/main.5d3cc3e7.js.map",
+    "main.dd31615a.js.map": "/thalass/static/js/main.dd31615a.js.map",
     "453.68693753.chunk.js.map": "/thalass/static/js/453.68693753.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.036da6ee.css",
-    "static/js/main.5d3cc3e7.js"
+    "static/js/main.dd31615a.js"
   ]
 }
