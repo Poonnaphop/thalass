@@ -38,7 +38,7 @@ const formatThaiDate = () => {
 
 const generatePDF = (formData, doctorName, appointmentDetails,
   remarks, gravid, para, abortion, living, edc, ga, hospitalChoice,
-  otherHospital, week, day, suggestion, additionalInfo) => {
+  otherHospital, week, day, suggestion, additionalInfo, riskResult) => {
   // Convert images to base64
   const getBase64FromImage = (img) => {
     return new Promise((resolve) => {
@@ -239,54 +239,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                   },
                   margin: [0, 0, 20, 10]
                 },
-                {
-                  table: {
-                    headerRows: 1,
-                    widths: ['20%', '40%', '40%'],
-                    body: [
-                      [
-                        { text: 'ตรวจหา', style: 'tableHeader' },
-                        { text: 'รายการตรวจ', style: 'tableHeader' },
-                        { text: 'ผลการตรวจ', style: 'tableHeader' }
-                      ],
-                      [
-                        { text: 'ภรรยา', style: 'tableCell' },
-                        {
-                          stack: [
-                            suggestion == 'จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
-                            suggestion == 'จำเป็นต้องตรวจ PCR for Beta ทั้งคู่' || suggestion == 'จำเป็นต้องตรวจ PCR for Beta ของภรรยา' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
-                          ],
-                          style: 'tableCell'
-                        },
-                        {
-                          stack: [
-                            formData?.isAlphaEnabled ? { text: `Alpha: ${formData?.momPositiveAlpha || '-'}`, style: 'tableCell' } : '',
-                            formData?.isBetaEnabled ? { text: `Beta: ${formData?.momPositiveBeta || '-'}`, style: 'tableCell' } : ''
-                          ],
-                          style: 'tableCell'
-                        }
-                      ],
-                      [
-                        { text: 'สามี', style: 'tableCell' },
-                        {
-                          stack: [
-                            suggestion == 'จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
-                            suggestion == 'จำเป็นต้องตรวจ PCR for Beta ทั้งคู่' || suggestion == 'จำเป็นต้องตรวจ PCR for Beta ของสามี' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
-                          ],
-                          style: 'tableCell'
-                        },
-                        {
-                          stack: [
-                            formData?.isAlphaEnabled ? { text: `Alpha: ${formData?.dadPositiveAlpha || '-'}`, style: 'tableCell' } : '',
-                            formData?.isBetaEnabled ? { text: `Beta: ${formData?.dadPositiveBeta || '-'}`, style: 'tableCell' } : ''
-                          ],
-                          style: 'tableCell'
-                        }
-                      ]
-                    ]
-                  },
-                  margin: [0, 20, 0, 20]
-                }
+                
               ]
             },
             {
@@ -313,103 +266,149 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                       ['Hb E', formData?.momData?.hbE || '-', formData?.dadData?.hbE || '-']
                     ]
                   }
+                }
+               
+              ]
+            }
+          ]
+        },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['20%', '40%', '40%'],
+            body: [
+              [
+                { text: 'ตรวจหา', style: 'tableHeader' },
+                { text: 'รายการตรวจ', style: 'tableHeader' },
+                { text: 'ผลการตรวจ', style: 'tableHeader' }
+              ],
+              [
+                { text: 'ภรรยา', style: 'tableCell' },
+                {
+                  stack: [
+                    suggestion == 'จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
+                    suggestion == 'จำเป็นต้องตรวจ PCR for Beta ทั้งคู่' || suggestion == 'จำเป็นต้องตรวจ PCR for Beta ของภรรยา' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
+                  ],
+                  style: 'tableCell'
                 },
                 {
-                  table: {
-                    body: [
-
-                      [[{
-                        text: 'สรุป',
-                        style: 'normalText',
-                        margin: [0, 5, 0, 5]
-                      },
-                      {
-                        text: formData?.riskResult || '-',
-                        style: 'normalText',
-                        margin: [0, 5, 0, 5]
-                      }
-                      ]]
-                    ]
-                  },
-                  layout: {
-                    hLineWidth: function () { return 1; },
-                    vLineWidth: function () { return 1; },
-                    hLineColor: function () { return '#000000'; },
-                    vLineColor: function () { return '#000000'; },
-                  },
-                  margin: [20, 20, 0, 10]
+                  stack: [
+                    formData?.isAlphaEnabled ? { text: `Alpha: ${formData?.momPositiveAlpha || '-'}`, style: 'tableCell' } : '',
+                    formData?.isBetaEnabled ? { text: `Beta: ${formData?.momPositiveBeta || '-'}`, style: 'tableCell' } : ''
+                  ],
+                  style: 'tableCell'
+                }
+              ],
+              [
+                { text: 'สามี', style: 'tableCell' },
+                {
+                  stack: [
+                    suggestion == 'จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
+                    suggestion == 'จำเป็นต้องตรวจ PCR for Beta ทั้งคู่' || suggestion == 'จำเป็นต้องตรวจ PCR for Beta ของสามี' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
+                  ],
+                  style: 'tableCell'
                 },
                 {
-                  table: {
-                    body: [
-
-                      [[{
-                        text: 'ข้อเสนอแนะ',
-                        style: 'normalText',
-                        margin: [0, 5, 0, 5]
-                      },
-                      {
-                        text: formData?.suggestion?.join('\n') || '-',
-                        style: 'normalText',
-                        margin: [0, 5, 0, 5]
-                      }
-                      ]]
-                    ]
-                  },
-                  layout: {
-                    hLineWidth: function () { return 1; },
-                    vLineWidth: function () { return 1; },
-                    hLineColor: function () { return '#000000'; },
-                    vLineColor: function () { return '#000000'; },
-                  },
-                  margin: [20, 20, 0, 10]
+                  stack: [
+                    formData?.isAlphaEnabled ? { text: `Alpha: ${formData?.dadPositiveAlpha || '-'}`, style: 'tableCell' } : '',
+                    formData?.isBetaEnabled ? { text: `Beta: ${formData?.dadPositiveBeta || '-'}`, style: 'tableCell' } : ''
+                  ],
+                  style: 'tableCell'
+                }
+              ]
+            ]
+          },
+          margin: [0, 20, 0, 20]
+        },
+        {
+          columns: [
+            {
+              width: 80,
+              text: 'สรุป',
+              style: 'label'
+            },
+            {
+              width: '*',
+              text: riskResult || '....................',
+              style: 'summaryText'
+            }
+          ],
+          margin: [0, 0, 0, 20]
+        },
+        {
+          columns: [
+            {
+              width: 80,
+              text: 'ข้อเสนอแนะ',
+              style: 'label'
+            },
+            {
+              width: '*',
+              text: suggestion || '-',
+              style: 'summaryText'
+            }
+          ],
+          margin: [0, 0, 0, 20]
+        },
+        {
+          columns: [
+            {
+              width: '*',
+              text: ''
+            },
+            {
+              width: 400,
+              columns: [
+                {
+                  width: 80,
+                  text: 'ลงนาม'
                 },
                 {
-                  columns: [
+                  width: 100,
+                  canvas: [
                     {
-                      margin: [40, 0, 0, 0],
-                      width: 80,
-                      text: 'ลงนาม'
-                    },
-                    {
-                      width: 100,
-                      canvas: [
-                        {
-                          type: 'line',
-                          x1: 0, y1: 10,
-                          x2: 100, y2: 10,
-                          lineWidth: 1,
-                          lineColor: '#000000',
-                          dash: { length: 1 }
-                        }
-                      ]
-                    },
-                    {
-                      width: 200,
-                      text: 'แพทย์/พยาบาลผู้ให้คำปรึกษา'
+                      type: 'line',
+                      x1: 0, y1: 10,
+                      x2: 100, y2: 10,
+                      lineWidth: 1,
+                      lineColor: '#000000',
+                      dash: { length: 1 }
                     }
                   ]
                 },
                 {
-                  columns: [
-                    {
-                      width: 80,
-                      text: ''
-                    },
-                    {
-                      width: 20,
-                      text: '('
-                    },
-                    {
-                      width: 100,
-                      text: doctorName || '',
-                      alignment: 'center'
-                    },
-                    {
-                      width: 20,
-                      text: ')'
-                    }
-                  ]
+                  width: 200,
+                  text: 'แพทย์/พยาบาลผู้ให้คำปรึกษา'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          columns: [
+            {
+              width: '*',
+              text: ''
+            },
+            {
+              width: 400,
+              columns: [
+                {
+                  width: 80,
+                  text: ''
+                },
+                {
+                  width: 20,
+                  text: '('
+                },
+                {
+                  width: 100,
+                  text: doctorName || '',
+                  alignment: 'center'
+                },
+                {
+                  width: 20,
+                  text: ')'
                 }
               ]
             }
@@ -1153,7 +1152,7 @@ function HBTypeResultComponent() {
               }
               generatePDF(formData, doctorName, appointmentDetails,
                 remarks, gravid, para, abortion, living, edc, ga,
-                hospitalChoice, otherHospital, week, day, suggestion, additionalInfo);
+                hospitalChoice, otherHospital, week, day, suggestion, additionalInfo, riskResult);
             }}
           >
             พิมพ์
