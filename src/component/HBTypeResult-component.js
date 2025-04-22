@@ -67,7 +67,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
   }).then(([logoData, hospitalData]) => {
     const docDefinition = {
       pageSize: 'A4',
-      pageMargins: [20, 20, 20, 20],
+      pageMargins: [15, 15, 15, 15],
       defaultStyle: {
         font: 'THSarabunNew'
       },
@@ -78,7 +78,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
               width: '70%',
               stack: [
                 {
-                  text: 'ศูนย์พัฒนาสูตรและเป็นเลิศการคัดกรองและวินิจฉัยก่อนคลอด',
+                  text: 'ศูนย์พัฒนาสู่ความเป็นเลิศการคัดกรองและวินิจฉัยก่อนคลอด',
                   style: 'header',
                   bold: true,
                   alignment: 'left'
@@ -94,17 +94,17 @@ const generatePDF = (formData, doctorName, appointmentDetails,
             {
               width: '15%',
               image: logoData,
-              fit: [70, 70],
+              fit: [60, 60],
               alignment: 'center'
             },
             {
               width: '15%',
               image: hospitalData,
-              fit: [60, 60],
+              fit: [50, 50],
               alignment: 'center'
             }
           ],
-          margin: [0, 0, 0, 5]
+          margin: [0, 0, 0, 2]
         },
         {
           canvas: [
@@ -117,13 +117,13 @@ const generatePDF = (formData, doctorName, appointmentDetails,
               dash: { length: 1 }
             }
           ],
-          margin: [0, 5, 0, 5]
+          margin: [0, 2, 0, 2]
         },
         {
           text: 'แบบบันทึกการให้คำปรึกษาแก่คู่สมรสที่มีความเสี่ยงต่อการบุตรเป็นโรคธาลัสซีเมีย',
           style: 'formTitle',
           alignment: 'center',
-          margin: [0, 0, 0, 5]
+          margin: [0, 0, 0, 2]
         },
         {
           columns: [
@@ -133,7 +133,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                 {
                   text: `วันที่........${formatThaiDate()}........`,
                   style: 'dateText',
-                  margin: [0, 0, 0, 5]
+                  margin: [0, 0, 0, 2]
                 },
                 {
                   table: {
@@ -157,7 +157,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                             {
                               text: `HN: ${formData?.wifeHn || '-'}`,
                               style: 'boxText',
-                              margin: [0, 0, 0, 10]
+                              margin: [0, 0, 0, 5]
                             }
                           ]
                         }
@@ -170,7 +170,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                     hLineColor: function (i, node) { return '#000000'; },
                     vLineColor: function (i, node) { return '#000000'; }
                   },
-                  margin: [0, 0, 20, 10]
+                  margin: [0, 0, 20, 5]
                 },
 
                 {
@@ -208,7 +208,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                     hLineColor: function (i, node) { return '#000000'; },
                     vLineColor: function (i, node) { return '#000000'; }
                   },
-                  margin: [0, 0, 20, 10]
+                  margin: [0, 0, 20, 5]
                 },
                 {
                   table: {
@@ -328,7 +328,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
               ]
             ]
           },
-          margin: [0, 20, 0, 20]
+          margin: [0, 5, 0, 5]
         },
         {
           columns: [
@@ -343,7 +343,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
               style: 'summaryText'
             }
           ],
-          margin: [0, 0, 0, 20]
+          margin: [0, 0, 0, 10]
         },
         {
           columns: [
@@ -358,7 +358,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
               style: 'summaryText'
             }
           ],
-          margin: [0, 0, 0, 20]
+          margin: [0, 0, 0, 10]
         },
         {
           columns: [
@@ -460,7 +460,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                   alignment: 'center'
                 }
               ],
-              margin: [0, 0, 0, 20]
+              margin: [0, 0, 0, 10]
             },
             {
               columns: [
@@ -485,45 +485,45 @@ const generatePDF = (formData, doctorName, appointmentDetails,
               ]
             }
           ],
-          margin: [0, 5, 0, 0]
+          margin: [0, 5, 0, 5]
         }
       ],
       styles: {
         header: {
-          fontSize: baseFontSize + 6,
+          fontSize: baseFontSize + 4,
           bold: true,
-          margin: [0, 0, 0, 2]
+          margin: [0, 0, 0, 1]
         },
         subHeader: {
-          fontSize: baseFontSize + 4,
+          fontSize: baseFontSize + 2,
           margin: [0, 0, 0, 0]
         },
         formTitle: {
-          fontSize: baseFontSize + 2,
+          fontSize: baseFontSize + 1,
           bold: true,
-          margin: [0, 0, 0, 5]
+          margin: [0, 0, 0, 2]
         },
         dateText: {
           fontSize: baseFontSize,
-          margin: [0, 0, 0, 5]
+          margin: [0, 0, 0, 2]
         },
         boxLabel: {
           fontSize: baseFontSize,
           bold: true,
-          margin: [0, 0, 0, 2]
+          margin: [0, 0, 0, 1]
         },
         boxText: {
           fontSize: baseFontSize,
-          margin: [3, 0, 0, 2]
+          margin: [3, 0, 0, 1]
         },
         sectionTitle: {
           fontSize: baseFontSize,
           bold: true,
-          margin: [0, 1, 0, 2]
+          margin: [0, 1, 0, 1]
         },
         normalText: {
           fontSize: baseFontSize,
-          margin: [0, 0, 0, 5]
+          margin: [0, 0, 0, 2]
         },
         tableHeader: {
           fontSize: baseFontSize,
@@ -532,11 +532,11 @@ const generatePDF = (formData, doctorName, appointmentDetails,
         },
         tableCell: {
           fontSize: baseFontSize,
-          margin: [3, 2, 3, 2]
+          margin: [3, 1, 3, 1]
         },
         checkboxText: {
           fontSize: baseFontSize,
-          margin: [3, 1, 3, 1]
+          margin: [3, 0, 3, 0]
         }
       }
     };
