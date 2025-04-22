@@ -15,7 +15,7 @@ function TypeSelectComponent() {
 
     return (
 
-        <Grid container spacing={10} sx={{ mt: 4 }} justifyContent="center">
+        <Grid container spacing={10} sx={{ mt: 12 }} justifyContent="center">
             <Grid item xs={12} sm={6} md={4}>
                 <Button 
                     variant="outlined"
