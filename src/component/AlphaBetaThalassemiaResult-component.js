@@ -47,8 +47,8 @@ const calculateDaysFromNow = (edc) => {
 };
 
 // Function to generate PDF document
-const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResult, riskTest, 
-  week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital,additionalInfo,appointmentDate,
+const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResult, riskTest,
+  week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital, additionalInfo, appointmentDate,
   weekAfterAppoinment, dayAfterAppoinment
 ) => {
   const baseFontSize = 16;
@@ -176,7 +176,7 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
               },
               margin: [0, 0, 20, 10]
             },
-    
+
             {
               table: {
                 widths: ['*'],
@@ -631,11 +631,11 @@ function AlphaBetaThalassemiaResultComponent() {
       alert('ไม่พบข้อมูลสำหรับสร้าง PDF');
       return;
     }
-    
-const riskResultClean = riskResult.replace(/β/g, 'B');
+
+    const riskResultClean = riskResult.replace(/β/g, 'B');
     generatePDF(formData, doctorName, appointmentDetails, remarks, riskResultClean,
-       riskTest, week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital,
-       additionalInfo,appointmentDetails,weekAfterAppoinment, dayAfterAppoinment);
+      riskTest, week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital,
+      additionalInfo, appointmentDetails, weekAfterAppoinment, dayAfterAppoinment);
   };
 
   return (
@@ -773,7 +773,7 @@ const riskResultClean = riskResult.replace(/β/g, 'B');
         <Typography>{PCRResult}</Typography>
       </Box> */}
 
-<Box
+      <Box
         sx={{
           border: '1px solid #ccc',
           borderRadius: 2,
@@ -856,13 +856,13 @@ const riskResultClean = riskResult.replace(/β/g, 'B');
           </Button>
         </Grid>
         <Grid item>
-                <Button
-                  variant="outlined"
-                  color="secondary"
+          <Button
+            variant="outlined"
+            color="secondary"
             onClick={handlePrint}
           >
             พิมพ์
-                </Button>
+          </Button>
         </Grid>
       </Grid>
     </Container>

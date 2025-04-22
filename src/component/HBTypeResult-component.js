@@ -38,8 +38,11 @@ const formatThaiDate = () => {
 
 const generatePDF = (formData, doctorName, appointmentDetails,
   remarks, gravid, para, abortion, living, edc, ga, hospitalChoice,
-  otherHospital, week, day, suggestion, additionalInfo, riskResult,pcr,suggestionTxt) => {
-console.log("pcr",pcr)
+  otherHospital, week, day, suggestion, additionalInfo, riskResult, pcr, suggestionTxt,
+  weekAfterAppoinment, dayAfterAppoinment) => {
+  console.log("pcr", pcr)
+  console.log("suggestion", suggestion)
+  const baseFontSize = 14;
 
   // Convert images to base64
   const getBase64FromImage = (img) => {
@@ -241,7 +244,7 @@ console.log("pcr",pcr)
                   },
                   margin: [0, 0, 20, 10]
                 },
-                
+
               ]
             },
             {
@@ -269,8 +272,12 @@ console.log("pcr",pcr)
                       ['Hb Typing', formData?.momDesc || '-', formData?.dadDesc || '-']
                     ]
                   }
-                }
-               
+                },
+                {
+                  text: `ประวัติเพิ่มเติม : ${additionalInfo || '......................................................................................................................'}`,
+                  style: 'boxText',
+                  margin: [0, 5, 0, 0]
+                },
               ]
             }
           ]
@@ -289,8 +296,8 @@ console.log("pcr",pcr)
                 { text: 'ภรรยา', style: 'tableCell' },
                 {
                   stack: [
-                    suggestion == 'จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
-                    suggestion == 'จำเป็นต้องตรวจ PCR for Beta ทั้งคู่' || suggestion == 'จำเป็นต้องตรวจ PCR for Beta ของภรรยา' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
+                    Array.isArray(suggestion) && suggestion.includes('จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่') ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
+                    Array.isArray(suggestion) && (suggestion.includes('จำเป็นต้องตรวจ PCR for Beta ทั้งคู่') || suggestion.includes('จำเป็นต้องตรวจ PCR for Beta ของภรรยา')) ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
                   ],
                   style: 'tableCell'
                 },
@@ -306,8 +313,8 @@ console.log("pcr",pcr)
                 { text: 'สามี', style: 'tableCell' },
                 {
                   stack: [
-                    suggestion == 'จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
-                    suggestion == 'จำเป็นต้องตรวจ PCR for Beta ทั้งคู่' || suggestion == 'จำเป็นต้องตรวจ PCR for Beta ของสามี' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
+                    Array.isArray(suggestion) && suggestion.includes('จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่') ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
+                    Array.isArray(suggestion) && (suggestion.includes('จำเป็นต้องตรวจ PCR for Beta ทั้งคู่') || suggestion.includes('จำเป็นต้องตรวจ PCR for Beta ของสามี')) ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
                   ],
                   style: 'tableCell'
                 },
@@ -357,13 +364,13 @@ console.log("pcr",pcr)
           columns: [
             {
               width: '*',
-              text: ''
+              text: '',
             },
             {
               width: 400,
               columns: [
                 {
-                  width: 80,
+                  width: 50,
                   text: 'ลงนาม'
                 },
                 {
@@ -383,7 +390,8 @@ console.log("pcr",pcr)
                   width: 200,
                   text: 'แพทย์/พยาบาลผู้ให้คำปรึกษา'
                 }
-              ]
+              ],
+              margin: [110, 0, 0, 0]
             }
           ]
         },
@@ -391,7 +399,8 @@ console.log("pcr",pcr)
           columns: [
             {
               width: '*',
-              text: ''
+              text: '',
+              margin: [80, 0, 0, 0]
             },
             {
               width: 400,
@@ -413,30 +422,67 @@ console.log("pcr",pcr)
                   width: 20,
                   text: ')'
                 }
-              ]
+              ],
+              margin: [60, 0, 0, 0]
             }
           ]
         },
         {
           stack: [
             {
-              text: 'นัดหมาย',
-              style: 'sectionTitle',
-              margin: [0, 5, 0, 2]
+              columns: [
+                {
+                  width: 60,
+                  text: 'นัดหมาย'
+                },
+                {
+                  width: 20,
+                  text: 'วันที่'
+                },
+                {
+                  width: 50,
+                  canvas: [
+                    {
+                      type: 'line',
+                      x1: 0, y1: 10,
+                      x2: 100, y2: 10,
+                      lineWidth: 1,
+                      lineColor: '#000000',
+                      dash: { length: 1 }
+                    }
+                  ],
+                  text: appointmentDetails || '',
+                  alignment: 'center'
+                },
+                {
+                  width: 100,
+                  text: `อายุครรภ์ ${weekAfterAppoinment || ''} สัปดาห์ ${dayAfterAppoinment || ''} วัน `,
+                  alignment: 'center'
+                }
+              ],
+              margin: [0, 0, 0, 20]
             },
             {
-              text: appointmentDetails || '-',
-              style: 'normalText',
-              margin: [0, 0, 0, 5]
-            },
-            {
-              text: 'หมายเหตุ',
-              style: 'sectionTitle',
-              margin: [0, 5, 0, 2]
-            },
-            {
-              text: remarks || '-',
-              style: 'normalText'
+              columns: [
+                {
+                  width: 60,
+                  text: 'หมายเหตุ'
+                },
+                {
+                  width: '*',
+                  canvas: [
+                    {
+                      type: 'line',
+                      x1: 0, y1: 10,
+                      x2: 215, y2: 10,
+                      lineWidth: 1,
+                      lineColor: '#000000',
+                      dash: { length: 1 }
+                    }
+                  ],
+                  text: `${remarks || '...............................................................................................................'}`
+                }
+              ]
             }
           ],
           margin: [0, 5, 0, 0]
@@ -444,73 +490,60 @@ console.log("pcr",pcr)
       ],
       styles: {
         header: {
-          fontSize: 16,
+          fontSize: baseFontSize + 6,
           bold: true,
           margin: [0, 0, 0, 2]
         },
         subHeader: {
-          fontSize: 14,
+          fontSize: baseFontSize + 4,
           margin: [0, 0, 0, 0]
         },
         formTitle: {
-          fontSize: 12,
+          fontSize: baseFontSize + 2,
           bold: true,
           margin: [0, 0, 0, 5]
         },
         dateText: {
-          fontSize: 11,
+          fontSize: baseFontSize,
           margin: [0, 0, 0, 5]
         },
         boxLabel: {
-          fontSize: 11,
+          fontSize: baseFontSize,
           bold: true,
           margin: [0, 0, 0, 2]
         },
         boxText: {
-          fontSize: 11,
+          fontSize: baseFontSize,
           margin: [3, 0, 0, 2]
         },
         sectionTitle: {
-          fontSize: 11,
+          fontSize: baseFontSize,
           bold: true,
-          margin: [0, 5, 0, 2]
+          margin: [0, 1, 0, 2]
         },
         normalText: {
-          fontSize: 11,
+          fontSize: baseFontSize,
           margin: [0, 0, 0, 5]
         },
         tableHeader: {
-          fontSize: 11,
+          fontSize: baseFontSize,
           bold: true,
           alignment: 'center'
         },
         tableCell: {
-          fontSize: 11,
+          fontSize: baseFontSize,
           margin: [3, 2, 3, 2]
         },
         checkboxText: {
-          fontSize: 11,
+          fontSize: baseFontSize,
           margin: [3, 1, 3, 1]
         }
       }
     };
 
-    // Add PCR conditions
-    if (formData?.riskResult === 'PCRSuggestion22') {
-      docDefinition.content[4].columns[0].stack[14].table.body[1][1].stack[1].text = '[X] PCR for beta';
-      docDefinition.content[4].columns[0].stack[14].table.body[2][1].stack[1].text = '[X] PCR for beta';
-    } else if (formData?.riskResult === 'PCRSuggestion21') {
-      docDefinition.content[4].columns[0].stack[14].table.body[1][1].stack[0].text = '[X] PCR for alpha';
-      docDefinition.content[4].columns[0].stack[14].table.body[2][1].stack[0].text = '[X] PCR for alpha';
-    } else if (formData?.riskResult === 'PCRSuggestion231') {
-      docDefinition.content[4].columns[0].stack[14].table.body[1][1].stack[1].text = '[X] PCR for beta';
-    } else if (formData?.riskResult === 'PCRSuggestion232') {
-      docDefinition.content[4].columns[0].stack[14].table.body[2][1].stack[1].text = '[X] PCR for beta';
-    }
-
     pdfMake.createPdf(docDefinition).open();
   }).catch(error => {
-    console.error('Error loading images:', error);
+    console.error('Error use fallback:', error);
     // Fallback to PDF without images if image loading fails
     const fallbackDocDefinition = {
       pageSize: 'A4',
@@ -568,7 +601,7 @@ console.log("pcr",pcr)
                             {
                               text: `HN: ${formData?.wifeHn || '-'}`,
                               style: 'boxText',
-                              margin: [0, 0, 0, 10]
+                              margin: [0, 0, 0, 5]
                             }
                           ]
                         }
@@ -581,7 +614,7 @@ console.log("pcr",pcr)
                     hLineColor: function (i, node) { return '#000000'; },
                     vLineColor: function (i, node) { return '#000000'; }
                   },
-                  margin: [0, 0, 20, 10]
+                  margin: [0, 0, 20, 5]
                 },
 
                 {
@@ -619,7 +652,7 @@ console.log("pcr",pcr)
                     hLineColor: function (i, node) { return '#000000'; },
                     vLineColor: function (i, node) { return '#000000'; }
                   },
-                  margin: [0, 0, 20, 10]
+                  margin: [0, 0, 20, 5]
                 },
                 {
                   table: {
@@ -784,9 +817,9 @@ console.log("pcr",pcr)
                 {
                   columns: [
                     {
-                      margin: [40, 0, 0, 0],
+                      margin: [80, 0, 0, 0],
                       width: 80,
-                      text: 'ลงนาม'
+                      text: 'ลงนาม11'
                     },
                     {
                       width: 100,
@@ -811,7 +844,8 @@ console.log("pcr",pcr)
                   columns: [
                     {
                       width: 80,
-                      text: ''
+                      text: '',
+                      margin: [80, 0, 0, 0]
                     },
                     {
                       width: 20,
@@ -938,9 +972,9 @@ function HBTypeResultComponent() {
     setDayAfterAppoinment(dayAfterAppoinment);
   }, [appointmentDetails]);
 
-  const { momOrder, dadOrder, riskResult, momDesc, dadDesc, dadData, momData, wifeName, 
-    wifeSurname, husbandName, husbandSurname, PCR, suggestion, gravid, para, abortion, 
-    living, edc, ga, hospitalChoice, otherHospital, week, day,additionalInfo } = formData || {};
+  const { momOrder, dadOrder, riskResult, momDesc, dadDesc, dadData, momData, wifeName,
+    wifeSurname, husbandName, husbandSurname, PCR, suggestion, gravid, para, abortion,
+    living, edc, ga, hospitalChoice, otherHospital, week, day, additionalInfo } = formData || {};
 
   console.log('formData at HBTypeResultComponent:', formData);
 
@@ -1159,7 +1193,8 @@ function HBTypeResultComponent() {
               const suggestionTxt = suggestion.join("\n");
               generatePDF(formData, doctorName, appointmentDetails,
                 remarks, gravid, para, abortion, living, edc, ga,
-                hospitalChoice, otherHospital, week, day, suggestion, additionalInfo, riskResult,PCRClean,suggestionTxt);
+                hospitalChoice, otherHospital, week, day, suggestion, additionalInfo, riskResult, PCRClean, suggestionTxt,
+                weekAfterAppoinment, dayAfterAppoinment);
             }}
           >
             พิมพ์
