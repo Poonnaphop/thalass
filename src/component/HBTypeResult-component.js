@@ -57,9 +57,9 @@ const generatePDF = (formData, doctorName, appointmentDetails,
 
   let remarkTxt = remarks 
   if (absent === 'dad') {
-    remarkTxt = remarkTxt + '\nสามีไม่มา รพ'
+    remarkTxt = remarkTxt + '\nภรรยามาคนเดียว'
   } else if (absent === 'mom') {
-    remarkTxt = remarkTxt + '\nภรรยาไม่มา รพ'
+    remarkTxt = remarkTxt + '\nสามีมาคนเดียว'
   }
   remarkTxt = remarkTxt.trim()
   if (!remarkTxt) {
@@ -1167,7 +1167,7 @@ function HBTypeResultComponent() {
           value={remarks}
         />
         <FormControl  sx={{ mt: 2 }}>
-          <InputLabel id="absent-select-label">คนมาไม่ครบ</InputLabel>
+          <InputLabel id="absent-select-label">การมาตรวจ</InputLabel>
           <Select
             labelId="absent-select-label"
             id="absent-select"
@@ -1176,9 +1176,9 @@ function HBTypeResultComponent() {
             label="เลือกใครไม่มา"
             sx={{ width: 150 }}
           >
-            <MenuItem value="dad">สามีไม่มารพ</MenuItem>
-            <MenuItem value="mom">ภรรยาไม่มารพ</MenuItem>
-            <MenuItem value=" ">ทั้งสองคนมารพ</MenuItem>
+            <MenuItem value="dad">ภรรยามาคนเดียว</MenuItem>
+            <MenuItem value="mom">สามีมาคนเดียว</MenuItem>
+            <MenuItem value=" ">สามีและภรรยามาพร้อมกัน</MenuItem>
           </Select>
         </FormControl>
 

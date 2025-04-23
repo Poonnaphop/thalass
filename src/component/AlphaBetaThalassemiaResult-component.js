@@ -6,6 +6,7 @@ import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import logo from '../img/logo.png';
 import hospitalLogo from '../img/TUHospital.jpeg';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 pdfMake.fonts = {
@@ -49,7 +50,7 @@ const calculateDaysFromNow = (edc) => {
 // Function to generate PDF document
 const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResult, riskTest,
   week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital, additionalInfo, appointmentDate,
-  weekAfterAppoinment, dayAfterAppoinment
+  weekAfterAppoinment, dayAfterAppoinment, absent
 ) => {
   const baseFontSize = 16;
   // Convert images to base64
@@ -63,6 +64,16 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
     });
   };
 
+  let remarkTxt = remarks
+  if (absent === 'dad') {
+    remarkTxt = remarkTxt + '\nภรรยามาคนเดียว'
+  } else if (absent === 'mom') {
+    remarkTxt = remarkTxt + '\nสามีมาคนเดียว'
+  }
+  remarkTxt = remarkTxt.trim()
+  if (!remarkTxt) {
+    remarkTxt = '...............................................................................................................'
+  }
   // Load images
   Promise.all([
     fetch(logo).then(res => res.blob()),
@@ -277,15 +288,20 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
                 { text: 'ภรรยา', style: 'tableCell' },
                 {
                   stack: [
-                    formData?.isAlphaEnabled ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
-                    formData?.isBetaEnabled ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
+                    formData?.isAlphaEnabled && absent != 'mom' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
+                    formData?.isBetaEnabled && absent != 'mom' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
                   ],
                   style: 'tableCell'
                 },
                 {
                   stack: [
-                    formData?.isAlphaEnabled ? { text: `Alpha: ${formData?.momPositiveAlpha || '-'}`, style: 'tableCell' } : '',
-                    formData?.isBetaEnabled ? { text: `Beta: ${formData?.momPositiveBeta || '-'}`, style: 'tableCell' } : ''
+                    //show result if absent is mom
+                    // formData?.isAlphaEnabled ? { text: `Alpha: ${formData?.momPositiveAlpha || '-'}`, style: 'tableCell' } : '',
+                    // formData?.isBetaEnabled ? { text: `Beta: ${formData?.momPositiveBeta || '-'}`, style: 'tableCell' } : ''
+                    
+                    //don't show result if absent is mom
+                    formData?.isAlphaEnabled && absent != 'mom' ? { text: `Alpha: ${formData?.momPositiveAlpha || '-'}`, style: 'tableCell' } : '',
+                    formData?.isBetaEnabled && absent != 'mom' ? { text: `Beta: ${formData?.momPositiveBeta || '-'}`, style: 'tableCell' } : ''
                   ],
                   style: 'tableCell'
                 }
@@ -294,15 +310,20 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
                 { text: 'สามี', style: 'tableCell' },
                 {
                   stack: [
-                    formData?.isAlphaEnabled ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
-                    formData?.isBetaEnabled ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
+                    formData?.isAlphaEnabled && absent != 'dad' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
+                    formData?.isBetaEnabled && absent != 'dad' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
                   ],
                   style: 'tableCell'
                 },
                 {
                   stack: [
-                    formData?.isAlphaEnabled ? { text: `Alpha: ${formData?.dadPositiveAlpha || '-'}`, style: 'tableCell' } : '',
-                    formData?.isBetaEnabled ? { text: `Beta: ${formData?.dadPositiveBeta || '-'}`, style: 'tableCell' } : ''
+                    //show result if absent is dad
+                    // formData?.isAlphaEnabled ? { text: `Alpha: ${formData?.dadPositiveAlpha || '-'}`, style: 'tableCell' } : '',
+                    // formData?.isBetaEnabled ? { text: `Beta: ${formData?.dadPositiveBeta || '-'}`, style: 'tableCell' } : ''
+                   
+                    //don't show result if absent is dad
+                    formData?.isAlphaEnabled && absent != 'dad' ? { text: `Alpha: ${formData?.dadPositiveAlpha || '-'}`, style: 'tableCell' } : '',
+                    formData?.isBetaEnabled && absent != 'dad' ? { text: `Beta: ${formData?.dadPositiveBeta || '-'}`, style: 'tableCell' } : ''
                   ],
                   style: 'tableCell'
                 }
@@ -452,7 +473,7 @@ const generatePDF = (formData, doctorName, appointmentDetails, remarks, riskResu
                   dash: { length: 1 }
                 }
               ],
-              text: `${remarks || '...............................................................................................................'}`
+              text: remarkTxt
             }
           ]
         }
@@ -570,6 +591,7 @@ function AlphaBetaThalassemiaResultComponent() {
 
   const [weekAfterAppoinment, setWeekAfterAppoinment] = useState(0);
   const [dayAfterAppoinment, setDayAfterAppoinment] = useState(0);
+  const [absent, setAbsent] = useState("")
 
   useEffect(() => {
     const today = new Date();
@@ -635,7 +657,7 @@ function AlphaBetaThalassemiaResultComponent() {
     const riskResultClean = riskResult.replace(/β/g, 'B');
     generatePDF(formData, doctorName, appointmentDetails, remarks, riskResultClean,
       riskTest, week, day, gravid, para, abortion, living, edc, ga, hospitalChoice, otherHospital,
-      additionalInfo, appointmentDetails, weekAfterAppoinment, dayAfterAppoinment);
+      additionalInfo, appointmentDetails, weekAfterAppoinment, dayAfterAppoinment, absent);
   };
 
   return (
@@ -846,6 +868,21 @@ function AlphaBetaThalassemiaResultComponent() {
           onChange={(e) => setRemarks(e.target.value)}
           value={remarks}
         />
+        <FormControl sx={{ mt: 2 }}>
+          <InputLabel id="absent-select-label">การมาตรวจ</InputLabel>
+          <Select
+            labelId="absent-select-label"
+            id="absent-select"
+            value={absent}
+            onChange={(e) => setAbsent(e.target.value)}
+            label="เลือกใครไม่มา"
+            sx={{ width: 150 }}
+          >
+            <MenuItem value="dad">ภรรยามาคนเดียว</MenuItem>
+            <MenuItem value="mom">สามีมาคนเดียว</MenuItem>
+            <MenuItem value=" ">สามีและภรรยามาพร้อมกัน</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
 
       {/* Action Buttons */}
