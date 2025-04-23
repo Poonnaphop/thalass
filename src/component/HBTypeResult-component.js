@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Container, Box, Typography, TextField, Button } from '@mui/material';
+import { Container, Box, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -39,7 +39,7 @@ const formatThaiDate = () => {
 const generatePDF = (formData, doctorName, appointmentDetails,
   remarks, gravid, para, abortion, living, edc, ga, hospitalChoice,
   otherHospital, week, day, suggestion, additionalInfo, riskResult, pcr, suggestionTxt,
-  weekAfterAppoinment, dayAfterAppoinment) => {
+  weekAfterAppoinment, dayAfterAppoinment,absent) => {
   console.log("pcr", pcr)
   console.log("suggestion", suggestion)
   const baseFontSize = 14;
@@ -55,6 +55,16 @@ const generatePDF = (formData, doctorName, appointmentDetails,
     });
   };
 
+  let remarkTxt = remarks 
+  if (absent === 'dad') {
+    remarkTxt = remarkTxt + '\nสามีไม่มา รพ'
+  } else if (absent === 'mom') {
+    remarkTxt = remarkTxt + '\nภรรยาไม่มา รพ'
+  }
+  remarkTxt = remarkTxt.trim()
+  if (!remarkTxt) {
+    remarkTxt = '...............................................................................................................'
+  }
   // Load images
   Promise.all([
     fetch(logo).then(res => res.blob()),
@@ -296,8 +306,8 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                 { text: 'ภรรยา', style: 'tableCell' },
                 {
                   stack: [
-                    Array.isArray(suggestion) && suggestion.includes('จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่') ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
-                    Array.isArray(suggestion) && (suggestion.includes('จำเป็นต้องตรวจ PCR for Beta ทั้งคู่') || suggestion.includes('จำเป็นต้องตรวจ PCR for Beta ของภรรยา')) ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
+                    Array.isArray(suggestion) && suggestion.includes('จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่') && absent != 'mom' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
+                    Array.isArray(suggestion) && (suggestion.includes('จำเป็นต้องตรวจ PCR for Beta ทั้งคู่') || suggestion.includes('จำเป็นต้องตรวจ PCR for Beta ของภรรยา')) && absent != 'mom' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
                   ],
                   style: 'tableCell'
                 },
@@ -313,8 +323,8 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                 { text: 'สามี', style: 'tableCell' },
                 {
                   stack: [
-                    Array.isArray(suggestion) && suggestion.includes('จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่') ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
-                    Array.isArray(suggestion) && (suggestion.includes('จำเป็นต้องตรวจ PCR for Beta ทั้งคู่') || suggestion.includes('จำเป็นต้องตรวจ PCR for Beta ของสามี')) ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
+                    Array.isArray(suggestion) && suggestion.includes('จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่') && absent != 'dad' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
+                    Array.isArray(suggestion) && (suggestion.includes('จำเป็นต้องตรวจ PCR for Beta ทั้งคู่') || suggestion.includes('จำเป็นต้องตรวจ PCR for Beta ของสามี')) && absent != 'dad' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
                   ],
                   style: 'tableCell'
                 },
@@ -480,7 +490,7 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                       dash: { length: 1 }
                     }
                   ],
-                  text: `${remarks || '...............................................................................................................'}`
+                  text: remarkTxt
                 }
               ]
             }
@@ -702,8 +712,8 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                         { text: 'ภรรยา', style: 'tableCell' },
                         {
                           stack: [
-                            suggestion == 'จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
-                            suggestion == 'จำเป็นต้องตรวจ PCR for Beta ทั้งคู่' || suggestion == 'จำเป็นต้องตรวจ PCR for Beta ของภรรยา' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
+                            suggestion == 'จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่' && absent != 'mom' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
+                            (suggestion == 'จำเป็นต้องตรวจ PCR for Beta ทั้งคู่' || suggestion == 'จำเป็นต้องตรวจ PCR for Beta ของภรรยา') && absent != 'mom' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
                           ],
                           style: 'tableCell'
                         },
@@ -719,8 +729,8 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                         { text: 'สามี', style: 'tableCell' },
                         {
                           stack: [
-                            suggestion == 'จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
-                            suggestion == 'จำเป็นต้องตรวจ PCR for Beta ทั้งคู่' || suggestion == 'จำเป็นต้องตรวจ PCR for Beta ของสามี' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
+                            suggestion == 'จำเป็นต้องตรวจ PCR for Alpha ทั้งคู่' && absent != 'dad' ? { text: '[X] PCR for alpha', style: 'checkboxText' } : { text: '[ ] PCR for alpha', style: 'checkboxText' },
+                            (suggestion == 'จำเป็นต้องตรวจ PCR for Beta ทั้งคู่' || suggestion == 'จำเป็นต้องตรวจ PCR for Beta ของสามี') && absent != 'dad' ? { text: '[X] PCR for beta', style: 'checkboxText' } : { text: '[ ] PCR for beta', style: 'checkboxText' }
                           ],
                           style: 'tableCell'
                         },
@@ -955,6 +965,7 @@ function HBTypeResultComponent() {
   const formData = location.state;
   const [weekAfterAppoinment, setWeekAfterAppoinment] = useState(0);
   const [dayAfterAppoinment, setDayAfterAppoinment] = useState(0);
+  const [absent, setAbsent] = useState("");
 
   useEffect(() => {
     const today = new Date();
@@ -1155,6 +1166,25 @@ function HBTypeResultComponent() {
           onChange={(e) => setRemarks(e.target.value)}
           value={remarks}
         />
+        <FormControl  sx={{ mt: 2 }}>
+          <InputLabel id="absent-select-label">คนมาไม่ครบ</InputLabel>
+          <Select
+            labelId="absent-select-label"
+            id="absent-select"
+            value={absent}
+            onChange={(e) => setAbsent(e.target.value)}
+            label="เลือกใครไม่มา"
+            sx={{ width: 150 }}
+          >
+            <MenuItem value="dad">สามีไม่มารพ</MenuItem>
+            <MenuItem value="mom">ภรรยาไม่มารพ</MenuItem>
+            <MenuItem value=" ">ทั้งสองคนมารพ</MenuItem>
+          </Select>
+        </FormControl>
+
+
+
+
 
       </Box>
 
@@ -1194,7 +1224,7 @@ function HBTypeResultComponent() {
               generatePDF(formData, doctorName, appointmentDetails,
                 remarks, gravid, para, abortion, living, edc, ga,
                 hospitalChoice, otherHospital, week, day, suggestion, additionalInfo, riskResult, PCRClean, suggestionTxt,
-                weekAfterAppoinment, dayAfterAppoinment);
+                weekAfterAppoinment, dayAfterAppoinment,absent);
             }}
           >
             พิมพ์

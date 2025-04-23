@@ -1,6 +1,6 @@
 const descriptions = {
     1: "A2A ,Hb A2<=3.5",
-    2: "A2A ,Hb A2<=3.5",
+    2: "A2A,Hb A2 ≤ 3.5% with or without alpha thal",
     3: "A2A ,Hb A2 3.6-8",
     4: "EA ,Hb E >=25",
     5: "EA , Hb E < 25",
