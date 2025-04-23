@@ -344,14 +344,14 @@ function HBTypeComponent() {
                 PCR.push(PCRResult1);
             } else {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
-                PCR.push(PCRResult22);
+                PCR.push(PCRResult21);
                 suggestion.push(PCRSuggestion21)
             }
         } else if (momOrder == 3) {
             if (dadOrder == 1) { risk = "Not risk"; PCR.push(PCRResult1); }
             else if ([2, 8, 9, 10, 11].includes(parseInt(dadOrder))) {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
-                PCR.push(PCRResult22);
+                PCR.push(PCRResult21);
                 suggestion.push(PCRSuggestion21)
             }
             else if ([3, 5, 6, 7, 12, 13, 14, 15, 16, 17, 18, 19, 20.1, 20.2, 21, 22].includes(parseInt(dadOrder))) {
@@ -400,7 +400,7 @@ function HBTypeComponent() {
             }
             else if ([2, 8, 9, 10, 11].includes(parseInt(dadOrder))) {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
-                PCR.push(PCRResult22);
+                PCR.push(PCRResult21);
                 suggestion.push(PCRSuggestion21);
             }
             else if (dadOrder == 4) {
