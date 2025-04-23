@@ -390,7 +390,7 @@ function HBTypeComponent() {
             }
             else {
                 risk = "-มีความเสี่ยงต้องส่งเลือดตรวจวิเคราะห์ระดับ DNA\nส่งตรวจ: คู่สมรสควรตรวจ alpha";
-                PCR.push(PCRResult22);
+                PCR.push(PCRResult21);
                 suggestion.push(PCRSuggestion21);
             }
         } else if ([7, 12, 13, 14, 15, 17, 18, 21, 22].includes(parseInt(momOrder))) {
