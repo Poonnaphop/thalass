@@ -36,6 +36,66 @@ const formatThaiDate = () => {
   return `${day} ${month} พ.ศ. ${year}`;
 };
 
+// Helper function to format EDC date in Buddhist era
+const formatEDCThaiDate = (edc) => {
+  console.log('edc', edc)
+  if (!edc) return '......';
+  
+  // Parse date string in format "DD-MM-YYYY"
+  let date;
+  if (typeof edc === 'string' && edc.includes('-')) {
+    const parts = edc.split('-');
+    if (parts.length === 3) {
+      // Assuming format is DD-MM-YYYY
+      const day = parseInt(parts[0]);
+      const month = parseInt(parts[1]) - 1; // Month is 0-indexed
+      const year = parseInt(parts[2]);
+      date = new Date(year, month, day);
+    } else {
+      date = new Date(edc);
+    }
+  } else {
+    date = new Date(edc);
+  }
+  
+  // Check if date is valid
+  if (isNaN(date.getTime())) {
+    console.log('Invalid date:', edc);
+    return '......';
+  }
+  
+  const months = [
+    'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+    'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+  ];
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear() + 543; // Convert to Buddhist Era
+  return `${day} ${month} พ.ศ. ${year}`;
+};
+
+// Helper function to format appointment date in Buddhist era
+const formatAppointmentThaiDate = (appointmentDate) => {
+  if (!appointmentDate) return '';
+  
+  const date = new Date(appointmentDate);
+  
+  // Check if date is valid
+  if (isNaN(date.getTime())) {
+    console.log('Invalid appointment date:', appointmentDate);
+    return '';
+  }
+  
+  const months = [
+    'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+    'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+  ];
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear() + 543; // Convert to Buddhist Era
+  return `${day} ${month} พ.ศ. ${year}`;
+};
+
 const generatePDF = (formData, doctorName, appointmentDetails,
   remarks, gravid, para, abortion, living, edc, ga, hospitalChoice,
   otherHospital, week, day, suggestion, additionalInfo, riskResult, pcr, suggestionTxt,
@@ -461,14 +521,34 @@ const generatePDF = (formData, doctorName, appointmentDetails,
                       dash: { length: 1 }
                     }
                   ],
-                  text: appointmentDetails || '',
+                  text: formatAppointmentThaiDate(appointmentDetails) || '',
                   alignment: 'center'
                 },
                 {
                   width: 100,
                   text: `อายุครรภ์ ${weekAfterAppoinment || ''} สัปดาห์ ${dayAfterAppoinment || ''} วัน `,
                   alignment: 'center'
+                },
+                {
+                  width: 80,
+                  text: 'EDC:'
+                },
+                {
+                  width: 120,
+                  canvas: [
+                    {
+                      type: 'line',
+                      x1: 0, y1: 10,
+                      x2: 120, y2: 10,
+                      lineWidth: 1,
+                      lineColor: '#000000',
+                      dash: { length: 1 }
+                    }
+                  ],
+                  text: formatEDCThaiDate(edc),
+                  alignment: 'center'
                 }
+                //edc here
               ],
               margin: [0, 0, 0, 10]
             },

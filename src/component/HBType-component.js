@@ -141,14 +141,14 @@ function HBTypeComponent() {
             order = 1;
         }
         // Condition 2:
-        else if (A2 <= 3.5 && hb_a !== 0 && hb_e == 0 && hba2_plus_e == 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && mcv < 80 && mch < 27
+        else if (A2 <= 3.5 && hb_a !== 0 && hb_e == 0 && hba2_plus_e == 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && (80 <= mcv <= 100 && mch < 27 || mcv < 80 && mch < 27 || mcv < 80 && mch > 27)
         ) {
             incondition.push(2);
             desc = descriptions[2];
             order = 2;
         }
         // Condition 3:
-        else if (A2 > 3.5 && A2 <= 8 && hb_a !== 0 && hb_e == 0 && hba2_plus_e == 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && 80 <= mcv <= 100 && mch < 27
+        else if (A2 > 3.5 && A2 <= 8 && hb_a !== 0 && hb_e == 0 && hba2_plus_e == 0 && hb_f <= 5 && hb_cs == 0 && hb_bart == 0 && hb_h == 0 && (80 <= mcv <= 100 && mch < 27 || mcv < 80 && mch < 27 || mcv < 80 && mch > 27)
         ) {
             incondition.push(3);
             desc = descriptions[3];
